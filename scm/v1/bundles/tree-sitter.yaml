@@ -1,0 +1,83 @@
+version: 1.0.0
+tags:
+  - mcp
+  - parsing
+  - ast
+  - code-analysis
+author: scm
+description: Tree-sitter MCP server for AST-based code analysis and navigation
+notes: |
+  This bundle provides the tree-sitter MCP server for parsing and analyzing
+  code using tree-sitter grammars. Requires setting the project directory
+  in env or via MCP configuration.
+
+  The MCP server needs to know your project root. Configure via:
+  - Set TREE_SITTER_PROJECT_DIR environment variable, OR
+  - Override the args in your local MCP config
+
+mcp:
+  tree-sitter:
+    command: uvx
+    args:
+      - mcp-server-tree-sitter
+    env:
+      TREE_SITTER_PROJECT_DIR: "${PROJECT_ROOT:-.}"
+    note: |
+      AST-based code parsing and analysis using tree-sitter.
+      Set TREE_SITTER_PROJECT_DIR to your project root.
+
+fragments:
+  usage:
+    tags:
+      - mcp
+      - parsing
+      - ast
+    content: |
+      # Tree-sitter MCP Server
+
+      Use the tree-sitter MCP server for AST-based code analysis, navigation,
+      and structural understanding of codebases.
+
+      ## When to Use
+      - Understanding code structure without execution
+      - Finding function/class definitions
+      - Analyzing syntax patterns across files
+      - Code navigation and exploration
+      - Building structural queries
+
+      ## Capabilities
+      The server provides tools to:
+      1. Parse source files into ASTs
+      2. Query AST nodes by type (functions, classes, imports, etc.)
+      3. Extract code structure and relationships
+      4. Navigate symbol definitions and references
+
+      ## Supported Languages
+      Tree-sitter supports 100+ languages including:
+      - Go, Rust, Python, TypeScript, JavaScript
+      - C, C++, Java, C#, Ruby
+      - HTML, CSS, JSON, YAML, Markdown
+
+      ## Best Practices
+      - Use for structural queries, not semantic analysis
+      - Combine with grep/ripgrep for text-based searches
+      - Prefer tree-sitter over regex for syntax-aware matching
+      - Cache parsed results for large codebases
+    no_distill: true
+
+prompts:
+  analyze-structure:
+    description: Analyze code structure using tree-sitter
+    tags:
+      - ast
+      - analysis
+    content: |
+      Using tree-sitter, analyze the structure of the following code:
+
+      {{code}}
+
+      Identify:
+      1. Top-level declarations (functions, classes, types)
+      2. Import/dependency relationships
+      3. Control flow patterns
+      4. Notable structural patterns or anti-patterns
