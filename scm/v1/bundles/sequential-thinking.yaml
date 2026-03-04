@@ -1,0 +1,77 @@
+version: 1.0.0
+tags:
+    - mcp
+    - reasoning
+    - problem-solving
+author: scm
+description: Sequential thinking MCP server for structured problem-solving
+notes: |
+    This bundle provides the sequential-thinking MCP server along with
+    context for how to use it effectively. The MCP server helps break
+    down complex problems into sequential thinking steps.
+mcp:
+    command: npx
+    args:
+        - -y
+        - '@anthropics/mcp-server-sequential-thinking'
+    note: Provides structured sequential thinking for complex problem-solving
+fragments:
+    usage:
+        tags:
+            - mcp
+            - reasoning
+        content: |
+            # Sequential Thinking MCP Server
+
+            Use the sequential thinking MCP server when facing complex problems that benefit
+            from structured, step-by-step reasoning.
+
+            ## When to Use
+            - Multi-step problem solving
+            - Complex debugging scenarios
+            - Architectural decisions
+            - Trade-off analysis
+
+            ## How It Works
+            The server provides tools to:
+            1. Break down problems into discrete steps
+            2. Track reasoning chains
+            3. Revisit and refine earlier conclusions
+            4. Build comprehensive solutions iteratively
+
+            ## Best Practices
+            - Start with a clear problem statement
+            - Use for problems with 3+ logical steps
+            - Review and adjust intermediate conclusions
+            - Summarize the final reasoning chain
+        no_distill: true
+prompts:
+    complex-problem:
+        description: Analyze a complex problem using sequential thinking
+        tags:
+            - reasoning
+            - analysis
+        content: |
+            Analyze the following problem using sequential thinking:
+
+            {{problem}}
+
+            Break it down into clear steps:
+            1. First, identify the core issue
+            2. List all relevant factors
+            3. Consider dependencies between factors
+            4. Propose solutions with trade-offs
+            5. Recommend the best approach with rationale
+        content_hash: sha256:b4df0ca1200642ade9a3db1f5977288c29599987fb26aa777ccd67081bcab939
+        distilled: |-
+            Analyze problem via sequential thinking:
+
+            {{problem}}
+
+            Steps:
+            1. ID core issue
+            2. List factors
+            3. Map dependencies
+            4. Propose solutions w/ trade-offs
+            5. Recommend best approach + rationale
+        distilled_by: claude-code

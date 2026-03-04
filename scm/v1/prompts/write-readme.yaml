@@ -1,4 +1,4 @@
-version: 1.0
+version: 1
 tags:
     - documentation
     - readme
@@ -45,41 +45,40 @@ content: |-
     - Avoid marketing language; be direct and technical
 content_hash: sha256:39309db32877e5ad44ee81fea0ffd1abdc2004eda859b6dd11ccc99b253dce57
 distilled: |-
-    # write-readme
-
-    Write/update README.md for developers.
+    Write/update README.md for devs.
 
     ## Structure
-    1. **Name & One-liner** - What it is
-    2. **Problem** - Pain points solved
-    3. **Solution** - How it addresses them
-    4. **Quick Start** - Install, configure, first command
-    5. **Usage Examples** - Common commands
-    6. **Configuration** - Key settings
-    7. **Development** - Build, test, contribute (at end)
+    1. Name & one-liner
+    2. Problem - pain points solved
+    3. Solution - how it addresses them
+    4. Quick Start - install, configure, first cmd
+    5. Usage Examples - common cases w/ commands
+    6. Configuration - key settings
+    7. Development - build, test, contribute (at end)
 
     ## Don't
-    - Include filesystem/directory listings
-    - Be verbose
+    - Include file/dir listings
+    - Add verbose/low-value text
 
-    ## Updating Existing README
-    - Preserve content unless outdated
-    - Update/remove changed features
+    ## Updating Existing
+    - Preserve content unless conflicts w/ current functionality
+    - Remove/update changed/removed features
     - Keep author's voice
-    - Add new sections as needed
+    - Add sections for new features
     - Reorganize to match structure
 
     ## Use Git History
-    - Check git log/diffs for recent changes
-    - Small README diffs = intentional human edits (important)
-    - Large rewrites = likely generated
-    - Review commit messages for context
+    - Review log/diffs for recent changes
+    - Look for new features, renamed cmds, changed behavior
+    - Small README diffs = human edits w/ important context
+    - Large rewrites may be generated; small tweaks = intentional
+    - Check commit msgs for context
 
     ## Guidelines
-    - Lead w/ value (problems/benefits first)
-    - Be concise (bullets, code blocks)
-    - Show don't tell (examples > descriptions)
-    - Dev instructions at end
+    - Lead w/ value: problems & benefits first
+    - Concise: devs skim, use bullets & code blocks
+    - Show don't tell: examples > descriptions
+    - Dev/build instructions last
     - Add "Why this tool?" if alternatives exist
-    - No marketing speak; be direct
+    - No marketing speak; be direct & technical
 distilled_by: claude-code

@@ -1,0 +1,254 @@
+version: "1.0.0"
+tags:
+  - python
+  - language
+  - development
+author: "scm"
+description: "Python development practices, tooling, and UV package manager"
+
+fragments:
+  python:
+    tags:
+      - python
+      - language
+    content: |-
+      # Python Dev
+
+      ## Env/Tools
+      - Python 3 (version in pyproject.toml)
+      - UV (pkg mgr), pytest, Gherkin (pytest-bdd/behave), ruff, structlog
+
+      ## Test Structure
+      - Unit: `test_*.py` (co-located)
+      - Integration: `tests/integration/test_*.py`
+      - Acceptance: `tests/acceptance/features/*.feature`
+
+      ## Layout
+      ```
+      src/package_name/{log_messages,error_messages,module,test_module}.py
+      tests/{integration,acceptance}/
+      .devcontainer/, justfile, pyproject.toml
+      ```
+
+      ## Exclude Co-located Tests
+      ```toml
+      [tool.setuptools.packages.find]
+      where = ["src"]
+      exclude = ["**/test_*"]
+      ```
+
+      ## structlog
+      ```python
+      @dataclass(frozen=True)
+      class LogMessages:
+          USER_CREATED = "user_created"
+      LOG_MSG = LogMessages()
+      logger.info(LOG_MSG.USER_CREATED, username=username)
+      ```
+
+      ## Error Constants
+      ```python
+      @dataclass(frozen=True)
+      class ErrorMessages:
+          DIVIDE_BY_ZERO = "Cannot divide by zero"
+      ERROR_MSG = ErrorMessages()
+      raise ValueError(ERROR_MSG.DIVIDE_BY_ZERO)
+      ```
+
+      ## IoC
+      ```python
+      class UserService:
+          def __init__(self, repo: UserRepository, logger: structlog.BoundLogger):
+              self._repo, self._logger = repo, logger
+          @classmethod
+          def create(cls, db: DatabaseConnection) -> "UserService":  # pragma: no cover
+              return cls(SQLUserRepository(db), structlog.get_logger())
+      ```
+
+      ## Type Hints & Attribute Access
+      - Use type hints consistently
+      - NO hardcoded string attr access: avoid `getattr(obj, "method")`, `globals()["x"]`, `operator.attrgetter("field")`
+      - Defeats static analysis/refactoring
+      - OK if string from runtime data; prefer explicit mappings
+
+      ## Dicts vs Structured Types
+      - NO dicts w/ known keys → use dataclass/NamedTuple
+      ```python
+      # BAD
+      game_state = {"score": 0}
+      # GOOD
+      @dataclass
+      class GameState:
+          score: int = 0
+      ```
+      - Dicts OK for truly dynamic keys
+      - Use TypedDict if dict syntax required
+
+      ## Flow Control Anti-Patterns
+      Avoid when values known at dev time:
+      - `hasattr` branching → use Protocol/ABC/isinstance
+      - Dict dispatch w/ hardcoded keys → match/case
+      - String comparisons for state → use Enum
+
+      Exception: OK at boundaries parsing external data; convert to typed values immediately:
+      ```python
+      def parse_status(raw: str) -> Status:
+          match raw:
+              case "pending": return Status.PENDING
+              case _: raise ValueError(f"Unknown: {raw}")
+      ```
+    content_hash: sha256:da3dbe93061b8b53ed16bd7cdfc3154570a08b5365364f58ec85449c4450122c
+    distilled_by: claude-code
+
+  uv:
+    tags:
+      - python
+      - tooling
+      - package-manager
+    content: |-
+      # UV Package Manager
+
+      Fast Python package/project manager in Rust. Use as default for all Python projects.
+
+      ## Install
+
+      ```bash
+      pipx install uv          # recommended
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      ```
+
+      ## Project Mgmt
+
+      ```bash
+      uv init my-project && cd my-project
+      uv add requests pytest
+      uv add --dev pytest-cov ruff
+      uv remove requests
+      uv sync
+      ```
+
+      ## Venv
+
+      ```bash
+      uv venv                          # auto with uv sync
+      source .venv/bin/activate        # Unix
+      .venv\Scripts\activate           # Windows
+      uv run python script.py          # run without activating
+      ```
+
+      ## Lockfile
+
+      - `uv.lock`: auto-generated, commit it, cross-platform, exact versions
+
+      ## pyproject.toml
+
+      ```toml
+      [project]
+      name = "my-project"
+      version = "0.1.0"
+      requires-python = ">=3.11"
+      dependencies = ["requests>=2.31"]
+
+      [tool.uv]
+      dev-dependencies = ["pytest>=8.0", "ruff>=0.4"]
+      ```
+
+      ## Common Commands
+
+      ```bash
+      uv sync                              # install from lockfile
+      uv lock --upgrade                    # update all deps
+      uv lock --upgrade-package requests   # update one
+      uv tree                              # dep tree
+      uv run --with requests script.py     # run w/ deps
+      uv build                             # build package
+      uv publish                           # publish to PyPI
+      ```
+
+      ## Python Versions
+
+      ```bash
+      uv python install 3.12
+      uv python list
+      uv python pin 3.12
+      ```
+
+      ## Migration from pip
+
+      ```bash
+      uv add -r requirements.txt
+      uv export > requirements.txt
+      ```
+
+      ## Best Practices
+
+      - Commit `uv.lock`
+      - Prefer `uv run` over activating venv
+      - Set `requires-python` in pyproject.toml
+      - Use `uv sync` in CI/CD
+    content_hash: sha256:8a7dc2d1e272e3df1ed7eeb7e00a7990ced1194100d331e2779796a0515a4523
+    distilled_by: claude-code
+
+  pipx:
+    tags:
+      - python
+      - tooling
+      - cli
+    content: |-
+      # pipx - Python CLI Tool Installer
+
+      Installs Python CLI apps in isolated envs, separate from project deps.
+
+      ## Install
+
+      ```bash
+      # macOS
+      brew install pipx && pipx ensurepath
+
+      # Linux (Debian/Ubuntu)
+      sudo apt install pipx && pipx ensurepath
+
+      # Via pip
+      python -m pip install --user pipx && pipx ensurepath
+      ```
+
+      ## pipx vs uv
+
+      - **pipx**: System-wide CLI tools (ruff, black, uv, pre-commit)
+      - **uv**: Project deps and dev tools
+
+      ## Commands
+
+      ```bash
+      pipx install ruff          # Install tool
+      pipx run cowsay "hello"    # Run without installing
+      pipx upgrade ruff          # Upgrade tool
+      pipx upgrade-all           # Upgrade all
+      pipx list                  # List installed
+      pipx uninstall ruff        # Remove
+      pipx reinstall-all         # After Python upgrade
+      ```
+
+      ## Extras & Injection
+
+      ```bash
+      pipx install 'black[jupyter]'   # With optional deps
+      pipx inject black click          # Add pkgs to existing tool env
+      ```
+
+      ## Recommended Tools
+
+      ```bash
+      # Pkg mgmt: uv, pip-tools
+      # Code quality: ruff, black, mypy, pre-commit
+      # Dev utils: cookiecutter, bump2version, twine
+      ```
+
+      ## Best Practices
+
+      - Use pipx (not pip) for global CLI tools
+      - `pipx upgrade-all` regularly
+      - `pipx run` for one-off usage
+      - Reinstall after major Python upgrades
+    content_hash: sha256:f2c1a6d98d31652563f8364e8a13b315dd544d005296a34f0fb6dd1ceca22663
+    distilled_by: claude-code

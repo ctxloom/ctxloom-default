@@ -1,0 +1,99 @@
+version: "1.0.0"
+tags:
+  - asdf
+  - tooling
+  - version-manager
+author: "scm"
+description: "asdf version manager for multiple runtime versions"
+
+fragments:
+  asdf:
+    tags:
+      - tooling
+      - version-manager
+    content: |-
+      # asdf Version Manager
+
+      Manages multiple runtime versions (Node, Python, Go, Ruby, etc.) via single CLI.
+
+      ## Install
+
+      ```bash
+      # macOS
+      brew install asdf
+      # Linux
+      git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+      ```
+
+      Shell config:
+      ```bash
+      # bash (~/.bashrc)
+      . "$HOME/.asdf/asdf.sh"
+      . "$HOME/.asdf/completions/asdf.bash"
+      # zsh (~/.zshrc)
+      . "$HOME/.asdf/asdf.sh"
+      fpath=(${ASDF_DIR}/completions $fpath)
+      autoload -Uz compinit && compinit
+      ```
+
+      ## Plugins
+
+      ```bash
+      asdf plugin add nodejs|python|golang|rust|java
+      asdf plugin list all    # available
+      asdf plugin list        # installed
+      asdf plugin update --all
+      ```
+
+      ## Versions
+
+      ```bash
+      asdf list all nodejs          # available versions
+      asdf install nodejs 20.11.0   # specific
+      asdf install nodejs latest     # latest stable
+      asdf list nodejs               # installed
+      asdf uninstall nodejs 18.0.0
+      ```
+
+      ## Setting Versions
+
+      ```bash
+      asdf global nodejs 20.11.0   # ~/.tool-versions default
+      asdf local nodejs 20.11.0    # .tool-versions in project dir
+      asdf shell nodejs 20.11.0    # current shell only
+      asdf current nodejs           # show current
+      asdf current                  # all tools
+      ```
+
+      ## .tool-versions
+
+      Commit to VCS for reproducible envs:
+      ```
+      nodejs 20.11.0
+      python 3.12.1
+      golang 1.22.0
+      ```
+      `asdf install` installs all versions from file.
+
+      ## Common Commands
+
+      ```bash
+      asdf which python      # command source
+      asdf reshim nodejs     # reshim after global pkg install
+      asdf info              # debug info
+      asdf update            # update asdf
+      ```
+
+      ## Legacy Version Files
+
+      In `~/.asdfrc`: `legacy_version_file = yes` — reads `.nvmrc`, `.node-version`, `.python-version`, `.ruby-version`, etc.
+
+      ## Best Practices
+
+      - Commit `.tool-versions` to repo
+      - Run `asdf install` after clone
+      - `asdf reshim` after global pkg installs (pip, npm -g)
+      - Pin exact versions, not `latest`
+      - Update plugins regularly
+    content_hash: sha256:105e9209f342c1ac382de23bb5d2fd99c36432b0a97dbe31936970329f519f29
+    distilled_by: claude-code

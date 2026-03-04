@@ -1,0 +1,144 @@
+version: "1.0.0"
+tags:
+  - testing
+  - bdd
+  - gherkin
+  - organization
+author: "scm"
+description: "Testing practices including Gherkin authoring and test organization patterns"
+
+fragments:
+  gherkin:
+    tags:
+      - testing
+      - bdd
+      - gherkin
+      - acceptance
+    content: |-
+      # Gherkin Authoring
+
+      Business-readable spec, not test code. Describe **what/why**, never **how**.
+
+      **Litmus test:** "Will wording change if implementation changes?" If yes → abstract to behavior.
+
+      ## Declarative > Imperative
+
+      ```gherkin
+      # Wrong: UI choreography
+      When I click "Add to Cart"...
+
+      # Right: Business intent
+      When I purchase the items in my cart
+      ```
+
+      ## Given-When-Then
+
+      | Keyword | Purpose | Example |
+      |---------|---------|---------|
+      | Given | Past state/context | `Given a player with $500` |
+      | When | Single trigger | `When player reserves $200` |
+      | Then | Business outcomes | `Then available balance is $300` |
+
+      ## Business Language
+
+      | Avoid | Prefer |
+      |-------|--------|
+      | API returns 201 | Order confirmed |
+      | DB has record | Customer exists |
+      | Event published | Notification sent |
+
+      Exception: Framework tests use technical vocab—it's their domain.
+
+      ## Rules
+
+      - One scenario = one behavior
+      - Feature preambles: what/why/what breaks
+      - Error cases are first-class citizens
+
+      ## Anti-Patterns
+
+      - UI steps: "click", "fill in", "navigate"
+      - Technical assertions: "database has row"
+      - Conditional logic (use separate scenarios)
+      - Vague outcomes: "works correctly"
+      - Hardcoded test data
+
+      ## Cross-Domain
+
+      Show interactions explicitly, hide implementation:
+
+      ```gherkin
+      When the order is completed
+      Then a fulfillment request is created with:
+        | sku | quantity |
+      ```
+    content_hash: sha256:4a7ea864a90fd0bdf07c5b11e58e32f2d1a77c1f64447531175826da8b9246a5
+    distilled_by: claude-code
+
+  test-organization:
+    tags:
+      - testing
+      - organization
+      - colocation
+      - patterns
+    content: |-
+      # Test Organization
+
+      Tests go next to code: same dir, separate file (`.test.rs`, `_test.go`).
+
+      ## Why Separate Files
+
+      AI context cost changed calculus:
+      - Inline tests = noise in search/AI context (60% wasted tokens)
+      - Separate files = selective loading, clean prod files, faster grep
+
+      ## Why Not Parallel Trees
+
+      Java's `src/main`/`src/test` was JVM workaround (no conditional compilation, classpath loading). Modern langs solved this.
+
+      ### Rust
+      ```rust
+      // mod.rs
+      #[cfg(test)]
+      #[path = "correlation.test.rs"]
+      mod correlation_tests;
+      ```
+      Release builds exclude test module entirely.
+
+      ### Go
+      `_test.go` files skipped by `go build`.
+
+      ## Recommended Structure
+      ```
+      src/
+      ├── correlation.rs        # Prod
+      ├── correlation.test.rs   # Tests
+      └── mod.rs
+      ```
+
+      **Mutation testing benefit:** Survived mutation in prod file only; revert doesn't lose test improvements.
+
+      ## Separation Exceptions
+      - Integration tests → `tests/`
+      - E2E → separate project
+      - Shared fixtures → `src/test_utils/`
+
+      Colocation is default.
+
+      ## Test Location by Type
+
+      | Type | Tests | Location |
+      |------|-------|----------|
+      | Unit | Pure logic | Adjacent `.test` |
+      | BIT | Impl vs interface contract | Adjacent `.test` |
+      | Integration | Multi-component | `tests/` |
+      | E2E | Full system | Separate project |
+
+      ## Tradeoffs
+
+      **Lost:** visibility, atomic commits, encouragement
+      **Gained:** clean prod files, efficient AI, faster search
+
+      Optimal org adapts to tooling. Constant: tests near code.
+    content_hash: sha256:d4dbb0441710f98c7e1d072e43207c49b2dd6a92285c1c274b231abdd09f1550
+    distilled_by: claude-code

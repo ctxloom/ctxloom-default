@@ -1,0 +1,293 @@
+version: "1.0.0"
+tags:
+  - architecture
+  - patterns
+  - design
+author: "scm"
+description: "Software architecture patterns including CQRS, Event Sourcing, 12-Factor App, and BIT"
+
+fragments:
+  12-factor:
+    tags:
+      - architecture
+      - cloud-native
+      - patterns
+      - saas
+    content: |-
+      # 12-Factor App
+
+      Methodology for cloud-native SaaS: portable, scalable, maintainable.
+
+      ## I. Codebase
+      1 repo, many deploys. Shared code → libraries via deps. Same codebase across dev/staging/prod.
+
+      ## II. Dependencies
+      Declare explicitly (go.mod, package.json, requirements.txt). Isolate deps—no system-wide packages.
+
+      ## III. Config
+      Store in env vars. Strict separation from code. Never commit secrets.
+
+      ## IV. Backing Services
+      Treat as attached resources (DBs, queues, caches, APIs). Swap local↔cloud via config only.
+
+      ## V. Build, Release, Run
+      - **Build**: code → executable (compile, fetch deps)
+      - **Release**: build + config, unique ID, immutable
+      - **Run**: execute in environment
+
+      Rollback = deploy previous release.
+
+      ## VI. Processes
+      Stateless, share-nothing. Persist data in backing services. No sticky sessions—use Redis/Memcached for session state.
+
+      ## VII. Port Binding
+      Self-contained; export HTTP via port binding. Routing layer maps hostname → port.
+
+      ## VIII. Concurrency
+      Scale horizontally via process model. Web processes for HTTP, workers for background jobs. Use OS process manager.
+
+      ## IX. Disposability
+      Fast startup, graceful shutdown on SIGTERM. Return incomplete jobs to queue. Design for sudden death.
+
+      ## X. Dev/Prod Parity
+      Minimize time/personnel/tools gaps. Same backing services across environments. Use Docker for local parity.
+
+      ## XI. Logs
+      Event streams to stdout. Env routes to aggregators (Splunk, Datadog, ELK). App decoupled from log management.
+
+      ## XII. Admin Processes
+      Run one-off tasks (migrations, REPL, scripts) in identical environment. Admin code ships with app code.
+    content_hash: sha256:f93f98d5fa45c5f7ee1114f32a4f4aa3afb078b21401ad1c6d6276e297521795
+    distilled_by: claude-code
+
+  cqrs:
+    tags:
+      - pattern
+      - architecture
+      - cqrs
+    content: |-
+      # CQRS
+
+      Separate read/write ops into distinct models.
+
+      ## Core Principles
+      - **Commands**: Modify state, return void/ID only, imperative names (`CreateOrder`)
+      - **Queries**: Read state, never modify, descriptive names (`GetOrderById`)
+      - **Separation**: Models can differ in structure/storage
+
+      ## Command Side
+      - Imperative: `PlaceOrder`, `CancelSubscription`
+      - Handlers validate, execute logic, persist
+      - One command = one transaction
+      - Return success/failure or created ID only
+
+      ## Query Side
+      - Questions: `GetUserProfile`, `SearchProducts`
+      - Read from optimized read models
+      - No side effects—safe to retry/cache/parallelize
+      - Can use denormalized views
+
+      ## When to Use
+      - Read/write patterns differ significantly
+      - Need independent scaling
+      - Complex domain with rich business logic
+      - Event sourcing integration
+
+      ## When NOT to Use
+      - Simple CRUD
+      - Similar read/write patterns
+      - Small team/early-stage
+      - Adds unnecessary complexity
+
+      ## Read Model Sync
+      - **Synchronous**: Same transaction (simpler, consistent)
+      - **Asynchronous**: Via events (scalable, eventually consistent)
+      - Document consistency guarantees
+
+      ## Testing
+      - Commands: verify state changes/invariants
+      - Queries: verify correct retrieval
+      - Test separately—independent concerns
+    content_hash: sha256:faa0b391646479285db5cf4c4ad155d0755228111110853a1477f23a9f5c3a43
+    distilled_by: claude-code
+
+  event-sourcing:
+    tags:
+      - pattern
+      - architecture
+      - event-sourcing
+    content: |-
+      # Event Sourcing
+
+      Store state as immutable event sequence, not current state.
+
+      ## Core Principles
+      - Events = immutable facts, never modified/deleted
+      - State derived by replaying events
+      - Events carry minimally sufficient info for state reconstruction
+      - Append-only store
+      - Temporal queries possible
+
+      ## Event Design
+      - Past tense names: `OrderPlaced`, `PaymentReceived`
+      - Immutable, never update/delete
+      - Include only necessary data; document if explicitly adding more
+      - Version on schema evolution
+      - Small, single-fact focused
+
+      ## Event Structure
+      - id, type, aggregateId, version, timestamp, data, metadata
+
+      ## Aggregates
+      - Consistency boundary
+      - Load by replaying events
+      - Decides which events to emit
+      - One aggregate = one stream
+
+      ## Event Store Requirements
+      - Append-only, read by aggregateId/position
+      - Optimistic concurrency via versions
+      - Guaranteed ordering per stream
+
+      ## Projections
+      - Read-optimized views from events
+      - Rebuildable anytime
+      - Multiple projections possible
+      - Async = eventual consistency
+
+      ## Snapshots
+      - Periodic state cache for faster loading
+      - Optimization only, not source of truth
+      - Rebuild when aggregate logic changes
+
+      ## When to Use
+      - Audit trail required
+      - State evolution tracking needed
+      - Rich business events
+      - Temporal queries
+      - Event-driven integration
+
+      ## When NOT to Use
+      - Simple CRUD, no audit needs
+      - High-frequency same-entity updates
+      - Unfamiliar team
+      - No clear business events
+
+      ## Pitfalls
+      - Large events → split
+      - Plan event versioning upfront
+      - Snapshot long-lived aggregates
+      - Events = facts, not commands
+      - Handle eventual consistency in UI
+
+      ## Testing
+      - Given events → command → assert new events
+      - Given events → assert projection state
+      - Test event upcasting for migrations
+    content_hash: sha256:19131ab83c0f5a012846cab6c5286a4677b4210c294ba74eeadd229ea908d275
+    distilled_by: claude-code
+
+  behavioral-interface-test:
+    tags:
+      - pattern
+      - testing
+      - interfaces
+      - traits
+      - bit
+    content: |-
+      # Behavioral Interface Test (BIT)
+
+      Test verifying implementation fulfills interface's behavioral contract, ensuring substitutability.
+
+      ## Definition
+
+      BIT = test that concrete impl satisfies interface behavior (trait/protocol/abstract class).
+
+      ```rust
+      trait EventStore {
+          fn append(&self, stream: &str, events: Vec<Event>) -> Result<()>;
+          fn read(&self, stream: &str) -> Result<Vec<Event>>;
+      }
+
+      #[test]
+      fn bit_event_store_persists_events() {
+          let store = PostgresEventStore::new(connect_to(&container));
+          store.append("order-123", vec![event]).unwrap();
+          assert_eq!(store.read("order-123").unwrap().len(), 1);
+      }
+      ```
+
+      Tests single module against interface—not integration test just because it uses DB.
+
+      ## BITs ≠ Integration Tests
+
+      | Type | Tests | Location |
+      |------|-------|----------|
+      | Unit | Pure logic | Adjacent `.test` |
+      | BIT | Single impl vs interface | Adjacent `.test` |
+      | Integration | Multiple components | `tests/` |
+      | E2E | Full system | Separate project |
+
+      BITs w/testcontainers ≈ unit tests: test one thing, fast enough for frequent runs, colocated.
+
+      ## Colocation
+
+      ```
+      src/storage/
+      ├── postgres.rs
+      ├── postgres.bit.rs
+      ├── sqlite.rs
+      └── sqlite.bit.rs
+      ```
+
+      Real DB doesn't change test location—still tests one module.
+
+      ## Multiple Implementations
+
+      Shared BIT suite ensures Liskov Substitution:
+
+      ```rust
+      fn event_store_bits(store: impl EventStore) {
+          store.append("stream-1", vec![event]).unwrap();
+          assert_eq!(store.read("stream-1").unwrap().len(), 1);
+          assert!(store.read("unknown").unwrap().is_empty());
+      }
+
+      #[test] fn postgres_passes() { event_store_bits(PostgresEventStore::new(/**/)); }
+      #[test] fn in_memory_passes() { event_store_bits(InMemoryEventStore::new()); }
+      ```
+
+      ## When Real Infra Is Cheap
+
+      Testcontainers collapsed unit/integration cost gap.
+
+      **Use real:** DB impls, message brokers, caches
+      **Use mocks:** External services, failure injection, rate-limited APIs
+
+      If cheap to test real thing → do it.
+
+      ## BIT vs CDC
+
+      | | BIT | CDC (Pact) |
+      |-|-----|------------|
+      | Scope | Single codebase | Distributed |
+      | Tests | Impl vs interface | Service vs service |
+      | Purpose | Substitutability | API compat |
+
+      ## Speed/Categorization
+
+      ```rust
+      #[test]
+      #[cfg_attr(not(feature = "testcontainers"), ignore)]
+      fn bit_postgres_storage() { /**/ }
+      ```
+
+      - Local: fast tests continuously
+      - Pre-commit: all incl BITs
+      - CI: everything
+
+      ## Name
+
+      **B**ehavioral **I**nterface **T**est. Pun: "BIT caught regression" / "BIT me on edge case"
+    content_hash: sha256:8a75cf6c8177f4738854a48ebc78d5eb572a1741fd886f5d6b0003f97939564a
+    distilled_by: claude-code

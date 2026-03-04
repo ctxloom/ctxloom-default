@@ -1,0 +1,329 @@
+version: "1.0.0"
+tags:
+  - practices
+  - workflow
+  - quality
+author: "scm"
+description: "Core development practices and standards for communication, code quality, security, and TDD"
+
+fragments:
+  communication:
+    tags:
+      - style
+      - communication
+    content: |-
+      # Communication Style
+
+      ## Do
+      - State limitations immediately ("Cannot verify X without Y", "Approach has limitation Z", "Need clarification on A")
+      - Ask for help when: requirements ambiguous, multiple valid approaches, trade-offs need business input, uncertain about context
+      - Lead with key info first, details second, rationale last
+      - Cite sources: API docs, best practices, performance claims, security recs
+      - TDD mandatory - verify tests pass before marking complete
+
+      ## Don't
+      - No sycophancy (no praise, enthusiasm markers, validation seeking)
+      - No flattery/excessive politeness - be direct
+      - No assumptions - ask if unsure, state when guessing
+    content_hash: sha256:bf83ad406d4ead93e45db63d1fec6367f84380e322de3301559b14a1e972f857
+    distilled: |-
+      # Communication Style
+
+      ## Do
+      - State limitations immediately ("Cannot verify X without Y", "Approach has limitation Z", "Need clarification on A")
+      - Ask for help when: requirements ambiguous, multiple valid approaches, trade-offs need business input, uncertain about context
+      - Lead with key info first, details second, rationale last
+      - Cite sources: API docs, best practices, performance claims, security recs
+      - TDD mandatory - verify tests pass before marking complete
+
+      ## Don't
+      - No sycophancy (no praise, enthusiasm markers, validation seeking)
+      - No flattery/excessive politeness - be direct
+      - No assumptions - ask if unsure, state when guessing
+    distilled_by: claude-code
+
+  security:
+    tags:
+      - security
+      - code
+    content: |-
+      # Security
+
+      ## Core
+      - **NEVER hardcode secrets** — use env vars, secret managers (Vault, AWS/GCP/Azure), or encrypted config
+      - Validate all external input
+      - Parameterized DB queries
+      - Keep deps updated
+      - Least privilege
+
+      ## Secrets
+      - Env vars for runtime
+      - `.env` for local (in `.gitignore`, never commit)
+      - Secret managers for prod
+      - Tests: fake values (`test-password`, `FAKE_API_KEY`) or CI secrets
+      - Found hardcoded secret → remove + rotate immediately
+
+      ## Review Checklist
+      - Input validation?
+      - Path traversal?
+      - Injection (SQL, command, XSS)?
+      - TOCTOU?
+      - Privilege escalation?
+      - Auth/authz correct?
+      - Secrets managed?
+      - Crypto correct?
+      - Data exposure?
+      - Deps scanned?
+    content_hash: sha256:d7f27ca2fa6365323e677b27b9ac7701a20b196a317103d965cb82646426ea6e
+    distilled_by: claude-code
+
+  code-quality:
+    tags:
+      - code
+      - quality
+      - principles
+    content: |-
+      # Code Quality
+
+      ## Before Writing
+      - Research codebase first; reuse existing code
+      - Extend existing functionality, don't duplicate
+
+      ## Size
+      - Files <500 LOC; exceed only w/ high coupling+cohesion
+      - Small, single-purpose functions
+      - Optimize for readability
+      - Separate interfaces from implementations
+
+      ## Naming
+      - Interfaces = the thing (UserService)
+      - Implementations = how (DefaultUserService, HttpUserService)
+
+      ## Philosophy
+      SOLID, KISS, YAGNI
+
+      ## Principles
+      - Language style guides + type hints
+      - Self-documenting code > comments
+      - Document public APIs
+      - Composition > inheritance
+
+      ## Coupling/Cohesion
+      - Low coupling between modules
+      - High cohesion within modules
+      - Single purpose per module/class
+
+      ## Markers
+      TODO, FIXME, NOTE, HACK
+
+      ## Performance
+      - Profile first; document requirements
+      - Appropriate data structures
+      - State complexity for non-trivial algorithms
+
+      ## Cleanup
+      - Kill unused processes
+      - Remove dead code/imports/variables
+
+      ## Comments
+      - No change-tracking (git handles history)
+      - No commented-out code
+      - Explain *why*, not *what*
+    content_hash: sha256:4031fe147d0ac198a59bfda8a863a0169258f4cbd838f0215ca344b3c4520d6d
+    distilled_by: claude-code
+
+  documentation:
+    tags:
+      - documentation
+      - workflow
+    content: |-
+      # Documentation
+
+      ## README
+      - Read first before acting
+      - Update when adding commands/features
+      - Keep current with project state
+
+      ## Ask Before Creating
+      - *.md files (REFACTORING.md, arch docs)
+      - Planning/strategy docs
+      - Project tracking files
+      - Meta-docs
+
+      **Exception:** README updates for new features OK
+
+      ## Plan Files
+      - Place in `.plan/` directory
+      - Add `.plan/` to `.gitignore` (never commit)
+      - Use descriptive names: `.plan/feature-name.md`
+
+      ## Don't
+      - Add progress comments in code ("reorganized...", "refactored X to Y")
+      - Include changelog-style comments
+      - Add "Updated on...", "Changed from...", revision history in files
+      - History belongs in VCS, not data
+
+      ## Do
+      - Suggest doc needs first
+      - Summarize in chat
+      - Update existing docs
+      - Create code/tests/config
+      - Use commit messages for tracking
+    content_hash: sha256:2481f885e714c651a51c140c41e92dcff11e445283211847581b24343b319e8c
+    distilled_by: claude-code
+
+  problem-solving:
+    tags:
+      - workflow
+      - debugging
+    content: |-
+      # Workarounds & Problem Solving
+
+      **Core:** Find root cause before solving. Fix at source.
+
+      ## When Functionality Fails
+
+      1. **Root cause first** - No workarounds without asking
+      2. **Simple problem needing complex fix?** - Stop, ask questions
+      3. **Prompt with options:**
+         - Fix properly (effort estimate)
+         - Workaround (document trade-offs)
+         - Disable test temporarily (document why)
+         - Alternatives
+      4. **Cost/benefit:** pros/cons, tech debt, maintainability, time
+      5. **Document** reasoning for chosen path
+
+      ## Questions to Ask
+      - Fix properly vs workaround?
+      - Pros/cons of each?
+      - Tech debt impact?
+      - Disable test temporarily?
+      - Alternative approaches?
+    content_hash: sha256:e946577f469e94974ca6a17072bb7e8c899f4ba247bb56b9a1e610cccb024417
+    distilled_by: claude-code
+
+  pushback:
+    tags:
+      - workflow
+      - quality
+    content: |-
+      # Pushback Guidelines
+
+      ## When to Push Back
+      If asked to: skip tests, add untested features, ignore type hints, work around (vs fix) lint errors
+
+      ## Response Pattern
+      1. State why problematic
+      2. Explain consequences
+      3. Suggest correct approach
+      4. Defer if insisted, note tech debt
+
+      ## Feature Start Questions
+      - Acceptance criteria?
+      - Performance requirements?
+      - Error cases to handle?
+      - Security implications?
+      - What to log?
+      - Dependencies?
+      - Testing approach?
+      - Error messages needed?
+
+      ## Component Design Questions
+      - Required dependencies?
+      - Interface/protocol for dependencies?
+      - Logging context?
+      - Error conditions & messages?
+    content_hash: sha256:dcb677dd3c01df01a6c70d5e0aebb57e6ba29bb06e916fc5b498afc421d3d39e
+    distilled_by: claude-code
+
+  tdd:
+    tags:
+      - testing
+      - tdd
+      - workflow
+    content: |-
+      # TDD Workflow
+
+      ## Cycle (Mandatory)
+      1. **Red**: Write failing test first; verify fails correctly; ensure isolation
+      2. **Green**: Minimal code to pass; no extras
+      3. **Refactor**: Keep green; apply SOLID; remove duplication; use existing libs; improve names
+
+      ## Integration Tests
+      - Run actual binaries (no hooks)
+      - Tag slow tests appropriately
+      - Clean up after tests
+
+      ## Naming
+      `test_<action>_<condition>_<expected_result>`
+      - Python: snake_case
+      - C#/Java/JS: camelCase
+      - Readability > format
+
+      ## Organization
+      - Prioritize readability
+      - Order by complexity: simple examples top, edge cases bottom
+      - Tests = documentation
+    content_hash: sha256:1a4514779dbf0d21fc5b81ead5478d2bf6aeed406a24ad5cce5631c59210b2fa
+    distilled_by: claude-code
+
+  strings:
+    tags:
+      - code
+      - strings
+      - errors
+    content: |-
+      # String Handling
+
+      ## No String-Based Flow Control
+
+      Never use string approximations (startswith, endswith, contains, substring) for flow control—brittle, breaks silently.
+
+      ```python
+      # Wrong
+      if error.message.startswith("Invalid"): ...
+      elif "not found" in error.message.lower(): ...
+
+      # Right
+      if isinstance(error, ValidationError): ...
+      elif error.code == ErrorCode.NOT_FOUND: ...
+      ```
+
+      ```go
+      // Wrong
+      if strings.Contains(err.Error(), "connection refused") { retry() }
+
+      // Right
+      if errors.Is(err, ErrConnectionRefused) { retry() }
+      ```
+
+      ## Error Messages as Constants
+
+      Define error messages as constants; reuse in tests. No magic strings.
+
+      ```python
+      # constants.py
+      ERR_USER_NOT_FOUND = "user not found"
+
+      # service.py
+      raise NotFoundError(ERR_USER_NOT_FOUND)
+
+      # test_service.py
+      assert str(exc.value) == ERR_USER_NOT_FOUND
+      ```
+
+      ```go
+      var ErrUserNotFound = errors.New("user not found")
+      // service: return ErrUserNotFound
+      // test: assert.ErrorIs(t, err, ErrUserNotFound)
+      ```
+
+      ## Why
+
+      - String matching breaks silently on message changes
+      - Typos cause subtle bugs
+      - Constants enable IDE refactoring/find-refs
+      - Tests verify error handling, not string coincidence
+      - Enables i18n
+    content_hash: sha256:88b53b81c5c315b7879976858f39a1ed5eb71d390c47522fc448ca04d9e6037a
+    distilled_by: claude-code

@@ -1,4 +1,4 @@
-version: 1.0
+version: 1
 tags:
     - review
     - code
@@ -38,24 +38,23 @@ content: |-
     Good patterns worth noting.
 content_hash: sha256:31155d953aff0925e33805eb1f02c563d6f90d76b6a6cf120cb7fd7398fab21a
 distilled: |-
-    # Code Review - Recent Changes
+    Code Review - Recent Changes
 
     Review changes since last commit.
 
-    ## Step 1: Examine Changes
-    Run `git diff HEAD~1` (or `git diff --staged` for uncommitted).
+    **Step 1:** Run `git diff HEAD~1` (or `git diff --staged` for uncommitted)
 
-    ## Step 2: Review Perspectives
-    - **Architecture** - Structure, boundaries, testability, tech debt
-    - **Performance** - Algorithms, data structures, complexity
-    - **Standards** - Readability, naming, docs, patterns
-    - **Concurrency** - Thread safety, races, sync (if applicable)
-    - **Domain** - Business logic, domain model (if applicable)
+    **Step 2:** Review Perspectives
+    - Architecture: structure, boundaries, testability, tech debt
+    - Performance: algorithms, data structures, complexity
+    - Standards: readability, naming, docs, patterns
+    - Concurrency: thread safety, races, sync (if applicable)
+    - Domain: business logic, domain model (if applicable)
 
-    ## Step 3: Report
-    - **Summary** - What changes accomplish
-    - **Critical** - Must fix before merge
-    - **Medium** - Should address, non-blocking
-    - **Minor** - Style, small improvements
-    - **Positive** - Good patterns worth noting
+    **Step 3:** Report
+    - Summary: what changes accomplish
+    - Critical: must fix before merge
+    - Medium: should address, non-blocking
+    - Minor: style/small improvements
+    - Positive: good patterns worth noting
 distilled_by: claude-code

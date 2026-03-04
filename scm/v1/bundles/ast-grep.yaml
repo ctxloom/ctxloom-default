@@ -1,0 +1,121 @@
+version: "1.0.0"
+tags:
+  - ast-grep
+  - tooling
+  - refactoring
+  - code-search
+author: "scm"
+description: "ast-grep structural code search and replace using tree-sitter AST matching"
+
+fragments:
+  ast-grep:
+    tags:
+      - tooling
+      - ast-grep
+      - refactoring
+    content: |-
+      # ast-grep: Structural Code Search & Replace
+
+      AST-aware tool using tree-sitter for structural (not textual) code matching.
+
+      ## Quick Reference
+      ```bash
+      ast-grep -p 'console.log($ARG)' --lang ts           # Search
+      ast-grep -p 'PAT' -r 'REPL' --lang ts               # Replace preview
+      ast-grep -p 'PAT' -r 'REPL' --lang ts -U            # Replace apply
+      ast-grep -p 'PAT' -r 'REPL' -i                      # Interactive
+      ast-grep scan --rule rules/my-rule.yaml              # Run YAML rules
+      ast-grep run -p 'PAT' --debug-query ast              # Debug AST
+      ```
+
+      ## Meta-variables
+
+      | Syntax | Matches |
+      |--------|---------|
+      | `$VAR` | Single AST node |
+      | `$$$ARGS` | Zero+ nodes |
+      | `$_` | Wildcard (no capture) |
+      | `$$VAR` | Unnamed nodes (punctuation) |
+
+      - Names: `$` + uppercase/underscores/digits(1-9)
+      - Same name = must match identical code
+      - Prefix `_` suppresses capture
+      - `$$$` is lazy
+
+      ## Pattern Gotchas
+
+      Pattern must be valid parseable code. Use context+selector for fragments:
+      ```yaml
+      pattern:
+        context: '{"key": $VAL}'
+        selector: pair
+      ```
+
+      `kind` and `pattern` don't combine—use `context`/`selector` instead.
+
+      ## Rule Types
+
+      **Atomic:** `pattern`, `kind`, `regex`, `nthChild`
+
+      **Relational:** `inside` (ancestor), `has` (descendant), `precedes`/`follows` (sibling). `stopBy: end` searches beyond neighbors. `field:` targets specific AST field.
+
+      **Composite:** `all` (AND), `any` (OR), `not`, `matches` (delegate). In `all`, first rule captures meta-vars for later rules.
+
+      ## YAML Rule Structure
+      ```yaml
+      id: no-console
+      language: typescript
+      rule:
+        pattern: 'console.log($$$ARGS)'
+      constraints:
+        ARGS: { regex: '^(?!.*debug).*$' }
+      fix: 'logger.info($$$ARGS)'
+      transform:
+        UPPER_ARG: { convert: { source: $ARG, toCase: upperCase } }
+      severity: warning  # hint/info/warning/error/off
+      message: 'Use logger instead of console'
+      files: ['src/**/*.ts']
+      ignores: ['**/*.test.ts']
+      ```
+
+      ## Transforms
+      - `substring`: Python-like slicing (`startChar`, `endChar`)
+      - `replace`: Regex replace (`replace`, `by`)
+      - `convert`: Case conversion (`lowerCase`, `upperCase`, `capitalize`, `camelCase`, `snakeCase`, `kebabCase`, `pascalCase`)
+
+      ## Fix Range Expansion
+      ```yaml
+      fix:
+        template: ''
+        expandEnd: { regex: ',\s*' }
+      ```
+
+      ## Project Setup
+      ```bash
+      ast-grep new              # Init (creates sgconfig.yml, rules/, rule-tests/, utils/)
+      ast-grep new rule         # Create rule
+      ```
+
+      ## Testing
+      ```yaml
+      id: no-console
+      valid: ['logger.info("ok")']
+      invalid: ['console.log("error")']
+      ```
+      ```bash
+      ast-grep test --skip-snapshot-tests
+      ast-grep test -U  # Update snapshots
+      ```
+
+      ## Debugging
+      1. Playground: https://ast-grep.github.io/playground.html
+      2. `--debug-query ast` to inspect AST
+      3. CLI=UTF-8, playground=UTF-16
+
+      ## Limitations
+      No scope/type analysis, control/data flow, unused var detection, taint analysis.
+
+      ## Workflow
+      1. Test pattern (playground/`--debug-query`) → 2. Preview (no `-U`) → 3. Interactive (`-i`) → 4. Apply (`-U`) → 5. Test → 6. Commit
+    content_hash: sha256:2411961742722a0516f4ed5f07abdef204e5f7d1ad54cffb86716ab27c3fb5de
+    distilled_by: claude-code
