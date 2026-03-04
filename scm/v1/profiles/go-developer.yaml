@@ -1,0 +1,26 @@
+version: "1.0.0"
+description: "Go development profile with backend-focused tooling"
+tags:
+  - golang
+  - development
+  - backend
+
+bundles:
+  # Core practices
+  - bundles/core-practices
+  - bundles/developer-mindset
+  - bundles/testing
+
+  # Language-specific
+  - bundles/go-development
+
+  # Architecture (Go often used for backends)
+  - bundles/architecture-patterns
+
+  # Tooling
+  - bundles/git
+  - bundles/just
+  - bundles/ast-grep
+  - bundles/containers
+  - bundles/lsp
+  - bundles/rtk

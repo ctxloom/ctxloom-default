@@ -1,0 +1,23 @@
+version: "1.0.0"
+description: "Rust development profile with systems programming tooling"
+tags:
+  - rust
+  - development
+  - systems
+
+bundles:
+  # Core practices
+  - bundles/core-practices
+  - bundles/developer-mindset
+  - bundles/testing
+
+  # Language-specific (includes bacon)
+  - bundles/rust-development
+
+  # Tooling
+  - bundles/git
+  - bundles/just
+  - bundles/ast-grep
+  - bundles/containers
+  - bundles/lsp
+  - bundles/rtk

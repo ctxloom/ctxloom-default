@@ -1,0 +1,23 @@
+version: "1.0.0"
+description: "Python development profile with modern tooling (uv, pipx)"
+tags:
+  - python
+  - development
+
+bundles:
+  # Core practices
+  - bundles/core-practices
+  - bundles/developer-mindset
+  - bundles/testing
+
+  # Language-specific (includes pipx, uv)
+  - bundles/python-development
+
+  # Tooling
+  - bundles/git
+  - bundles/just
+  - bundles/ast-grep
+  - bundles/asdf        # Python version management
+  - bundles/containers
+  - bundles/lsp
+  - bundles/rtk
