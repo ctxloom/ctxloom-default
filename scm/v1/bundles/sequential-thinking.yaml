@@ -10,11 +10,12 @@ notes: |
     context for how to use it effectively. The MCP server helps break
     down complex problems into sequential thinking steps.
 mcp:
-    command: npx
-    args:
-        - -y
-        - '@anthropics/mcp-server-sequential-thinking'
-    note: Provides structured sequential thinking for complex problem-solving
+    sequential-thinking:
+        command: npx
+        args:
+            - -y
+            - '@anthropics/mcp-server-sequential-thinking'
+        note: Provides structured sequential thinking for complex problem-solving
 fragments:
     usage:
         tags:

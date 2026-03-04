@@ -11,11 +11,12 @@ notes: |
     Tasks are stored in .tasks/todos.md and persist across sessions.
     The server provides tools for managing tasks, reminders, and notes.
 mcp:
-    command: npx
-    args:
-        - -y
-        - mcp-tasks
-    note: Persistent task management with markdown storage
+    mcp-tasks:
+        command: npx
+        args:
+            - -y
+            - mcp-tasks
+        note: Persistent task management with markdown storage
 fragments:
     usage:
         tags:

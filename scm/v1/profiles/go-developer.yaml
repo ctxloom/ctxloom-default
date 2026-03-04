@@ -7,20 +7,20 @@ tags:
 
 bundles:
   # Core practices
-  - bundles/core-practices
-  - bundles/developer-mindset
-  - bundles/testing
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/core-practices
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/developer-mindset
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/testing
 
   # Language-specific
-  - bundles/go-development
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/go-development
 
   # Architecture (Go often used for backends)
-  - bundles/architecture-patterns
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/architecture-patterns
 
   # Tooling
-  - bundles/git
-  - bundles/just
-  - bundles/ast-grep
-  - bundles/containers
-  - bundles/lsp
-  - bundles/rtk
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/git
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/just
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/ast-grep
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/containers
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/lsp
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rtk
