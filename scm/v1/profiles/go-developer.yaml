@@ -15,7 +15,7 @@ bundles:
   - https://github.com/benjaminabbitt/scm-github@v1/bundles/go-development
 
   # Architecture (Go often used for backends)
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/architecture-patterns
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/12-factor
 
   # Tooling
   - https://github.com/benjaminabbitt/scm-github@v1/bundles/git

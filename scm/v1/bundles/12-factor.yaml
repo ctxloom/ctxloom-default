@@ -1,0 +1,61 @@
+version: "1.0.0"
+tags:
+  - architecture
+  - patterns
+  - cloud-native
+author: "scm"
+description: "12-Factor App methodology for cloud-native applications"
+
+fragments:
+  12-factor:
+    tags:
+      - architecture
+      - cloud-native
+      - patterns
+      - saas
+    content: |-
+      # 12-Factor App
+
+      Methodology for cloud-native SaaS: portable, scalable, maintainable.
+
+      ## I. Codebase
+      1 repo, many deploys. Shared code → libraries via deps. Same codebase across dev/staging/prod.
+
+      ## II. Dependencies
+      Declare explicitly (go.mod, package.json, requirements.txt). Isolate deps—no system-wide packages.
+
+      ## III. Config
+      Store in env vars. Strict separation from code. Never commit secrets.
+
+      ## IV. Backing Services
+      Treat as attached resources (DBs, queues, caches, APIs). Swap local↔cloud via config only.
+
+      ## V. Build, Release, Run
+      - **Build**: code → executable (compile, fetch deps)
+      - **Release**: build + config, unique ID, immutable
+      - **Run**: execute in environment
+
+      Rollback = deploy previous release.
+
+      ## VI. Processes
+      Stateless, share-nothing. Persist data in backing services. No sticky sessions—use Redis/Memcached for session state.
+
+      ## VII. Port Binding
+      Self-contained; export HTTP via port binding. Routing layer maps hostname → port.
+
+      ## VIII. Concurrency
+      Scale horizontally via process model. Web processes for HTTP, workers for background jobs. Use OS process manager.
+
+      ## IX. Disposability
+      Fast startup, graceful shutdown on SIGTERM. Return incomplete jobs to queue. Design for sudden death.
+
+      ## X. Dev/Prod Parity
+      Minimize time/personnel/tools gaps. Same backing services across environments. Use Docker for local parity.
+
+      ## XI. Logs
+      Event streams to stdout. Env routes to aggregators (Splunk, Datadog, ELK). App decoupled from log management.
+
+      ## XII. Admin Processes
+      Run one-off tasks (migrations, REPL, scripts) in identical environment. Admin code ships with app code.
+    content_hash: sha256:f93f98d5fa45c5f7ee1114f32a4f4aa3afb078b21401ad1c6d6276e297521795
+    distilled_by: claude-code

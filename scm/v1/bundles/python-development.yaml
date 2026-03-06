@@ -105,17 +105,13 @@ fragments:
       - python
       - tooling
       - package-manager
+    installation: |-
+      pipx install uv (recommended)
+      Or: curl -LsSf https://astral.sh/uv/install.sh | sh
     content: |-
       # UV Package Manager
 
       Fast Python package/project manager in Rust. Use as default for all Python projects.
-
-      ## Install
-
-      ```bash
-      pipx install uv          # recommended
-      curl -LsSf https://astral.sh/uv/install.sh | sh
-      ```
 
       ## Project Mgmt
 
@@ -194,23 +190,14 @@ fragments:
       - python
       - tooling
       - cli
+    installation: |-
+      macOS: brew install pipx && pipx ensurepath
+      Linux (Debian/Ubuntu): sudo apt install pipx && pipx ensurepath
+      Via pip: python -m pip install --user pipx && pipx ensurepath
     content: |-
       # pipx - Python CLI Tool Installer
 
       Installs Python CLI apps in isolated envs, separate from project deps.
-
-      ## Install
-
-      ```bash
-      # macOS
-      brew install pipx && pipx ensurepath
-
-      # Linux (Debian/Ubuntu)
-      sudo apt install pipx && pipx ensurepath
-
-      # Via pip
-      python -m pip install --user pipx && pipx ensurepath
-      ```
 
       ## pipx vs uv
 

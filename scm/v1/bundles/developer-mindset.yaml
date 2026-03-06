@@ -4,55 +4,11 @@ tags:
   - refactoring
   - quality
   - mindset
+  - communication
 author: "scm"
-description: "Developer mindset practices for code reduction, informed reimplementation, and quality validation"
+description: "Developer mindset practices for communication, quality validation, and informed reimplementation"
 
 fragments:
-  reductive:
-    tags:
-      - code
-      - quality
-      - refactoring
-    content: |-
-      # Reductive Development
-
-      **Disclaimer:** For greenfield/prototype projects only. Use judgment on backwards compatibility for production systems.
-
-      Reduce codebase before starting significant tasks.
-
-      ## Pre-Task Process
-
-      1. **Pause** - Don't implement immediately
-      2. **Scan for duplication** - duplicate functions, similar patterns, copy-pasted logic, multiple implementations
-      3. **Identify reduction targets** - dead code, unused imports/variables/params, over-engineered abstractions, wrapper functions, compatibility shims
-      4. **Reduce first** - clean up before starting task
-      5. **Proceed** - work on smaller codebase
-
-      ## Rules
-
-      - Preserve test coverage
-      - Keep tests green
-      - Smaller = better
-      - Delete over deprecate
-
-      ## Why
-
-      - Fewer bugs in smaller codebases
-      - Less to understand before changes
-      - Prevents duplication spread
-      - Task may simplify post-reduction
-      - Tech debt compounds
-
-      ## Apply To
-
-      New features, multi-line bug fixes, refactoring, multi-file changes
-
-      ## Skip For
-
-      Typos, comments, single-line changes, docs-only
-    content_hash: sha256:1b9ed3cca66ec1056a39ea77a98b011cc95e22e39c97a69d7c6277b0aa52d175
-    distilled_by: claude-code
-
   elegant-redo:
     tags:
       - workflow
@@ -184,4 +140,59 @@ fragments:
       - Show evidence, don't just claim
       - If local demo impossible, describe what would be tested and how
     content_hash: sha256:1622d2d201fe61888fc46c71e5e4cb9cdd8381c07b4c3ca1cfe0fcdea2c342d2
+    distilled_by: claude-code
+
+  communication:
+    tags:
+      - style
+      - communication
+    content: |-
+      # Communication Style
+
+      ## Do
+      - State limitations immediately ("Cannot verify X without Y", "Approach has limitation Z", "Need clarification on A")
+      - Ask for help when: requirements ambiguous, multiple valid approaches, trade-offs need business input, uncertain about context
+      - Lead with key info first, details second, rationale last
+      - Cite sources: API docs, best practices, performance claims, security recs
+      - TDD mandatory - verify tests pass before marking complete
+
+      ## Don't
+      - No sycophancy (no praise, enthusiasm markers, validation seeking)
+      - No flattery/excessive politeness - be direct
+      - No assumptions - ask if unsure, state when guessing
+    content_hash: sha256:bf83ad406d4ead93e45db63d1fec6367f84380e322de3301559b14a1e972f857
+    distilled_by: claude-code
+
+  pushback:
+    tags:
+      - workflow
+      - quality
+    content: |-
+      # Pushback Guidelines
+
+      ## When to Push Back
+      If asked to: skip tests, add untested features, ignore type hints, work around (vs fix) lint errors
+
+      ## Response Pattern
+      1. State why problematic
+      2. Explain consequences
+      3. Suggest correct approach
+      4. Defer if insisted, note tech debt
+
+      ## Feature Start Questions
+      - Acceptance criteria?
+      - Performance requirements?
+      - Error cases to handle?
+      - Security implications?
+      - What to log?
+      - Dependencies?
+      - Testing approach?
+      - Error messages needed?
+
+      ## Component Design Questions
+      - Required dependencies?
+      - Interface/protocol for dependencies?
+      - Logging context?
+      - Error conditions & messages?
+    content_hash: sha256:dcb677dd3c01df01a6c70d5e0aebb57e6ba29bb06e916fc5b498afc421d3d39e
     distilled_by: claude-code

@@ -60,6 +60,9 @@ fragments:
       - tooling
       - bacon
       - rust
+    installation: |-
+      cargo install --locked bacon
+      Optional features: cargo install --locked bacon --features "clipboard sound"
     content: |-
       # bacon: Background Code Checker
 
@@ -75,14 +78,6 @@ fragments:
       bacon nextest      # nextest runner
       bacon --path ../other-project
       bacon --job my-custom-job
-      ```
-
-      ## Install
-
-      ```bash
-      cargo install --locked bacon
-      # Optional features
-      cargo install --locked bacon --features "clipboard sound"
       ```
 
       ## Keys

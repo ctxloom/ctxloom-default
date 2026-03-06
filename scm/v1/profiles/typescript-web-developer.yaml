@@ -15,10 +15,8 @@ bundles:
   # Language
   - https://github.com/benjaminabbitt/scm-github@v1/bundles/typescript-development
 
-  # Web stack
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/vite
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/react
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/eslint-flat-config
+  # Web stack (React, Vite, ESLint)
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/web-frontend
 
   # Tooling
   - https://github.com/benjaminabbitt/scm-github@v1/bundles/git

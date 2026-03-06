@@ -4,8 +4,9 @@ tags:
   - bdd
   - gherkin
   - organization
+  - tdd
 author: "scm"
-description: "Testing practices including Gherkin authoring and test organization patterns"
+description: "Testing practices including TDD, Gherkin authoring, and test organization"
 
 fragments:
   gherkin:
@@ -141,4 +142,35 @@ fragments:
 
       Optimal org adapts to tooling. Constant: tests near code.
     content_hash: sha256:d4dbb0441710f98c7e1d072e43207c49b2dd6a92285c1c274b231abdd09f1550
+    distilled_by: claude-code
+
+  tdd:
+    tags:
+      - testing
+      - tdd
+      - workflow
+    content: |-
+      # TDD Workflow
+
+      ## Cycle (Mandatory)
+      1. **Red**: Write failing test first; verify fails correctly; ensure isolation
+      2. **Green**: Minimal code to pass; no extras
+      3. **Refactor**: Keep green; apply SOLID; remove duplication; use existing libs; improve names
+
+      ## Integration Tests
+      - Run actual binaries (no hooks)
+      - Tag slow tests appropriately
+      - Clean up after tests
+
+      ## Naming
+      `test_<action>_<condition>_<expected_result>`
+      - Python: snake_case
+      - C#/Java/JS: camelCase
+      - Readability > format
+
+      ## Organization
+      - Prioritize readability
+      - Order by complexity: simple examples top, edge cases bottom
+      - Tests = documentation
+    content_hash: sha256:1a4514779dbf0d21fc5b81ead5478d2bf6aeed406a24ad5cce5631c59210b2fa
     distilled_by: claude-code

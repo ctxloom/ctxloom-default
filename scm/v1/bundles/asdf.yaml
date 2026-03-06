@@ -11,30 +11,15 @@ fragments:
     tags:
       - tooling
       - version-manager
+    installation: |-
+      macOS: brew install asdf
+      Linux: git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+
+      Shell setup required - source asdf.sh and completions in .bashrc or .zshrc
     content: |-
       # asdf Version Manager
 
       Manages multiple runtime versions (Node, Python, Go, Ruby, etc.) via single CLI.
-
-      ## Install
-
-      ```bash
-      # macOS
-      brew install asdf
-      # Linux
-      git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
-      ```
-
-      Shell config:
-      ```bash
-      # bash (~/.bashrc)
-      . "$HOME/.asdf/asdf.sh"
-      . "$HOME/.asdf/completions/asdf.bash"
-      # zsh (~/.zshrc)
-      . "$HOME/.asdf/asdf.sh"
-      fpath=(${ASDF_DIR}/completions $fpath)
-      autoload -Uz compinit && compinit
-      ```
 
       ## Plugins
 

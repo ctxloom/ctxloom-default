@@ -1,0 +1,136 @@
+version: "1.0.0"
+tags:
+  - architecture
+  - patterns
+  - cqrs
+  - event-sourcing
+author: "scm"
+description: "CQRS and Event Sourcing architecture patterns"
+
+fragments:
+  cqrs:
+    tags:
+      - pattern
+      - architecture
+      - cqrs
+    content: |-
+      # CQRS
+
+      Separate read/write ops into distinct models.
+
+      ## Core Principles
+      - **Commands**: Modify state, return void/ID only, imperative names (`CreateOrder`)
+      - **Queries**: Read state, never modify, descriptive names (`GetOrderById`)
+      - **Separation**: Models can differ in structure/storage
+
+      ## Command Side
+      - Imperative: `PlaceOrder`, `CancelSubscription`
+      - Handlers validate, execute logic, persist
+      - One command = one transaction
+      - Return success/failure or created ID only
+
+      ## Query Side
+      - Questions: `GetUserProfile`, `SearchProducts`
+      - Read from optimized read models
+      - No side effects—safe to retry/cache/parallelize
+      - Can use denormalized views
+
+      ## When to Use
+      - Read/write patterns differ significantly
+      - Need independent scaling
+      - Complex domain with rich business logic
+      - Event sourcing integration
+
+      ## When NOT to Use
+      - Simple CRUD
+      - Similar read/write patterns
+      - Small team/early-stage
+      - Adds unnecessary complexity
+
+      ## Read Model Sync
+      - **Synchronous**: Same transaction (simpler, consistent)
+      - **Asynchronous**: Via events (scalable, eventually consistent)
+      - Document consistency guarantees
+
+      ## Testing
+      - Commands: verify state changes/invariants
+      - Queries: verify correct retrieval
+      - Test separately—independent concerns
+    content_hash: sha256:faa0b391646479285db5cf4c4ad155d0755228111110853a1477f23a9f5c3a43
+    distilled_by: claude-code
+
+  event-sourcing:
+    tags:
+      - pattern
+      - architecture
+      - event-sourcing
+    content: |-
+      # Event Sourcing
+
+      Store state as immutable event sequence, not current state.
+
+      ## Core Principles
+      - Events = immutable facts, never modified/deleted
+      - State derived by replaying events
+      - Events carry minimally sufficient info for state reconstruction
+      - Append-only store
+      - Temporal queries possible
+
+      ## Event Design
+      - Past tense names: `OrderPlaced`, `PaymentReceived`
+      - Immutable, never update/delete
+      - Include only necessary data; document if explicitly adding more
+      - Version on schema evolution
+      - Small, single-fact focused
+
+      ## Event Structure
+      - id, type, aggregateId, version, timestamp, data, metadata
+
+      ## Aggregates
+      - Consistency boundary
+      - Load by replaying events
+      - Decides which events to emit
+      - One aggregate = one stream
+
+      ## Event Store Requirements
+      - Append-only, read by aggregateId/position
+      - Optimistic concurrency via versions
+      - Guaranteed ordering per stream
+
+      ## Projections
+      - Read-optimized views from events
+      - Rebuildable anytime
+      - Multiple projections possible
+      - Async = eventual consistency
+
+      ## Snapshots
+      - Periodic state cache for faster loading
+      - Optimization only, not source of truth
+      - Rebuild when aggregate logic changes
+
+      ## When to Use
+      - Audit trail required
+      - State evolution tracking needed
+      - Rich business events
+      - Temporal queries
+      - Event-driven integration
+
+      ## When NOT to Use
+      - Simple CRUD, no audit needs
+      - High-frequency same-entity updates
+      - Unfamiliar team
+      - No clear business events
+
+      ## Pitfalls
+      - Large events → split
+      - Plan event versioning upfront
+      - Snapshot long-lived aggregates
+      - Events = facts, not commands
+      - Handle eventual consistency in UI
+
+      ## Testing
+      - Given events → command → assert new events
+      - Given events → assert projection state
+      - Test event upcasting for migrations
+    content_hash: sha256:19131ab83c0f5a012846cab6c5286a4677b4210c294ba74eeadd229ea908d275
+    distilled_by: claude-code

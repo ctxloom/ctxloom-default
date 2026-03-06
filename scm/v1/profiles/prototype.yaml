@@ -1,0 +1,10 @@
+version: "1.0.0"
+description: "Prototyping profile for greenfield development - no backwards compatibility, reductive approach"
+tags:
+  - prototype
+  - greenfield
+  - rapid
+
+bundles:
+  # Prototyping mindset
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/prototyping
