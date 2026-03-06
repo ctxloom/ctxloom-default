@@ -1,0 +1,31 @@
+version: "1.0.0"
+description: "TypeScript web development profile with React, Vite, and modern tooling"
+tags:
+  - typescript
+  - web
+  - frontend
+  - react
+
+bundles:
+  # Core practices
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/core-practices
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/developer-mindset
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/testing
+
+  # Language
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/typescript-development
+
+  # Web stack
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/vite
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/react
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/eslint-flat-config
+
+  # Tooling
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/git
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/just
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/ast-grep
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/lsp
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rtk
+
+  # Browser automation
+  - https://github.com/benjaminabbitt/scm-github@v1/bundles/mcp-browser-playwright

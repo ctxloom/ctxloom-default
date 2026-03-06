@@ -1,0 +1,145 @@
+version: "1.0.0"
+tags:
+  - typescript
+  - web
+  - eslint
+  - linting
+author: "scm"
+description: "ESLint 9 flat config for TypeScript web projects"
+
+fragments:
+  eslint-flat:
+    tags:
+      - eslint
+      - linting
+      - typescript
+    content: |-
+      # ESLint 9 Flat Config
+
+      ESLint 9 uses flat config (`eslint.config.js`). No more `.eslintrc.*`.
+
+      ## Config File (eslint.config.js)
+
+      ```javascript
+      import js from '@eslint/js'
+      import globals from 'globals'
+      import tseslint from 'typescript-eslint'
+      import reactHooks from 'eslint-plugin-react-hooks'
+      import reactRefresh from 'eslint-plugin-react-refresh'
+      import { defineConfig, globalIgnores } from 'eslint/config'
+
+      export default defineConfig([
+        globalIgnores(['dist', 'node_modules']),
+        {
+          files: ['**/*.{ts,tsx}'],
+          extends: [
+            js.configs.recommended,
+            tseslint.configs.recommended,
+            reactHooks.configs.flat.recommended,
+            reactRefresh.configs.vite,
+          ],
+          languageOptions: {
+            ecmaVersion: 2022,
+            globals: globals.browser,
+          },
+        },
+      ])
+      ```
+
+      ## Key Concepts
+
+      ### Config Array
+      - Config is an array of config objects
+      - Each object applies to matching files
+      - Later configs override earlier ones
+
+      ### globalIgnores
+      - Replaces `.eslintignore`
+      - Must be separate config object (or use helper)
+      - Common: `['dist', 'node_modules', 'coverage']`
+
+      ### extends
+      - Spreads predefined configs into current config
+      - Common: `js.configs.recommended`, `tseslint.configs.recommended`
+
+      ### languageOptions
+      - Replaces `parserOptions` and `env`
+      - `globals`: browser, node, es2022
+      - `ecmaVersion`: 2022 or latest
+
+      ## TypeScript-ESLint
+
+      ```javascript
+      import tseslint from 'typescript-eslint'
+
+      // Basic (no type checking)
+      tseslint.configs.recommended
+
+      // With type checking (slower, more thorough)
+      tseslint.configs.recommendedTypeChecked
+
+      // Strict with type checking
+      tseslint.configs.strictTypeChecked
+      ```
+
+      For type-checked rules, add:
+      ```javascript
+      languageOptions: {
+        parserOptions: {
+          project: true,
+          tsconfigRootDir: import.meta.dirname,
+        },
+      }
+      ```
+
+      ## React Plugins
+
+      ### react-hooks
+      ```javascript
+      import reactHooks from 'eslint-plugin-react-hooks'
+      // Use: reactHooks.configs.flat.recommended
+      ```
+
+      ### react-refresh (Vite HMR)
+      ```javascript
+      import reactRefresh from 'eslint-plugin-react-refresh'
+      // Use: reactRefresh.configs.vite
+      ```
+
+      ## Custom Rules
+
+      ```javascript
+      {
+        files: ['**/*.{ts,tsx}'],
+        rules: {
+          '@typescript-eslint/no-unused-vars': ['error', {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+          }],
+          '@typescript-eslint/explicit-function-return-type': 'off',
+          'no-console': ['warn', { allow: ['warn', 'error'] }],
+        },
+      }
+      ```
+
+      ## Dependencies
+
+      ```bash
+      pnpm add -D eslint @eslint/js globals typescript-eslint \
+        eslint-plugin-react-hooks eslint-plugin-react-refresh
+      ```
+
+      ## Commands
+
+      ```bash
+      pnpm eslint .           # Lint all files
+      pnpm eslint . --fix     # Auto-fix
+      pnpm eslint --cache     # Cache results for speed
+      ```
+
+      ## Migration from Legacy
+
+      - Delete `.eslintrc.*`, `.eslintignore`
+      - Create `eslint.config.js` (ESM)
+      - Convert plugins to flat config format
+      - Use `@eslint/migrate-config` for automated help
