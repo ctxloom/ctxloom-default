@@ -105,6 +105,7 @@ fragments:
 
       ## With just (Cleaner)
 
+      {{=<% %>=}}
       ```just
       # justfile (host)
       _run +ARGS:
@@ -117,6 +118,7 @@ fragments:
       build:
           cargo build
       ```
+      <%={{ }}=%>
 
       just advantages over Make:
       - No `.PHONY` declarations
@@ -227,6 +229,7 @@ fragments:
 
       ## With just
 
+      {{=<% %>=}}
       ```just
       # justfile (host)
       _run +ARGS:
@@ -235,6 +238,7 @@ fragments:
       build:
           just _run build
       ```
+      <%={{ }}=%>
 
       Advantages: no `.PHONY`, natural shell variables, recipe arguments, better errors.
 
