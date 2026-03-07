@@ -14,6 +14,57 @@ fragments:
       - architecture
       - cqrs
     content: |-
+      # CQRS (Command Query Responsibility Segregation)
+
+      Separate read and write operations into distinct models.
+
+      ## Core Principles
+
+      - **Commands**: Modify state, return void or ID only, named imperatively (`CreateOrder`, `UpdateUser`)
+      - **Queries**: Read state, never modify, named descriptively (`GetOrderById`, `ListActiveUsers`)
+      - **Separation**: Command and query models can differ in structure and storage
+
+      ## Command Side
+
+      - Commands are imperative: `PlaceOrder`, `CancelSubscription`
+      - Command handlers validate, execute business logic, persist state
+      - One command = one transaction
+      - Return only success/failure or created entity ID
+
+      ## Query Side
+
+      - Queries are questions: `GetUserProfile`, `SearchProducts`
+      - Query handlers read from optimized read models
+      - No side effects — safe to retry, cache, parallelize
+      - Can use denormalized views for performance
+
+      ## When to Use CQRS
+
+      - Read and write patterns differ significantly
+      - Need independent scaling of reads vs writes
+      - Complex domain with rich business logic
+      - Event sourcing integration
+
+      ## When NOT to Use CQRS
+
+      - Simple CRUD applications
+      - Read/write patterns are similar
+      - Small team or early-stage project
+      - Adds unnecessary complexity
+
+      ## Read Model Synchronization
+
+      - **Synchronous**: Update read model in same transaction (simpler, consistent)
+      - **Asynchronous**: Update via events (scalable, eventually consistent)
+      - Document consistency guarantees for your system
+
+      ## Testing
+
+      - Test commands: verify state changes and invariants
+      - Test queries: verify correct data retrieval
+      - Test separately — they are independent concerns
+    content_hash: sha256:faa0b391646479285db5cf4c4ad155d0755228111110853a1477f23a9f5c3a43
+    distilled: |-
       # CQRS
 
       Separate read/write ops into distinct models.
@@ -56,7 +107,6 @@ fragments:
       - Commands: verify state changes/invariants
       - Queries: verify correct retrieval
       - Test separately—independent concerns
-    content_hash: sha256:faa0b391646479285db5cf4c4ad155d0755228111110853a1477f23a9f5c3a43
     distilled_by: claude-code
 
   event-sourcing:
@@ -65,6 +115,97 @@ fragments:
       - architecture
       - event-sourcing
     content: |-
+      # Event Sourcing
+
+      Store state as a sequence of immutable events rather than current state.
+
+      ## Core Principles
+
+      - **Events are facts**: Immutable records of what happened, never modified or deleted
+      - **State is derived**: Current state reconstructed by replaying events **Important**: Events must carry minimally sufficient information to reconstruct state
+      - **Append-only**: Event store only supports append operations
+      - **Temporal queries**: Can reconstruct state at any point in time
+
+      ## Event Design
+
+      - Name events in past tense: `OrderPlaced`, `PaymentReceived`, `ItemShipped`
+      - Events are immutable — never update or delete
+      - Include all data needed to understand what happened and *only* that information.  If more information is explicitly instructed to be included, document that as a comment.
+      - Version events when schema evolves
+      - Keep events small and focused on single facts
+
+      ## Event Structure
+
+      ```
+      Event:
+        - id: Unique identifier
+        - type: Event name (e.g., "OrderPlaced")
+        - aggregateId: Entity this event belongs to
+        - version: Sequence number for ordering
+        - timestamp: When the event occurred
+        - data: Event-specific payload
+        - metadata: Correlation IDs, user context, etc.
+      ```
+
+      ## Aggregates
+
+      - Aggregates are the consistency boundary
+      - Load aggregate by replaying its events
+      - Aggregate decides which events to emit
+      - One aggregate = one event stream
+
+      ## Event Store Requirements
+
+      - Append-only writes
+      - Read events by aggregate ID
+      - Read events by position (for projections)
+      - Optimistic concurrency via version numbers
+      - Guarantee ordering within a stream
+
+      ## Projections (Read Models)
+
+      - Build read-optimized views from events
+      - Can be rebuilt from scratch at any time
+      - Multiple projections from same events
+      - Async updates = eventual consistency
+
+      ## Snapshots
+
+      - Periodically store aggregate state to speed up loading
+      - Load from snapshot, then replay only newer events
+      - Snapshots are optimization, not source of truth
+      - Invalidate/rebuild when aggregate logic changes
+
+      ## When to Use Event Sourcing
+
+      - Full audit trail required
+      - Need to understand how state evolved
+      - Complex domain with rich business events
+      - Temporal queries ("state as of date X")
+      - Integration via event-driven architecture
+
+      ## When NOT to Use Event Sourcing
+
+      - Simple CRUD with no audit requirements
+      - High-frequency updates to same entity
+      - Team unfamiliar with pattern
+      - No clear business events to model
+
+      ## Common Pitfalls
+
+      - **Large events**: Keep events focused, split if needed
+      - **Event versioning**: Plan for schema evolution upfront
+      - **Unbounded streams**: Consider snapshotting for long-lived aggregates
+      - **Mixing concerns**: Events record facts, not commands or intentions
+      - **Eventual consistency**: UI must handle stale reads gracefully
+
+      ## Testing
+
+      - Given events → When command → Then new events
+      - Test projections: Given events → Assert read model state
+      - Test event upcasting for version migrations
+    content_hash: sha256:19131ab83c0f5a012846cab6c5286a4677b4210c294ba74eeadd229ea908d275
+    distilled: |-
       # Event Sourcing
 
       Store state as immutable event sequence, not current state.
@@ -132,5 +273,4 @@ fragments:
       - Given events → command → assert new events
       - Given events → assert projection state
       - Test event upcasting for migrations
-    content_hash: sha256:19131ab83c0f5a012846cab6c5286a4677b4210c294ba74eeadd229ea908d275
     distilled_by: claude-code
