@@ -1,26 +1,19 @@
 version: "1.0.0"
-description: "Go development profile with backend-focused tooling"
+description: "Base Go development profile with standard tooling"
 tags:
   - golang
   - development
   - backend
 
 bundles:
-  # Core practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/core-practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/developer-mindset
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/testing
+  # Testing
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/testing
 
-  # Language-specific
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/go-development
-
-  # Architecture (Go often used for backends)
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/12-factor
+  # Architecture
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/12-factor
 
   # Tooling
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/git
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/just
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/ast-grep
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/containers
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/lsp
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rtk
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rtk

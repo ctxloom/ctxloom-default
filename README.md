@@ -1,84 +1,71 @@
-# scm-github
+# scm-main
 
-SCM context fragments, prompts, bundles, and profiles for AI-assisted development.
+Default bundles and profiles for [Sophisticated Context Manager](https://github.com/sophisticiatedContextManager/scm).
 
 ## Usage
 
-Add this repository as a remote source in your SCM configuration:
+This remote is pre-configured in SCM. After `scm init`, you can use profiles directly:
 
-```bash
-scm remote add github benjaminabbitt/scm-github
+```yaml
+# .scm/config.yaml
+defaults:
+  profiles:
+    - scm-main/go-developer
 ```
 
-Then pull content:
+Or pull content manually:
 
 ```bash
-# Pull a bundle (recommended - bundles group related content)
-scm remote pull github/sequential-thinking --type bundle
-scm remote pull github/go-development --type bundle
-
-# Pull individual fragments
-scm remote pull github/general/tdd
-
-# Pull a prompt
-scm remote pull github/code-review --type prompt
-
 # Pull a profile
-scm remote pull github/architect --type profile
+scm remote pull scm-main/go-developer --type profile
+
+# Pull a bundle
+scm remote pull scm-main/testing --type bundle
 ```
 
-## Structure
+## Available Profiles
 
-```
-scm/v1/
-├── bundles/      # Versioned content bundles (fragments + prompts + MCP)
-├── fragments/    # Individual context fragments
-│   ├── general/  # General development practices
-│   ├── lang/     # Language-specific guidance
-│   ├── patterns/ # Architecture patterns
-│   ├── testing/  # Testing practices
-│   └── tools/    # Tool-specific configurations
-├── prompts/      # Reusable prompts
-└── profiles/     # Curated fragment/bundle collections
-```
+| Profile | Description |
+|---------|-------------|
+| go-developer | Go backend development with testing, 12-factor, tooling |
+| go-code-reviewer | Go code review with checklists |
+| python-developer | Python development with modern tooling (uv, pipx) |
+| python-code-reviewer | Python code review with checklists |
+| rust-developer | Rust systems development with tooling |
+| rust-code-reviewer | Rust code review with checklists |
+| typescript-web-developer | TypeScript/React web development |
 
-## Available Content
+## Available Bundles
 
-### Bundles
+| Bundle | Description |
+|--------|-------------|
+| 12-factor | Cloud-native application methodology |
+| asdf | Version manager for multiple runtimes |
+| ast-grep | Structural code search and replace |
+| code-review-checklists | Review perspectives (architecture, performance, etc.) |
+| configuration-patterns | Type-discriminated config, validation, layering |
+| cqrs | Command Query Responsibility Segregation |
+| git | Git practices and workflows |
+| lsp | Language Server Protocol for AI agents |
+| mcp-browser-playwright | Browser automation MCP server |
+| mcp-tasks | Task management MCP server |
+| python-development | Python style, testing, tooling |
+| rtk | Rust Token Killer output optimization |
+| rust-development | Rust idioms and tooling |
+| security | Security checklist and practices |
+| sequential-thinking | Structured reasoning MCP server |
+| testing | TDD, Gherkin, test organization |
+| typescript-development | TypeScript strict mode and conventions |
+| web-frontend | React, Vite, ESLint patterns |
 
-Bundles are the recommended way to pull related content. Each bundle groups fragments, prompts, and optional MCP server configuration with a single version.
+## Prompts
 
-| Bundle | Description | Contents |
-|--------|-------------|----------|
-| sequential-thinking | Structured problem-solving MCP server | MCP server + usage fragment + prompt |
-| mcp-tasks | Persistent task management | MCP server + usage fragment + setup prompt |
-| go-development | Go development guidelines | Style, testing, project structure fragments + review prompts |
-
-### Fragments
-
-| Category | Fragments |
-|----------|-----------|
-| General | communication, code-quality, documentation, problem-solving, pushback, security, tdd |
-| Languages | golang, python, rust, typescript, pipx, uv |
-| Patterns | 12-factor, behavioral-interface-test, container-overlay, cqrs, event-sourcing, prototype, type-discriminated-config |
-| Testing | gherkin, test-organization |
-| Tools | asdf, ast-grep, bacon, devcontainer, git, just, lsp, rtk, testcontainers |
-| MCP | mcp-tasks, scm, sequential-thinking |
-
-### Prompts
-
-- `code-review` - Code review guidance
-- `code-review-recent` - Review recent changes
-- `distill` - Text compression
-- `write-readme` - README generation
-
-### Profiles
-
-- `architect` - Software architecture focus
-- `concurrency` - Concurrent programming
-- `domain-expert` - Domain-driven design
-- `performance` - Performance optimization
-- `standards` - Coding standards enforcement
+| Prompt | Description |
+|--------|-------------|
+| code-review | Comprehensive code review |
+| code-review-recent | Review recent changes |
+| distill | Text compression utility |
+| write-readme | README generation |
 
 ## License
 

@@ -1,19 +1,13 @@
 version: "1.0.0"
-description: "Rust code review profile with language-specific review checklists"
+description: "Base Rust code review profile"
 tags:
   - rust
   - review
   - code-quality
 
 bundles:
-  # Core review practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/code-review-checklists
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/core-practices
-
-  # Language-specific context
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rust-development
-
-  # Tooling for review
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/git
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/ast-grep
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/lsp
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/code-review-checklists
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rust-development
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp

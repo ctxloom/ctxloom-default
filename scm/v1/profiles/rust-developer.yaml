@@ -1,23 +1,19 @@
 version: "1.0.0"
-description: "Rust development profile with systems programming tooling"
+description: "Base Rust development profile with systems programming tooling"
 tags:
   - rust
   - development
   - systems
 
 bundles:
-  # Core practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/core-practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/developer-mindset
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/testing
+  # Testing
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/testing
 
-  # Language-specific (includes bacon)
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rust-development
+  # Language-specific
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rust-development
 
   # Tooling
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/git
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/just
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/ast-grep
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/containers
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/lsp
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rtk
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rtk

@@ -1,5 +1,5 @@
 version: "1.0.0"
-description: "TypeScript web development profile with React, Vite, and modern tooling"
+description: "Base TypeScript web development profile with React, Vite, and modern tooling"
 tags:
   - typescript
   - web
@@ -7,23 +7,16 @@ tags:
   - react
 
 bundles:
-  # Core practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/core-practices
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/developer-mindset
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/testing
+  # Testing
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/testing
 
-  # Language
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/typescript-development
-
-  # Web stack (React, Vite, ESLint)
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/web-frontend
+  # Language & Web
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/typescript-development
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/web-frontend
 
   # Tooling
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/git
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/just
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/ast-grep
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/lsp
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/rtk
-
-  # Browser automation
-  - https://github.com/benjaminabbitt/scm-github@v1/bundles/mcp-browser-playwright
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rtk
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/mcp-browser-playwright
