@@ -1,6 +1,6 @@
 # scm-main
 
-Default bundles and profiles for [Sophisticated Context Manager](https://github.com/sophisticiatedContextManager/scm).
+Default bundles and profiles for [Sophisticated Context Manager](https://github.com/SophisticatedContextManager/scm).
 
 ## Usage
 
