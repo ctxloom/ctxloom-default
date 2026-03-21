@@ -169,3 +169,100 @@ prompts:
             3. Summarize existing
             4. Ask what to track
         distilled_by: claude-code
+    task/add:
+        description: Add a new task
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Add a new task"
+                    argument_hint: "<task description>"
+        content: |
+            Add a new task with the following description: {{description}}
+
+            Use the mcp__mcp-tasks__tasks_add tool to add this task with status "To Do".
+
+            After adding, display the result including the task's hash ID so the user can reference it later.
+    task/list:
+        description: List all tasks
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "List all tasks"
+        content: |
+            List all tasks from the task file.
+
+            Use the mcp__mcp-tasks__tasks_search tool to get all tasks.
+
+            Display the results in a clear format, showing:
+            - Hash ID (for reference)
+            - Status
+            - Task description
+
+            Group by status: In Progress, To Do, Backlog, Done.
+    task/done:
+        description: Mark a task as done
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Mark task as done"
+                    argument_hint: "<task id>"
+        content: |
+            Mark the task with ID {{id}} as done.
+
+            Use the mcp__mcp-tasks__tasks_update tool to update this task's status to "Done".
+
+            Confirm the update was successful.
+    task/delete:
+        description: Delete a task
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Delete a task"
+                    argument_hint: "<task id>"
+        content: |
+            Delete the task with ID {{id}}.
+
+            Use the mcp__mcp-tasks__tasks_update tool to update this task's status to "Deleted".
+
+            Confirm the deletion was successful.
+    task/search:
+        description: Search tasks
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Search tasks"
+                    argument_hint: "<search terms>"
+        content: |
+            Search for tasks matching: {{terms}}
+
+            Use the mcp__mcp-tasks__tasks_search tool with the search terms.
+
+            Display matching results showing:
+            - Hash ID (for reference)
+            - Status
+            - Task description
+    task/undone:
+        description: Mark a task as not done (move back to To Do)
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Mark task as not done"
+                    argument_hint: "<task id>"
+        content: |
+            Mark the task with ID {{id}} as not done (move back to To Do).
+
+            Use the mcp__mcp-tasks__tasks_update tool to update this task's status to "To Do".
+
+            Confirm the update was successful.
