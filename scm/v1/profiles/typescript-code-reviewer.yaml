@@ -1,9 +1,10 @@
 version: "1.0.0"
-description: "Python code review profile with AI practices"
+description: "TypeScript code review profile with AI practices"
 tags:
-  - python
+  - typescript
   - review
   - code-quality
+  - web
 
 bundles:
   # AI Practices
@@ -11,7 +12,10 @@ bundles:
 
   # Review
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/code-review-checklists
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/python-development
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/typescript-development
+
+  # Web
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/web-frontend
 
   # Tooling
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git

@@ -1,22 +1,18 @@
 version: "1.0.0"
-description: "Rust development profile with AI coding practices"
+description: "C# development profile with AI coding practices"
 tags:
-  - rust
+  - csharp
+  - dotnet
   - development
-  - systems
 
 bundles:
   # AI Practices
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/rust-ai-practices
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/csharp-ai-practices
 
   # Testing
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/testing
 
-  # Language-specific
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/rust-development
-
   # Tooling
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp

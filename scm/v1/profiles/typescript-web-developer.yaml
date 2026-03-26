@@ -1,5 +1,5 @@
 version: "1.0.0"
-description: "Base TypeScript web development profile with React, Vite, and modern tooling"
+description: "TypeScript web development profile with AI coding practices"
 tags:
   - typescript
   - web
@@ -7,16 +7,18 @@ tags:
   - react
 
 bundles:
+  # AI Practices
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
+
   # Testing
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/testing
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/testing
 
   # Language & Web
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/typescript-development
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/web-frontend
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/typescript-development
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/web-frontend
 
   # Tooling
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rtk
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/mcp-browser-playwright
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/mcp-browser-playwright

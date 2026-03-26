@@ -1,13 +1,20 @@
 version: "1.0.0"
-description: "Base Rust code review profile"
+description: "Rust code review profile with AI practices"
 tags:
   - rust
   - review
   - code-quality
 
 bundles:
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/code-review-checklists
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rust-development
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
+  # AI Practices
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/rust-ai-practices
+
+  # Review
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/code-review-checklists
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/rust-development
+
+  # Tooling
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp

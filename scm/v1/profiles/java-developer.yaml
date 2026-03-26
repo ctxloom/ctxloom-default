@@ -1,17 +1,18 @@
 version: "1.0.0"
-description: "Python code review profile with AI practices"
+description: "Java development profile with AI coding practices"
 tags:
-  - python
-  - review
-  - code-quality
+  - java
+  - jvm
+  - development
+  - enterprise
 
 bundles:
   # AI Practices
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/java-ai-practices
 
-  # Review
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/code-review-checklists
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/python-development
+  # Testing
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/testing
 
   # Tooling
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git

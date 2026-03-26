@@ -1,0 +1,94 @@
+version: "1.0.0"
+tags:
+  - golang
+  - go
+  - ai
+  - best-practices
+author: "scm"
+description: "Go AI coding practices - error handling, concurrency, interfaces"
+
+fragments:
+  go-rules:
+    tags:
+      - golang
+      - coding
+    content: |-
+      # Go Rules
+
+      ## Project Structure
+      ```
+      cmd/        Main applications
+      internal/   Private code
+      pkg/        Public libraries
+      api/        API definitions (proto, OpenAPI)
+      ```
+
+      ## Error Handling
+
+      ```go
+      // GOOD - Context in errors
+      return fmt.Errorf("fetch user %s: %w", userID, err)
+
+      // BAD - No context
+      return fmt.Errorf("failed: %w", err)
+      ```
+
+      Use `errors.Is()` and `errors.As()` for checks.
+
+      ## Concurrency
+
+      ### Every Function with I/O Takes context.Context First
+      ```go
+      func FetchUser(ctx context.Context, id string) (*User, error)
+      ```
+
+      ### Every Goroutine Needs Shutdown Path
+      ```go
+      // BAD
+      go doWork()
+
+      // GOOD
+      g, ctx := errgroup.WithContext(ctx)
+      g.Go(func() error { return doWork(ctx) })
+      return g.Wait()
+      ```
+
+      ### Synchronization Choice
+      | Need | Use |
+      |------|-----|
+      | Simple state | `sync.Mutex` |
+      | Read-heavy | `sync.RWMutex` |
+      | One-time init | `sync.Once` |
+      | Communication | Channels |
+
+      ## Interfaces
+
+      Define interfaces where used, not where implemented:
+      ```go
+      // In consumer package, not provider
+      type UserStore interface {
+          GetUser(id string) (*User, error)
+      }
+      ```
+
+      ## Avoid
+
+      - `init()` functions - use explicit initialization
+      - Package-level variables - use dependency injection
+      - `ioutil` - deprecated, use `io`
+      - Channels for simple state protection
+
+      ## Testing
+
+      - Table-driven tests
+      - `testify/assert` for assertions
+      - `go test -race` for race detection
+      - Prefer fakes over mocks
+
+      ## Logging
+
+      ```go
+      slog.Info("user created",
+          slog.String("user_id", user.ID),
+          slog.String("email", user.Email))
+      ```

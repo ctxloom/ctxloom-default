@@ -1,19 +1,22 @@
 version: "1.0.0"
-description: "Base Go development profile with standard tooling"
+description: "Go development profile with AI coding practices"
 tags:
   - golang
   - development
   - backend
 
 bundles:
+  # AI Practices
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/go-ai-practices
+
   # Testing
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/testing
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/testing
 
   # Architecture
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/12-factor
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/12-factor
 
   # Tooling
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rtk
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp

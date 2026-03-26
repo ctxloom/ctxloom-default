@@ -1,19 +1,21 @@
 version: "1.0.0"
-description: "Base Python development profile with modern tooling"
+description: "Python development profile with AI coding practices"
 tags:
   - python
   - development
 
 bundles:
+  # AI Practices
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
+
   # Testing
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/testing
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/testing
 
   # Language-specific
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/python-development
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/python-development
 
   # Tooling
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/ast-grep
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/asdf
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/lsp
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/bundles/rtk
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/asdf
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp

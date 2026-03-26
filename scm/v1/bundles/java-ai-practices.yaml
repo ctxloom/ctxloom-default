@@ -1,0 +1,109 @@
+version: "1.0.0"
+tags:
+  - java
+  - jvm
+  - ai
+  - best-practices
+  - enterprise
+author: "scm"
+description: "Java AI coding practices - modern Java features, Spring patterns"
+
+fragments:
+  java-rules:
+    tags:
+      - java
+      - coding
+    content: |-
+      # Java Rules
+
+      ## Version
+
+      Specify Java version. AI defaults to Java 8 patterns.
+
+      ```markdown
+      Java 21 LTS:
+      - Records for DTOs
+      - Pattern matching switch
+      - Virtual threads for I/O
+      - Sealed classes
+      ```
+
+      ## Modern Patterns
+
+      ### Records for DTOs
+      ```java
+      // GOOD
+      public record User(String id, String name, String email) {}
+
+      // BAD - Verbose POJO
+      public class User {
+          private String id;
+          private String name;
+          // getters, setters, equals, hashCode, toString...
+      }
+      ```
+
+      ### Pattern Matching
+      ```java
+      // GOOD
+      return switch (shape) {
+          case Circle c -> Math.PI * c.radius() * c.radius();
+          case Rectangle r -> r.width() * r.height();
+      };
+
+      // BAD - instanceof chains
+      if (shape instanceof Circle) { ... }
+      else if (shape instanceof Rectangle) { ... }
+      ```
+
+      ### Virtual Threads
+      ```java
+      // GOOD - Virtual threads for I/O
+      try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+          executor.submit(() -> fetchData(url));
+      }
+      ```
+
+      ## Dependency Injection
+
+      ```java
+      // GOOD - Constructor injection
+      @Service
+      public class UserService {
+          private final UserRepository repo;
+
+          public UserService(UserRepository repo) {
+              this.repo = repo;
+          }
+      }
+
+      // BAD - Field injection
+      @Autowired
+      private UserRepository repo;
+      ```
+
+      ## Avoid
+
+      | DO NOT | Use Instead |
+      |--------|-------------|
+      | `Date`, `Calendar` | `java.time` |
+      | Raw types | Generics |
+      | `@Autowired` on fields | Constructor injection |
+      | Checked exceptions everywhere | Unchecked for programming errors |
+
+      ## Testing
+
+      ```java
+      @Test
+      void userCreation() {
+          var user = new User("1", "Test", "test@example.com");
+          assertThat(user.name()).isEqualTo("Test");
+      }
+      ```
+
+      ## Logging
+
+      ```java
+      private static final Logger log = LoggerFactory.getLogger(UserService.class);
+      log.info("User created: {}", user.id());
+      ```

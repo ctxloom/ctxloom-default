@@ -1,0 +1,110 @@
+version: "1.0.0"
+tags:
+  - kotlin
+  - jvm
+  - android
+  - ai
+  - best-practices
+author: "scm"
+description: "Kotlin AI coding practices - null safety, coroutines, idioms"
+
+fragments:
+  kotlin-rules:
+    tags:
+      - kotlin
+      - coding
+    content: |-
+      # Kotlin Rules
+
+      ## Null Safety
+
+      ```kotlin
+      // Use nullable types explicitly
+      fun findUser(id: String): User?
+
+      // Safe calls
+      user?.profile?.avatar
+
+      // Elvis operator for defaults
+      val name = user?.name ?: "Unknown"
+
+      // AVOID !! except in tests
+      user!!.name  // Crashes on null
+      ```
+
+      ## Data Classes
+
+      ```kotlin
+      // GOOD - Data class for DTOs
+      data class User(
+          val id: String,
+          val name: String,
+          val email: String
+      )
+
+      // Copy with modifications
+      val updated = user.copy(name = "New Name")
+      ```
+
+      ## Coroutines
+
+      ```kotlin
+      // Structured concurrency
+      suspend fun fetchUsers(): List<User> = coroutineScope {
+          val users = async { api.getUsers() }
+          val profiles = async { api.getProfiles() }
+          merge(users.await(), profiles.await())
+      }
+
+      // Use withContext for thread switching
+      withContext(Dispatchers.IO) {
+          database.query()
+      }
+      ```
+
+      ## Extension Functions
+
+      ```kotlin
+      // Add functionality without inheritance
+      fun String.toSlug(): String =
+          lowercase().replace(" ", "-")
+
+      // Use for utility functions on existing types
+      ```
+
+      ## Sealed Classes
+
+      ```kotlin
+      sealed class Result<out T> {
+          data class Success<T>(val data: T) : Result<T>()
+          data class Error(val message: String) : Result<Nothing>()
+      }
+
+      // Exhaustive when
+      when (result) {
+          is Result.Success -> handleSuccess(result.data)
+          is Result.Error -> handleError(result.message)
+      }
+      ```
+
+      ## Avoid
+
+      - `!!` (non-null assertion) outside tests
+      - Java-style getters/setters (use properties)
+      - `lateinit` when nullable or lazy works
+      - Mutable collections when immutable suffices
+
+      ## Scope Functions
+
+      | Function | Use |
+      |----------|-----|
+      | `let` | Null checks, transformations |
+      | `run` | Object configuration + result |
+      | `apply` | Object configuration |
+      | `also` | Side effects |
+      | `with` | Grouping calls on object |
+
+      ```kotlin
+      user?.let { sendEmail(it) }
+      val user = User().apply { name = "Test" }
+      ```

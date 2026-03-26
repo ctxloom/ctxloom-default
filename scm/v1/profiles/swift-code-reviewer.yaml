@@ -1,19 +1,19 @@
 version: "1.0.0"
-description: "Python code review profile with AI practices"
+description: "Swift/iOS code review profile with AI practices"
 tags:
-  - python
+  - swift
+  - ios
   - review
   - code-quality
 
 bundles:
   # AI Practices
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
+  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/swift-ai-practices
 
   # Review
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/code-review-checklists
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/python-development
 
   # Tooling
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
   - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp
