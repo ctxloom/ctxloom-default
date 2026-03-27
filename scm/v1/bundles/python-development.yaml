@@ -65,11 +65,59 @@ fragments:
               return cls(SQLUserRepository(db), structlog.get_logger())
       ```
 
-      ## Type Hints & Attribute Access
-      - Use type hints consistently
+      ## Type Hints - REQUIRED
+      All code MUST have type annotations:
+      - Function signatures: params AND return types
+      - Class attributes and instance variables
+      - Module-level variables
+
+      ```python
+      # REQUIRED - all signatures typed
+      def process(data: list[str], limit: int = 10) -> dict[str, int]:
+          results: dict[str, int] = {}
+          return results
+
+      class User:
+          name: str
+          age: int
+
+          def __init__(self, name: str, age: int) -> None:
+              self.name = name
+              self.age = age
+      ```
+
+      Use `mypy --strict` or `pyright` for enforcement.
+
+      ## Attribute Access
       - NO hardcoded string attr access: avoid `getattr(obj, "method")`, `globals()["x"]`, `operator.attrgetter("field")`
       - Defeats static analysis/refactoring
       - OK if string from runtime data; prefer explicit mappings
+
+      ## getattr/hasattr - Let It Fail
+      Do NOT use `getattr`/`hasattr` defensively without a recovery path:
+      ```python
+      # BAD - no recovery, just hiding bugs
+      if hasattr(obj, "process"):
+          obj.process()  # What if it doesn't exist? Silent failure.
+
+      value = getattr(obj, "name", None)  # BAD if None isn't handled
+
+      # BAD - catching AttributeError to ignore it
+      try:
+          obj.method()
+      except AttributeError:
+          pass
+
+      # GOOD - let it fail, fix the type
+      obj.process()  # AttributeError reveals the bug
+
+      # OK - genuine recovery path
+      if hasattr(plugin, "shutdown"):
+          plugin.shutdown()  # Optional interface, skip if missing
+      else:
+          logger.info("Plugin has no shutdown hook")
+      ```
+      If there's no meaningful alternative action, let AttributeError propagate.
 
       ## Dicts vs Structured Types
       - NO dicts w/ known keys → use dataclass/NamedTuple
@@ -97,6 +145,40 @@ fragments:
               case "pending": return Status.PENDING
               case _: raise ValueError(f"Unknown: {raw}")
       ```
+
+      ## Strings as Flow Control - AVOID
+      Never use string literals to control program flow internally:
+      ```python
+      # BAD - string-based dispatch
+      if action == "create": do_create()
+      elif action == "delete": do_delete()
+
+      handlers = {"create": do_create, "delete": do_delete}
+      handlers[action]()  # BAD if action is internal
+
+      # GOOD - use Enum for internal state
+      class Action(Enum):
+          CREATE = auto()
+          DELETE = auto()
+
+      match action:
+          case Action.CREATE: do_create()
+          case Action.DELETE: do_delete()
+      ```
+
+      **Exception**: Dynamic dispatch for incoming external messages (API, events):
+      ```python
+      # OK - message_type comes from external source (API, queue, etc.)
+      def handle_message(message_type: str, payload: dict):
+          handlers = {
+              "user.created": handle_user_created,
+              "order.placed": handle_order_placed,
+          }
+          handler = handlers.get(message_type)
+          if handler:
+              handler(payload)
+      ```
+      Convert to typed values at system boundaries when possible.
     content_hash: sha256:da3dbe93061b8b53ed16bd7cdfc3154570a08b5365364f58ec85449c4450122c
     distilled_by: claude-code
 

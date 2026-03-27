@@ -10,6 +10,22 @@ notes: |
     This bundle provides the mcp-tasks MCP server along with usage context.
     Tasks are stored in .tasks/todos.md and persist across sessions.
     The server provides tools for managing tasks, reminders, and notes.
+installation: |
+    ## mcp-tasks Installation
+
+    Requires Node.js 18+.
+
+    Option 1 - Run via npx (no install needed):
+    ```bash
+    npx -y mcp-tasks
+    ```
+
+    Option 2 - Global install:
+    ```bash
+    npm install -g mcp-tasks
+    ```
+
+    The MCP server will be auto-registered. Tasks are stored in `.tasks/todos.md`.
 mcp:
     mcp-tasks:
         command: npx

@@ -449,3 +449,143 @@ fragments:
       - Order by complexity: simple examples top, edge cases bottom
       - Tests = documentation
     distilled_by: claude-code
+
+  mutation-testing:
+    tags:
+      - testing
+      - mutation
+      - quality
+    content: |-
+      # Mutation Testing
+
+      Validate test quality by verifying tests catch code mutations. High coverage + low mutation kill rate = false confidence.
+
+      ## Workflow
+
+      ```bash
+      git worktree add --detach ../.mutants-worktree HEAD
+      cargo mutants -d ../.mutants-worktree --in-place --timeout 120 -f <file> -- --lib
+      git worktree remove ../.mutants-worktree --force
+      ```
+
+      **Why worktree?** Shares .git (~300MB), copies only source (~10MB). `--in-place` safe since worktree is disposable.
+
+      ## Target Kill Rates
+
+      | Code Type | Target |
+      |-----------|--------|
+      | Pure utilities, validators | 90%+ |
+      | Business logic, state machines | 85%+ |
+      | Orchestration, coordinators | 70%+ |
+      | Framework glue, adapters | 50%+ |
+
+      ## Mutation Outcomes
+
+      | Outcome | Meaning | Action |
+      |---------|---------|--------|
+      | Caught | Test failed when mutation applied | Good — test is meaningful |
+      | Missed | Tests passed despite mutation | Bad — add/improve test |
+      | Timeout | Test took too long | Usually caught |
+      | Unviable | Mutation doesn't compile | Good — type system wins |
+
+      ## Interpreting Survivors
+
+      1. **Missing test** — No test exercises this path. Write one.
+      2. **Weak assertion** — Test runs code but doesn't verify result. Add assertions.
+      3. **Equivalent mutation** — Same behavior (rare). Accept or refactor.
+      4. **Test isolation gap** — Unit misses, integration catches. Verify integration exists.
+
+      ## Skip
+
+      - Generated code (`*.pb.rs`, `src/proto/`)
+      - Trivial delegation
+      - Framework boilerplate
+
+      ## Anti-patterns
+
+      - Mutation testing without coverage first
+      - Chasing 100% kill rate (diminishing returns)
+      - Testing mutations in mocks
+      - Ignoring unviable mutations (these are wins)
+
+  test-coverage:
+    tags:
+      - testing
+      - coverage
+      - quality
+    content: |-
+      # Comprehensive Test Coverage
+
+      Target 90%+ coverage. Unit + integration tests exercising full application.
+
+      ## Approach
+
+      1. **Analyze** architecture, dependencies, existing patterns
+      2. **Identify gaps** using coverage tooling
+      3. **Refactor** for testability (DI, interface extraction)
+      4. **Write tests** prioritizing business logic, error paths, integrations
+      5. **Verify** coverage meets target
+
+      ## Acceptable Refactoring
+
+      - Extract interfaces from concrete dependencies
+      - Introduce constructor injection
+      - Split functions that do too much
+      - Create seams for external system calls
+
+      Keep minimal and focused on testability.
+
+      ## In Scope
+
+      - Unit tests for all public functions/methods
+      - Integration tests for component interactions
+      - Testcontainers for external dependencies
+      - Interface mocks/fakes for isolation
+      - Edge cases, error paths, happy paths
+
+      ## Acceptable Gaps
+
+      - Main entrypoints (tested via E2E)
+      - Generated code
+      - Panic/fatal paths that can't occur
+      - Default factory functions (exclude via tooling)
+
+      ## Documentation
+
+      Each test documents:
+      - **Why** — what risk/behavior validated
+      - **What** — scenario (preconditions, inputs, expected outcome)
+
+      Code shows **how**. Don't repeat implementation in comments.
+
+      ## Design Principles
+
+      - Tests are primary documentation
+      - Clarity over cleverness
+      - One behavior per test
+      - Naming: `test<Action>_<Condition>_<ExpectedResult>`
+
+      ## Test File Organization
+
+      Order by importance:
+      1. Core functionality (happy path)
+      2. Key variations (alternate flows)
+      3. Error handling (failure modes)
+      4. Edge cases (boundaries, limits)
+      5. Minutiae (obscure scenarios)
+
+      ## When to Mock
+
+      **Mock:** External systems, network, filesystem, slow dependencies
+      **Don't mock:** Your own code, stdlib, fast deterministic operations
+
+      Prefer real implementations where practical.
+
+      ## Avoid
+
+      - Testing implementation instead of behavior
+      - Copy-pasted test code
+      - Overmocking (5+ mocks = redesign)
+      - Magic values (use named constants)
+      - Test interdependence
+      - Commented-out tests

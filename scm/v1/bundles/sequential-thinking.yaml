@@ -9,6 +9,17 @@ notes: |
     This bundle provides the sequential-thinking MCP server along with
     context for how to use it effectively. The MCP server helps break
     down complex problems into sequential thinking steps.
+installation: |
+    ## Sequential Thinking MCP Server Installation
+
+    Requires Node.js 18+.
+
+    Run via npx (no install needed):
+    ```bash
+    npx -y @anthropics/mcp-server-sequential-thinking
+    ```
+
+    The MCP server will be auto-registered when this bundle is active.
 mcp:
     sequential-thinking:
         command: npx
