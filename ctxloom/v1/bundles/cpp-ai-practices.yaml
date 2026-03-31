@@ -1,0 +1,109 @@
+version: "1.0.0"
+tags:
+  - cpp
+  - c++
+  - ai
+  - best-practices
+  - memory-safety
+author: "ctxloom"
+description: "Modern C++ AI coding practices - memory safety, RAII, modern features"
+
+fragments:
+  cpp-rules:
+    tags:
+      - cpp
+      - coding
+    content: |-
+      # C++ Rules
+
+      ## Memory Safety
+
+      ### No Raw new/delete
+      ```cpp
+      // BAD
+      int* data = new int[100];
+      delete[] data;
+
+      // GOOD
+      auto data = std::make_unique<int[]>(100);
+      ```
+
+      ### Smart Pointer Choice
+      | Type | Use |
+      |------|-----|
+      | `unique_ptr` | Single ownership (default) |
+      | `shared_ptr` | Shared ownership (sparingly) |
+      | `weak_ptr` | Non-owning reference |
+
+      ### Rule of Zero
+      Prefer no custom special members. Let compiler generate them:
+      ```cpp
+      class User {
+          std::string name;
+          std::vector<Order> orders;
+          // Compiler handles copy/move/destruct
+      };
+      ```
+
+      ## Modern Features
+
+      ### Use std::optional, std::expected
+      ```cpp
+      // C++23 - expected for errors
+      std::expected<User, Error> getUser(std::string_view id) {
+          if (auto user = findUser(id)) return *user;
+          return std::unexpected(Error::NotFound);
+      }
+      ```
+
+      ### Ranges Over Raw Loops
+      ```cpp
+      // BAD
+      for (const auto& item : items) {
+          if (item.isValid()) results.push_back(item.value());
+      }
+
+      // GOOD (C++20)
+      auto results = items
+          | std::views::filter(&Item::isValid)
+          | std::views::transform(&Item::value)
+          | std::ranges::to<std::vector>();
+      ```
+
+      ### Concepts Over SFINAE
+      ```cpp
+      // BAD - SFINAE
+      template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+
+      // GOOD - Concepts
+      template<std::integral T>
+      T add(T a, T b) { return a + b; }
+      ```
+
+      ## Concurrency
+
+      ```cpp
+      // GOOD - jthread auto-joins (C++20)
+      std::jthread worker([](std::stop_token st) {
+          while (!st.stop_requested()) { /* work */ }
+      });
+
+      // Use scoped_lock for multiple mutexes
+      std::scoped_lock lock(mutex1, mutex2);
+      ```
+
+      ## Const Correctness
+
+      Mark everything const that should be:
+      ```cpp
+      std::string_view name() const { return name_; }
+      void process(const User& user);  // const ref for input
+      ```
+
+      ## Avoid
+
+      - Raw new/delete
+      - NULL (use nullptr)
+      - C-style casts
+      - SFINAE when concepts work
+      - Manual loops when algorithms work

@@ -1,12 +1,12 @@
 {
   "mcpServers": {
-    "scm": {
-      "command": "/home/babbitt/go/bin/scm",
+    "ctxloom": {
+      "command": "/home/babbitt/go/bin/ctxloom",
       "args": [
         "mcp"
       ],
       "cwd": "${CLAUDE_PROJECT_DIR}",
-      "_scm": "scm-auto"
+      "_ctxloom": "ctxloom-auto"
     }
   }
 }

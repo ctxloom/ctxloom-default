@@ -1,0 +1,284 @@
+version: 1.0.0
+tags:
+    - mcp
+    - workflow
+    - tasks
+    - productivity
+author: ctxloom
+description: MCP Tasks server for persistent task management across sessions
+notes: |
+    This bundle provides the mcp-tasks MCP server along with usage context.
+    Tasks are stored in .tasks/todos.md and persist across sessions.
+    The server provides tools for managing tasks, reminders, and notes.
+installation: |
+    ## mcp-tasks Installation
+
+    Requires Node.js 18+.
+
+    Option 1 - Run via npx (no install needed):
+    ```bash
+    npx -y mcp-tasks
+    ```
+
+    Option 2 - Global install:
+    ```bash
+    npm install -g mcp-tasks
+    ```
+
+    The MCP server will be auto-registered. Tasks are stored in `.tasks/todos.md`.
+mcp:
+    mcp-tasks:
+        command: npx
+        args:
+            - -y
+            - mcp-tasks
+        note: Persistent task management with markdown storage
+fragments:
+    usage:
+        tags:
+            - mcp
+            - tasks
+            - workflow
+        content: |
+            # MCP Tasks
+
+            Use mcp-tasks for persistent task management across sessions.
+
+            ## Setup
+
+            - Store tasks in `.tasks/todos.md`
+            - Call `tasks_setup` once per conversation with the source path
+            - Use the workspace parameter to specify the project directory
+            - Note that the user may refer to this plugin as "tasks" or "todo" in the conversation
+
+            ## Task Statuses
+
+            - **In Progress**: Current work item (limit to one at a time)
+            - **To Do**: Upcoming tasks
+            - **Backlog**: Lower priority items
+            - **Done**: Completed tasks
+            - **Reminders**: Persistent instructions for the AI
+            - **Notes**: Non-actionable reference information
+
+            ## Best Practices
+
+            - Keep mcp-tasks synchronized with TodoWrite
+            - Use `tasks_add` for batch additions
+            - Use `tasks_update` for bulk status changes
+            - Call `tasks_search` to find specific tasks by status or text
+            - Avoid redundant `tasks_summary` calls after add/update operations
+        content_hash: sha256:0deaea7225df051050da37507fede897bc10ca7960e59b70569920bd23be2bd3
+        distilled: |-
+            # MCP Tasks
+
+            Persistent task mgmt via mcp-tasks.
+
+            ## Setup
+            - Tasks in `.tasks/todos.md`
+            - Call `tasks_setup` once/conversation with source path
+            - Use workspace param for project dir
+            - User may say "tasks" or "todo"
+
+            ## Statuses
+            - **In Progress**: Current work (1 max)
+            - **To Do**: Upcoming
+            - **Backlog**: Lower priority
+            - **Done**: Completed
+            - **Reminders**: Persistent AI instructions
+            - **Notes**: Reference info
+
+            ## Best Practices
+            - Sync with TodoWrite
+            - `tasks_add`: batch additions
+            - `tasks_update`: bulk status changes
+            - `tasks_search`: find by status/text
+            - Skip `tasks_summary` after add/update ops
+        distilled_by: claude-code
+    scm:
+        tags:
+            - mcp
+            - context
+            - ctxloom
+        content: |-
+            # ctxloom - Context Loom
+
+            MCP server for reusable AI context fragments.
+
+            ## MCP Tools
+
+            - `list_fragments`: List fragments w/ tags
+            - `get_fragment`: Get fragment by name
+            - `list_profiles`: List profiles
+            - `get_profile`: Get profile config
+            - `assemble_context`: Combine fragments/profiles
+            - `list_prompts`: List prompts
+            - `get_prompt`: Get prompt by name
+
+            ## Concepts
+
+            **Fragments**: Reusable context (standards, patterns, guidelines)
+            - Categories: general/, lang/, patterns/, profiles/
+            - Tagged for filtering
+            - {{variables}} via Mustache
+
+            **Profiles**: Named fragment collections
+            - `developer`: Full context (TDD, quality, security)
+            - `go-developer`, `python-developer`: Language-specific
+            - `reviewer`: Multi-perspective review
+            - `prototype`: Rapid prototyping
+
+            **Distillation**: Token-optimized fragments
+            - `no_distill: true` skips compression
+            - Falls back to full content if unavailable
+
+            ## Workflows
+
+            ```
+            # Switch profile
+            assemble_context(profile="reviewer")
+
+            # Add fragments to profile
+            assemble_context(profile="go-developer", fragments=["security"])
+
+            # Layer patterns
+            assemble_context(profile="developer", fragments=["patterns/cqrs", "patterns/event-sourcing"])
+
+            # Explore
+            list_fragments()
+            list_fragments(tags=["golang"])
+            get_profile(name="reviewer")
+
+            # Ad-hoc assembly
+            assemble_context(fragments=["security", "lang/golang/golang"])
+            assemble_context(tags=["review"])
+            ```
+
+            ## Fragment Format
+
+            ```yaml
+            version: "1.0"
+            tags: [golang, code-style]
+            variables: [project_name]
+            no_distill: true  # Optional
+            content: |
+              Context here. Use {{project_name}} for variables.
+            ```
+        content_hash: sha256:232571a263a650fb6de2ca62c43ce532ffb7290eaa4903c0d8d7afc0b2019f78
+        distilled_by: claude-code
+prompts:
+    setup-tasks:
+        description: Initialize task tracking for a project
+        tags:
+            - tasks
+            - workflow
+        content: |
+            Set up task management for this project:
+            1. Call tasks_setup with the current workspace
+            2. Check for existing tasks in .tasks/todos.md
+            3. Summarize any existing tasks
+            4. Ask what tasks I should track
+        content_hash: sha256:a2483e706d1116e258ee7c5100c106f58fd2be384bfc97b72550b0d8a13f9416
+        distilled: |-
+            MCP Tasks setup:
+            1. tasks_setup(workspace)
+            2. Check .tasks/todos.md
+            3. Summarize existing
+            4. Ask what to track
+        distilled_by: claude-code
+    task/add:
+        description: Add a new task
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Add a new task"
+                    argument_hint: "<task description>"
+        content: |
+            Add a new task with the following description: {{description}}
+
+            Use the mcp__mcp-tasks__tasks_add tool to add this task with status "To Do".
+
+            After adding, display the result including the task's hash ID so the user can reference it later.
+    task/list:
+        description: List all tasks
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "List all tasks"
+        content: |
+            List all tasks from the task file.
+
+            Use the mcp__mcp-tasks__tasks_search tool to get all tasks.
+
+            Display the results in a clear format, showing:
+            - Hash ID (for reference)
+            - Status
+            - Task description
+
+            Group by status: In Progress, To Do, Backlog, Done.
+    task/done:
+        description: Mark a task as done
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Mark task as done"
+                    argument_hint: "<task id>"
+        content: |
+            Mark the task with ID {{id}} as done.
+
+            Use the mcp__mcp-tasks__tasks_update tool to update this task's status to "Done".
+
+            Confirm the update was successful.
+    task/delete:
+        description: Delete a task
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Delete a task"
+                    argument_hint: "<task id>"
+        content: |
+            Delete the task with ID {{id}}.
+
+            Use the mcp__mcp-tasks__tasks_update tool to update this task's status to "Deleted".
+
+            Confirm the deletion was successful.
+    task/search:
+        description: Search tasks
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Search tasks"
+                    argument_hint: "<search terms>"
+        content: |
+            Search for tasks matching: {{terms}}
+
+            Use the mcp__mcp-tasks__tasks_search tool with the search terms.
+
+            Display matching results showing:
+            - Hash ID (for reference)
+            - Status
+            - Task description
+    task/undone:
+        description: Mark a task as not done (move back to To Do)
+        tags:
+            - tasks
+        plugins:
+            llm:
+                claude-code:
+                    description: "Mark task as not done"
+                    argument_hint: "<task id>"
+        content: |
+            Mark the task with ID {{id}} as not done (move back to To Do).
+
+            Use the mcp__mcp-tasks__tasks_update tool to update this task's status to "To Do".
+
+            Confirm the update was successful.

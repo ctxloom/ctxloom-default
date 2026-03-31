@@ -1,0 +1,74 @@
+version: 1
+locked_at: 2026-03-06T05:25:09.225586094Z
+bundles:
+    scm-github/ast-grep:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/core-practices:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/developer-mindset:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/eslint-flat-config:
+        sha: fe6826e485be14f1a88e541be078fcf941eaf9df
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 2026-03-06T05:25:08.560963005Z
+    scm-github/git:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/just:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/lsp:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/mcp-browser-playwright:
+        sha: fe6826e485be14f1a88e541be078fcf941eaf9df
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 2026-03-06T05:25:09.225585799Z
+    scm-github/react:
+        sha: fe6826e485be14f1a88e541be078fcf941eaf9df
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 2026-03-06T05:25:08.001489276Z
+    scm-github/rtk:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/testing:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/typescript-development:
+        sha: ""
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 0001-01-01T00:00:00Z
+    scm-github/vite:
+        sha: fe6826e485be14f1a88e541be078fcf941eaf9df
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 2026-03-06T05:25:07.362866387Z
+profiles:
+    scm-github/typescript-web-developer:
+        sha: fe6826e485be14f1a88e541be078fcf941eaf9df
+        url: https://github.com/benjaminabbitt/scm-github
+        ctxloom_version: v1
+        fetched_at: 2026-03-06T05:25:06.748272564Z

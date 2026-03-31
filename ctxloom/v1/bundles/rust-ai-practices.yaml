@@ -1,0 +1,97 @@
+version: "1.0.0"
+tags:
+  - rust
+  - ai
+  - best-practices
+  - memory-safety
+author: "ctxloom"
+description: "Rust AI coding practices - ownership, error handling, async patterns"
+
+fragments:
+  rust-rules:
+    tags:
+      - rust
+      - coding
+    content: |-
+      # Rust Rules
+
+      ## Ownership
+
+      ```rust
+      // BAD - Takes ownership unnecessarily
+      fn process(data: Vec<u8>) { }
+
+      // GOOD - Borrow when you don't need ownership
+      fn process(data: &[u8]) { }
+      ```
+
+      ## Smart Pointers
+
+      | Type | Use |
+      |------|-----|
+      | `Box<T>` | Single ownership, heap |
+      | `Rc<T>` | Multi-owner, single-thread |
+      | `Arc<T>` | Multi-owner, thread-safe |
+      | `RefCell<T>` | Interior mutability |
+
+      Default to owned types. Only use Rc/Arc when required.
+
+      ## Error Handling
+
+      ```rust
+      // GOOD - Result with context
+      fn load_config(path: &Path) -> Result<Config> {
+          let content = fs::read_to_string(path)
+              .context("failed to read config")?;
+          toml::from_str(&content).context("failed to parse")
+      }
+
+      // BAD - Panic in library
+      fn load_config(path: &Path) -> Config {
+          fs::read_to_string(path).unwrap()  // Don't
+      }
+      ```
+
+      ## Unsafe
+
+      - Question if truly necessary
+      - Keep blocks minimal
+      - Document safety invariants
+      - **Never trust AI-generated unsafe code** without manual review
+
+      ```rust
+      /// # Safety
+      /// - ptr must be valid and aligned
+      /// - ptr must point to initialized memory
+      unsafe fn read_value(ptr: *const u32) -> u32 { *ptr }
+      ```
+
+      ## Async
+
+      ```rust
+      // BAD - Blocking in async
+      std::thread::sleep(Duration::from_secs(1));
+
+      // GOOD
+      tokio::time::sleep(Duration::from_secs(1)).await;
+      ```
+
+      ## Concurrency
+
+      Prefer message passing over shared state:
+      ```rust
+      let (tx, mut rx) = mpsc::channel(100);
+      tx.send(Message::Process(data)).await?;
+      ```
+
+      Use `Arc<Mutex<T>>` only when truly needed.
+
+      ## Testing
+
+      ```rust
+      #[tokio::test]
+      async fn test_fetch() {
+          let result = fetch_data("http://test").await;
+          assert!(result.is_ok());
+      }
+      ```
