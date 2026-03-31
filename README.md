@@ -1,26 +1,26 @@
-# scm-main
+# ctxloom-default
 
-Default bundles and profiles for [Sophisticated Context Manager](https://github.com/SophisticatedContextManager/scm).
+Default bundles and profiles for [ctxloom](https://github.com/ctxloom/ctxloom).
 
 ## Usage
 
-This remote is pre-configured in SCM. After `scm init`, you can use profiles directly:
+This remote is pre-configured in ctxloom. After `ctxloom init`, you can use profiles directly:
 
 ```yaml
-# .scm/config.yaml
+# .ctxloom/config.yaml
 defaults:
   profiles:
-    - scm-main/go-developer
+    - ctxloom-default/go-developer
 ```
 
 Or pull content manually:
 
 ```bash
 # Pull a profile
-scm remote pull scm-main/go-developer --type profile
+ctxloom remote pull ctxloom-default/go-developer --type profile
 
 # Pull a bundle
-scm remote pull scm-main/testing --type bundle
+ctxloom remote pull ctxloom-default/testing --type bundle
 ```
 
 ## Available Profiles
