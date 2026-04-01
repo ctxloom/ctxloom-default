@@ -1,116 +1,185 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - csharp
-  - dotnet
-  - ai
-  - best-practices
-author: "ctxloom"
-description: "C# AI coding practices - nullable references, records, async patterns"
-
+    - csharp
+    - dotnet
+    - ai
+    - best-practices
+author: ctxloom
+description: C# AI coding practices - nullable references, records, async patterns
 fragments:
-  csharp-rules:
-    tags:
-      - csharp
-      - coding
-    content: |-
-      # C# Rules
+    csharp-rules:
+        tags:
+            - csharp
+            - coding
+        content: |-
+            # C# Rules
 
-      ## Nullable Reference Types
+            ## Nullable Reference Types
 
-      Enable in project:
-      ```xml
-      <Nullable>enable</Nullable>
-      ```
+            Enable in project:
+            ```xml
+            <Nullable>enable</Nullable>
+            ```
 
-      ```csharp
-      // Explicit nullability
-      public User? FindUser(string id);
+            ```csharp
+            // Explicit nullability
+            public User? FindUser(string id);
 
-      // Null checks
-      if (user is not null) { ... }
-      user?.Profile?.Avatar
-      var name = user?.Name ?? "Unknown";
-      ```
+            // Null checks
+            if (user is not null) { ... }
+            user?.Profile?.Avatar
+            var name = user?.Name ?? "Unknown";
+            ```
 
-      ## Records
+            ## Records
 
-      ```csharp
-      // GOOD - Immutable data
-      public record User(string Id, string Name, string Email);
+            ```csharp
+            // GOOD - Immutable data
+            public record User(string Id, string Name, string Email);
 
-      // With-expressions for copies
-      var updated = user with { Name = "New Name" };
+            // With-expressions for copies
+            var updated = user with { Name = "New Name" };
 
-      // Record structs for value semantics
-      public readonly record struct Point(int X, int Y);
-      ```
+            // Record structs for value semantics
+            public readonly record struct Point(int X, int Y);
+            ```
 
-      ## Pattern Matching
+            ## Pattern Matching
 
-      ```csharp
-      // Switch expressions
-      var area = shape switch {
-          Circle c => Math.PI * c.Radius * c.Radius,
-          Rectangle r => r.Width * r.Height,
-          _ => 0
-      };
+            ```csharp
+            // Switch expressions
+            var area = shape switch {
+                Circle c => Math.PI * c.Radius * c.Radius,
+                Rectangle r => r.Width * r.Height,
+                _ => 0
+            };
 
-      // Property patterns
-      if (user is { IsActive: true, Role: "Admin" }) { ... }
-      ```
+            // Property patterns
+            if (user is { IsActive: true, Role: "Admin" }) { ... }
+            ```
 
-      ## Async/Await
+            ## Async/Await
 
-      ```csharp
-      // Always use async/await for I/O
-      public async Task<User> GetUserAsync(string id) {
-          var data = await _httpClient.GetAsync($"/users/{id}");
-          return await data.Content.ReadFromJsonAsync<User>();
-      }
+            ```csharp
+            // Always use async/await for I/O
+            public async Task<User> GetUserAsync(string id) {
+                var data = await _httpClient.GetAsync($"/users/{id}");
+                return await data.Content.ReadFromJsonAsync<User>();
+            }
 
-      // Use ConfigureAwait(false) in libraries
-      await task.ConfigureAwait(false);
-      ```
+            // Use ConfigureAwait(false) in libraries
+            await task.ConfigureAwait(false);
+            ```
 
-      ## Dependency Injection
+            ## Dependency Injection
 
-      ```csharp
-      // Constructor injection
-      public class UserService {
-          private readonly IUserRepository _repo;
+            ```csharp
+            // Constructor injection
+            public class UserService {
+                private readonly IUserRepository _repo;
 
-          public UserService(IUserRepository repo) {
-              _repo = repo;
-          }
-      }
+                public UserService(IUserRepository repo) {
+                    _repo = repo;
+                }
+            }
 
-      // Primary constructors (C# 12)
-      public class UserService(IUserRepository repo) {
-          public User? Find(string id) => repo.Find(id);
-      }
-      ```
+            // Primary constructors (C# 12)
+            public class UserService(IUserRepository repo) {
+                public User? Find(string id) => repo.Find(id);
+            }
+            ```
 
-      ## Collection Expressions (C# 12)
+            ## Collection Expressions (C# 12)
 
-      ```csharp
-      int[] numbers = [1, 2, 3];
-      List<string> names = ["Alice", "Bob"];
-      var combined = [..list1, ..list2];
-      ```
+            ```csharp
+            int[] numbers = [1, 2, 3];
+            List<string> names = ["Alice", "Bob"];
+            var combined = [..list1, ..list2];
+            ```
 
-      ## Avoid
+            ## Avoid
 
-      - `var` for unclear types
-      - `async void` (except event handlers)
-      - Throwing exceptions for control flow
-      - Service locator pattern
+            - `var` for unclear types
+            - `async void` (except event handlers)
+            - Throwing exceptions for control flow
+            - Service locator pattern
 
-      ## Testing
+            ## Testing
 
-      ```csharp
-      [Fact]
-      public void UserCreation_SetsName() {
-          var user = new User("1", "Test", "test@example.com");
-          Assert.Equal("Test", user.Name);
-      }
-      ```
+            ```csharp
+            [Fact]
+            public void UserCreation_SetsName() {
+                var user = new User("1", "Test", "test@example.com");
+                Assert.Equal("Test", user.Name);
+            }
+            ```
+        content_hash: sha256:3f78b0f6f2488fb32b8d964edca077228d1a695d7a71b77ab9515985e48272b9
+        distilled: |-
+            # C# Rules
+
+            ## Nullable Reference Types
+            ```xml
+            <Nullable>enable</Nullable>
+            ```
+            ```csharp
+            public User? FindUser(string id);
+            if (user is not null) { ... }
+            user?.Profile?.Avatar
+            var name = user?.Name ?? "Unknown";
+            ```
+
+            ## Records
+            ```csharp
+            public record User(string Id, string Name, string Email);
+            var updated = user with { Name = "New" };
+            public readonly record struct Point(int X, int Y);
+            ```
+
+            ## Pattern Matching
+            ```csharp
+            var area = shape switch {
+                Circle c => Math.PI * c.Radius * c.Radius,
+                Rectangle r => r.Width * r.Height,
+                _ => 0
+            };
+            if (user is { IsActive: true, Role: "Admin" }) { ... }
+            ```
+
+            ## Async/Await
+            ```csharp
+            public async Task<User> GetUserAsync(string id) {
+                var data = await _httpClient.GetAsync($"/users/{id}");
+                return await data.Content.ReadFromJsonAsync<User>();
+            }
+            await task.ConfigureAwait(false);  // in libraries
+            ```
+
+            ## DI
+            ```csharp
+            // Primary constructors (C# 12)
+            public class UserService(IUserRepository repo) {
+                public User? Find(string id) => repo.Find(id);
+            }
+            ```
+
+            ## Collection Expressions (C# 12)
+            ```csharp
+            int[] numbers = [1, 2, 3];
+            var combined = [..list1, ..list2];
+            ```
+
+            ## Avoid
+            - `var` for unclear types
+            - `async void` (except event handlers)
+            - Exceptions for control flow
+            - Service locator
+
+            ## Testing
+            ```csharp
+            [Fact]
+            public void UserCreation_SetsName() {
+                var user = new User("1", "Test", "test@example.com");
+                Assert.Equal("Test", user.Name);
+            }
+            ```
+        distilled_by: claude-3-opus

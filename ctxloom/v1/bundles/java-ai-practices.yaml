@@ -1,109 +1,156 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - java
-  - jvm
-  - ai
-  - best-practices
-  - enterprise
-author: "ctxloom"
-description: "Java AI coding practices - modern Java features, Spring patterns"
-
+    - java
+    - jvm
+    - ai
+    - best-practices
+    - enterprise
+author: ctxloom
+description: Java AI coding practices - modern Java features, Spring patterns
 fragments:
-  java-rules:
-    tags:
-      - java
-      - coding
-    content: |-
-      # Java Rules
+    java-rules:
+        tags:
+            - java
+            - coding
+        content: |-
+            # Java Rules
 
-      ## Version
+            ## Version
 
-      Specify Java version. AI defaults to Java 8 patterns.
+            Specify Java version. AI defaults to Java 8 patterns.
 
-      ```markdown
-      Java 21 LTS:
-      - Records for DTOs
-      - Pattern matching switch
-      - Virtual threads for I/O
-      - Sealed classes
-      ```
+            ```markdown
+            Java 21 LTS:
+            - Records for DTOs
+            - Pattern matching switch
+            - Virtual threads for I/O
+            - Sealed classes
+            ```
 
-      ## Modern Patterns
+            ## Modern Patterns
 
-      ### Records for DTOs
-      ```java
-      // GOOD
-      public record User(String id, String name, String email) {}
+            ### Records for DTOs
+            ```java
+            // GOOD
+            public record User(String id, String name, String email) {}
 
-      // BAD - Verbose POJO
-      public class User {
-          private String id;
-          private String name;
-          // getters, setters, equals, hashCode, toString...
-      }
-      ```
+            // BAD - Verbose POJO
+            public class User {
+                private String id;
+                private String name;
+                // getters, setters, equals, hashCode, toString...
+            }
+            ```
 
-      ### Pattern Matching
-      ```java
-      // GOOD
-      return switch (shape) {
-          case Circle c -> Math.PI * c.radius() * c.radius();
-          case Rectangle r -> r.width() * r.height();
-      };
+            ### Pattern Matching
+            ```java
+            // GOOD
+            return switch (shape) {
+                case Circle c -> Math.PI * c.radius() * c.radius();
+                case Rectangle r -> r.width() * r.height();
+            };
 
-      // BAD - instanceof chains
-      if (shape instanceof Circle) { ... }
-      else if (shape instanceof Rectangle) { ... }
-      ```
+            // BAD - instanceof chains
+            if (shape instanceof Circle) { ... }
+            else if (shape instanceof Rectangle) { ... }
+            ```
 
-      ### Virtual Threads
-      ```java
-      // GOOD - Virtual threads for I/O
-      try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-          executor.submit(() -> fetchData(url));
-      }
-      ```
+            ### Virtual Threads
+            ```java
+            // GOOD - Virtual threads for I/O
+            try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+                executor.submit(() -> fetchData(url));
+            }
+            ```
 
-      ## Dependency Injection
+            ## Dependency Injection
 
-      ```java
-      // GOOD - Constructor injection
-      @Service
-      public class UserService {
-          private final UserRepository repo;
+            ```java
+            // GOOD - Constructor injection
+            @Service
+            public class UserService {
+                private final UserRepository repo;
 
-          public UserService(UserRepository repo) {
-              this.repo = repo;
-          }
-      }
+                public UserService(UserRepository repo) {
+                    this.repo = repo;
+                }
+            }
 
-      // BAD - Field injection
-      @Autowired
-      private UserRepository repo;
-      ```
+            // BAD - Field injection
+            @Autowired
+            private UserRepository repo;
+            ```
 
-      ## Avoid
+            ## Avoid
 
-      | DO NOT | Use Instead |
-      |--------|-------------|
-      | `Date`, `Calendar` | `java.time` |
-      | Raw types | Generics |
-      | `@Autowired` on fields | Constructor injection |
-      | Checked exceptions everywhere | Unchecked for programming errors |
+            | DO NOT | Use Instead |
+            |--------|-------------|
+            | `Date`, `Calendar` | `java.time` |
+            | Raw types | Generics |
+            | `@Autowired` on fields | Constructor injection |
+            | Checked exceptions everywhere | Unchecked for programming errors |
 
-      ## Testing
+            ## Testing
 
-      ```java
-      @Test
-      void userCreation() {
-          var user = new User("1", "Test", "test@example.com");
-          assertThat(user.name()).isEqualTo("Test");
-      }
-      ```
+            ```java
+            @Test
+            void userCreation() {
+                var user = new User("1", "Test", "test@example.com");
+                assertThat(user.name()).isEqualTo("Test");
+            }
+            ```
 
-      ## Logging
+            ## Logging
 
-      ```java
-      private static final Logger log = LoggerFactory.getLogger(UserService.class);
-      log.info("User created: {}", user.id());
-      ```
+            ```java
+            private static final Logger log = LoggerFactory.getLogger(UserService.class);
+            log.info("User created: {}", user.id());
+            ```
+        content_hash: sha256:699c5f56225f1af70dfaf2d8ac9d4822def6ecac484773a56f1664eab7f96e2f
+        distilled: |-
+            # Java Rules
+
+            ## Version
+            Java 21 LTS: Records, pattern matching switch, virtual threads, sealed classes
+
+            ## Modern Patterns
+
+            ### Records for DTOs
+            ```java
+            public record User(String id, String name, String email) {}
+            ```
+
+            ### Pattern Matching
+            ```java
+            return switch (shape) {
+                case Circle c -> Math.PI * c.radius() * c.radius();
+                case Rectangle r -> r.width() * r.height();
+            };
+            ```
+
+            ### Virtual Threads
+            ```java
+            try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+                executor.submit(() -> fetchData(url));
+            }
+            ```
+
+            ## DI
+            Constructor injection only, never `@Autowired` on fields
+
+            ## Avoid
+            - `Date`/`Calendar` → `java.time`
+            - Raw types → Generics
+            - Field injection → Constructor
+            - Checked exceptions → Unchecked for programming errors
+
+            ## Testing
+            ```java
+            assertThat(user.name()).isEqualTo("Test");
+            ```
+
+            ## Logging
+            ```java
+            log.info("User created: {}", user.id());
+            ```
+        distilled_by: claude-3-opus

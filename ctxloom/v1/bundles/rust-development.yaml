@@ -1,149 +1,230 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - rust
-  - language
-  - development
-author: "ctxloom"
-description: "Rust development practices, tooling, and best practices"
-
+    - rust
+    - language
+    - development
+author: ctxloom
+description: Rust development practices, tooling, and best practices
 fragments:
-  rust:
-    tags:
-      - rust
-      - language
-    content: |-
-      # Rust Dev
+    bacon:
+        tags:
+            - tooling
+            - bacon
+            - rust
+        installation: |-
+            cargo install --locked bacon
+            Optional features: cargo install --locked bacon --features "clipboard sound"
+        content: |-
+            # bacon: Background Code Checker
 
-      ## Tooling
-      - Version: Cargo.toml
-      - Tests: `#[cfg(test)]`, cucumber-rs (Gherkin)
-      - Quality: clippy, rustfmt, cargo-audit
-      - Logging: tracing
+            Continuous code checker running alongside editor, showing errors/warnings in real-time.
 
-      ## Test Layout
-      - Unit: inline `#[cfg(test)]`
-      - Integration: `tests/*.rs`
-      - Acceptance: `tests/acceptance/features/*.feature`
+            ## Quick Reference
 
-      ## Logging
-      ```rust
-      // logmsg.rs
-      pub const USER_CREATED: &str = "user_created";
-      info!(message = logmsg::USER_CREATED, username = %username);
-      ```
+            ```bash
+            bacon              # cargo check
+            bacon test         # tests
+            bacon clippy       # linter
+            bacon check-all    # all targets
+            bacon nextest      # nextest runner
+            bacon --path ../other-project
+            bacon --job my-custom-job
+            ```
 
-      ## Error Constants
-      ```rust
-      pub mod errmsg {
-          pub const DIVIDE_BY_ZERO: &str = "cannot divide by zero";
-      }
-      #[error("{}", errmsg::DIVIDE_BY_ZERO)]
-      DivideByZero,
-      ```
+            ## Keys
 
-      ## IoC
-      ```rust
-      impl<R: UserRepository, E: EmailService> UserService<R, E> { ... }
-      pub type DefaultUserService = UserService<SqlUserRepository, SmtpEmailService>;
-      ```
+            | Key | Action |
+            |-----|--------|
+            | `t` | tests |
+            | `c` | clippy |
+            | `d` | cargo doc |
+            | `f` | restrict to failing test |
+            | `esc` | previous job/all tests |
+            | `ctrl+j` | list jobs |
+            | `h` | help |
+            | `q` | quit |
 
-      ## Best Practices
-      - Memory: `Arc<RwLock<T>>` read-heavy, `Arc<Mutex<T>>` write-heavy, accept `&str`
-      - Concurrency: thread-safe, minimal lock time, consistent order, document
-      - Errors: `Result<T, E>` + `?`, NO `unwrap()`/`expect()` in libs
-      - Style: `cargo fmt`, fix clippy, `///` docs explain WHY
-    content_hash: sha256:b8bfb25299e9dc55ef7a896ab732693a12587a122456793fe096bdb9187f78f7
-    distilled_by: claude-code
+            ## Config: bacon.toml (project)
 
-  bacon:
-    tags:
-      - tooling
-      - bacon
-      - rust
-    installation: |-
-      cargo install --locked bacon
-      Optional features: cargo install --locked bacon --features "clipboard sound"
-    content: |-
-      # bacon: Background Code Checker
+            Init: `bacon --init`. Version control this file.
 
-      Continuous code checker running alongside editor, showing errors/warnings in real-time.
+            ```toml
+            default_job = "clippy"
 
-      ## Quick Reference
+            [jobs.clippy-all]
+            command = ["cargo", "clippy", "--all-targets", "--", "-D", "warnings"]
+            need_stdout = false
 
-      ```bash
-      bacon              # cargo check
-      bacon test         # tests
-      bacon clippy       # linter
-      bacon check-all    # all targets
-      bacon nextest      # nextest runner
-      bacon --path ../other-project
-      bacon --job my-custom-job
-      ```
+            [jobs.check-win]
+            command = ["cargo", "check", "--target", "x86_64-pc-windows-gnu"]
 
-      ## Keys
+            [jobs.check-examples]
+            command = ["cargo", "check", "--examples"]
+            watch = ["examples"]
+            ```
 
-      | Key | Action |
-      |-----|--------|
-      | `t` | tests |
-      | `c` | clippy |
-      | `d` | cargo doc |
-      | `f` | restrict to failing test |
-      | `esc` | previous job/all tests |
-      | `ctrl+j` | list jobs |
-      | `h` | help |
-      | `q` | quit |
+            ### Job Properties
 
-      ## Config: bacon.toml (project)
+            | Property | Purpose | Default |
+            |----------|---------|---------|
+            | `command` | Command tokens | Required |
+            | `analyzer` | Output parser | `"standard"` |
+            | `allow_warnings` | Warnings=success | `false` |
+            | `background` | Run in background | `true` |
+            | `watch` | Extra dirs to monitor | `src` |
+            | `on_success` | Success action | None |
+            | `ignore` | Glob excludes | None |
 
-      Init: `bacon --init`. Version control this file.
+            ## Config: prefs.toml (global)
 
-      ```toml
-      default_job = "clippy"
+            Generate: `bacon --prefs`. Contains keybindings, display settings, sound/notifications, color skins.
 
-      [jobs.clippy-all]
-      command = ["cargo", "clippy", "--all-targets", "--", "-D", "warnings"]
-      need_stdout = false
+            ## Config Load Order (later overrides earlier)
 
-      [jobs.check-win]
-      command = ["cargo", "check", "--target", "x86_64-pc-windows-gnu"]
+            1. Internal defaults
+            2. Global `prefs.toml`
+            3. `BACON_PREFS` env
+            4. Workspace `Cargo.toml` metadata
+            5. Workspace `bacon.toml`
+            6. Package-level configs
+            7. `BACON_CONFIG` env
+            8. `--config-toml` arg
 
-      [jobs.check-examples]
-      command = ["cargo", "check", "--examples"]
-      watch = ["examples"]
-      ```
+            ## Tips
 
-      ### Job Properties
+            - Errors before warnings; most recent last
+            - Runs on file save automatically
+            - Works with small terminals
+            - Use `watch` for non-src directories
+        content_hash: sha256:a95355714d8f504a3424052c47441ab0b53adc09053b7378a7b41e3059d5dbc6
+        distilled: |-
+            # bacon
 
-      | Property | Purpose | Default |
-      |----------|---------|---------|
-      | `command` | Command tokens | Required |
-      | `analyzer` | Output parser | `"standard"` |
-      | `allow_warnings` | Warnings=success | `false` |
-      | `background` | Run in background | `true` |
-      | `watch` | Extra dirs to monitor | `src` |
-      | `on_success` | Success action | None |
-      | `ignore` | Glob excludes | None |
+            Background code checker - continuous errors/warnings display.
 
-      ## Config: prefs.toml (global)
+            ## Commands
+            ```bash
+            bacon              # cargo check
+            bacon test         # tests
+            bacon clippy       # linter
+            bacon check-all    # all targets
+            bacon nextest      # nextest runner
+            bacon --path ../other-project
+            bacon --job my-custom-job
+            ```
 
-      Generate: `bacon --prefs`. Contains keybindings, display settings, sound/notifications, color skins.
+            ## Keys
+            `t` tests | `c` clippy | `d` doc | `f` filter failing | `esc` back | `ctrl+j` jobs | `h` help | `q` quit
 
-      ## Config Load Order (later overrides earlier)
+            ## Config: bacon.toml
+            Init: `bacon --init`
 
-      1. Internal defaults
-      2. Global `prefs.toml`
-      3. `BACON_PREFS` env
-      4. Workspace `Cargo.toml` metadata
-      5. Workspace `bacon.toml`
-      6. Package-level configs
-      7. `BACON_CONFIG` env
-      8. `--config-toml` arg
+            ```toml
+            default_job = "clippy"
 
-      ## Tips
+            [jobs.clippy-all]
+            command = ["cargo", "clippy", "--all-targets", "--", "-D", "warnings"]
 
-      - Errors before warnings; most recent last
-      - Runs on file save automatically
-      - Works with small terminals
-      - Use `watch` for non-src directories
-    content_hash: sha256:af3adc9b16b44c644b50d5c30d80d60a332520e699cea3549ec3f4a4399f9910
-    distilled_by: claude-code
+            [jobs.check-win]
+            command = ["cargo", "check", "--target", "x86_64-pc-windows-gnu"]
+
+            [jobs.check-examples]
+            command = ["cargo", "check", "--examples"]
+            watch = ["examples"]
+            ```
+
+            ### Job Properties
+            - `command` (required), `analyzer` ("standard"), `allow_warnings` (false)
+            - `background` (true), `watch` (src), `on_success`, `ignore` (globs)
+
+            ## Config Load Order
+            Internal → global prefs.toml → `BACON_PREFS` → workspace Cargo.toml → workspace bacon.toml → package configs → `BACON_CONFIG` → --config-toml
+        distilled_by: claude-3-opus
+    rust:
+        tags:
+            - rust
+            - language
+        content: |-
+            # Rust Dev
+
+            ## Tooling
+            - Version: Cargo.toml
+            - Tests: `#[cfg(test)]`, cucumber-rs (Gherkin)
+            - Quality: clippy, rustfmt, cargo-audit
+            - Logging: tracing
+
+            ## Test Layout
+            - Unit: inline `#[cfg(test)]`
+            - Integration: `tests/*.rs`
+            - Acceptance: `tests/acceptance/features/*.feature`
+
+            ## Logging
+            ```rust
+            // logmsg.rs
+            pub const USER_CREATED: &str = "user_created";
+            info!(message = logmsg::USER_CREATED, username = %username);
+            ```
+
+            ## Error Constants
+            ```rust
+            pub mod errmsg {
+                pub const DIVIDE_BY_ZERO: &str = "cannot divide by zero";
+            }
+            #[error("{}", errmsg::DIVIDE_BY_ZERO)]
+            DivideByZero,
+            ```
+
+            ## IoC
+            ```rust
+            impl<R: UserRepository, E: EmailService> UserService<R, E> { ... }
+            pub type DefaultUserService = UserService<SqlUserRepository, SmtpEmailService>;
+            ```
+
+            ## Best Practices
+            - Memory: `Arc<RwLock<T>>` read-heavy, `Arc<Mutex<T>>` write-heavy, accept `&str`
+            - Concurrency: thread-safe, minimal lock time, consistent order, document
+            - Errors: `Result<T, E>` + `?`, NO `unwrap()`/`expect()` in libs
+            - Style: `cargo fmt`, fix clippy, `///` docs explain WHY
+        content_hash: sha256:63e438da43c9cf2dbf879826a560882a3053dbda7f655d4702b73d0d04b4f6b1
+        distilled: |-
+            # Rust Dev
+
+            ## Tooling
+            - Version: Cargo.toml
+            - Tests: `#[cfg(test)]`, cucumber-rs (Gherkin)
+            - Quality: clippy, rustfmt, cargo-audit
+            - Logging: tracing
+
+            ## Test Layout
+            - Unit: inline `#[cfg(test)]`
+            - Integration: `tests/*.rs`
+            - Acceptance: `tests/acceptance/features/*.feature`
+
+            ## Logging
+            ```rust
+            // logmsg.rs
+            pub const USER_CREATED: &str = "user_created";
+            info!(message = logmsg::USER_CREATED, username = %username);
+            ```
+
+            ## Error Constants
+            ```rust
+            pub mod errmsg {
+                pub const DIVIDE_BY_ZERO: &str = "cannot divide by zero";
+            }
+            #[error("{}", errmsg::DIVIDE_BY_ZERO)]
+            DivideByZero,
+            ```
+
+            ## IoC
+            ```rust
+            impl<R: UserRepository, E: EmailService> UserService<R, E> { ... }
+            pub type DefaultUserService = UserService<SqlUserRepository, SmtpEmailService>;
+            ```
+
+            ## Best Practices
+            - Memory: `Arc<RwLock<T>>` read-heavy, `Arc<Mutex<T>>` write-heavy, accept `&str`
+            - Concurrency: thread-safe, minimal lock time, consistent order, document
+            - Errors: `Result<T, E>` + `?`, NO `unwrap()`/`expect()` in libs
+            - Style: `cargo fmt`, fix clippy, `///` docs explain WHY
+        distilled_by: claude-3-opus

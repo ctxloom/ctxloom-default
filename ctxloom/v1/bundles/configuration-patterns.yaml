@@ -1,310 +1,389 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - configuration
-  - patterns
-  - type-safety
-author: "ctxloom"
-description: "Configuration design patterns for type-safe, extensible config structures"
-
+    - configuration
+    - patterns
+    - type-safety
+author: ctxloom
+description: Configuration design patterns for type-safe, extensible config structures
 fragments:
-  type-discriminated-config:
-    tags:
-      - configuration
-      - patterns
-      - type-safety
-      - polymorphism
-    content: |-
-      # Type-Discriminated Configuration
+    config-validation:
+        tags:
+            - configuration
+            - validation
+            - fail-fast
+        content: |-
+            # Config Validation
 
-      Use discriminated unions for configuration objects with multiple variants. A discriminator field (typically `type` or `kind`) determines which configuration shape applies.
+            Fail fast on invalid configuration. Validate everything at startup.
 
-      ## Core Pattern
+            ## Principles
 
-      Every configuration variant includes a discriminator field with a literal value. The runtime or type system uses this field to determine which variant-specific fields are valid.
+            - Validate all config before app starts
+            - Fail immediately with clear errors
+            - Never silently use defaults for missing required values
+            - Type-check, range-check, format-check
 
-      ## Benefits
-      - **Type safety**: Compiler/runtime validates fields per variant
-      - **Self-documenting**: Config declares its own type explicitly
-      - **Extensible**: Add new variants without breaking existing ones
-      - **Exhaustiveness**: Type systems can verify all variants are handled
+            ## What to Validate
 
-      ## Structure
+            - **Required fields** - error if missing
+            - **Types** - string, int, bool, duration, URL
+            - **Ranges** - port 1-65535, timeout > 0
+            - **Formats** - valid URL, valid email, valid path
+            - **Relationships** - max > min, end > start
+            - **Existence** - file paths exist, directories writable
 
-      ```
-      base_config:
-        type: "variant_a" | "variant_b"  # discriminator
-        # common fields shared by all variants
+            ## Implementation
 
-      variant_a:
-        type: "variant_a"
-        # variant-specific fields
+            ```
+            1. Load all config sources
+            2. Merge according to precedence
+            3. Validate entire config object
+            4. Fail with ALL errors, not just first
+            5. Start app only if validation passes
+            ```
 
-      variant_b:
-        type: "variant_b"
-        # different variant-specific fields
-      ```
+            ## Error Messages
 
-      ## Implementation Guidelines
+            Good: `CONFIG ERROR: DATABASE_URL is required but not set`
+            Good: `CONFIG ERROR: PORT must be 1-65535, got 70000`
+            Bad: `invalid config`
+            Bad: `null pointer exception`
 
-      1. **Discriminator field**: Use `type` or `kind` as the discriminator name consistently
-      2. **Literal values**: Discriminator values should be string literals, not enums when possible
-      3. **Validation**: Validate discriminator first, then variant-specific fields
-      4. **Unknown variants**: Fail fast on unrecognized discriminator values
-      5. **Default handling**: Avoid default cases in switches—explicit variant handling catches missing cases
+            ## Rules
 
-      ## Example (TypeScript)
+            - Collect all errors, report together
+            - Include field name, expected format, actual value
+            - Never log sensitive values in errors
+            - Validate in one place, not scattered through code
+            - Make invalid states unrepresentable via types
 
-      ```typescript
-      type DatabaseConfig =
-        | { type: "postgres"; host: string; port: number; database: string }
-        | { type: "sqlite"; path: string }
-        | { type: "memory" };
+            ## Anti-patterns
 
-      function connect(config: DatabaseConfig) {
-        switch (config.type) {
-          case "postgres":
-            return connectPostgres(config.host, config.port, config.database);
-          case "sqlite":
-            return connectSqlite(config.path);
-          case "memory":
-            return createInMemoryDb();
-        }
-      }
-      ```
+            - Validating config on first use (fails at runtime)
+            - Silent defaults for missing values
+            - Partial validation (some fields checked, others not)
+            - Generic error messages
+            - Logging secrets in validation errors
+        content_hash: sha256:1b44b6538a00ec59a80f469364b01223791a3b5827907917802b6b2b30c6a6f9
+        distilled: |-
+            # Config Validation
 
-      ## Example (Go)
+            Fail fast on invalid config. Validate at startup.
 
-      ```go
-      type Config struct {
-          Type string `json:"type"`
-      }
+            ## Principles
+            - Validate all before start
+            - Fail immediately w/ clear errors
+            - Never silent defaults for required vals
+            - Type/range/format check
 
-      type PostgresConfig struct {
-          Config
-          Host     string `json:"host"`
-          Port     int    `json:"port"`
-          Database string `json:"database"`
-      }
+            ## Validate
+            - **Required** - error if missing
+            - **Types** - string, int, bool, duration, URL
+            - **Ranges** - port 1-65535, timeout > 0
+            - **Formats** - valid URL/email/path
+            - **Relationships** - max > min, end > start
+            - **Existence** - paths exist, dirs writable
 
-      type SqliteConfig struct {
-          Config
-          Path string `json:"path"`
-      }
-      ```
+            ## Flow
+            1. Load sources → 2. Merge by precedence → 3. Validate all → 4. Fail w/ ALL errors → 5. Start only if pass
 
-      ## Anti-patterns
+            ## Errors
+            - Good: `CONFIG ERROR: DATABASE_URL required but not set`
+            - Good: `CONFIG ERROR: PORT must be 1-65535, got 70000`
+            - Bad: `invalid config` / generic msgs
 
-      - **Optional fields everywhere**: Don't use nullable fields for variant-specific data
-      - **Boolean flags**: Don't use `isPostgres`, `isSqlite` flags—use discriminator
-      - **Implicit detection**: Don't infer type from which fields are present
-      - **Default switch case**: Avoid catch-all handling that hides missing variants
-    content_hash: sha256:828565e346233eb159764dcdde0051df15391785e411d2f2ce9873162dbf5a4b
-    distilled: |-
-      # Type-Discriminated Configuration
+            ## Rules
+            - Collect ALL errors, report together
+            - Include field name, expected, actual
+            - Never log sensitive values
+            - Validate in one place
+            - Make invalid states unrepresentable via types
 
-      Discriminated unions for config objects w/ multiple variants. A discriminator field (`type`/`kind`) determines which config shape applies.
+            ## Anti-patterns
+            - Validate on first use (runtime fail)
+            - Silent defaults
+            - Partial validation
+            - Generic errors
+            - Logging secrets
+        distilled_by: claude-3-opus
+    layered-config:
+        tags:
+            - configuration
+            - precedence
+            - environments
+        content: |-
+            # Layered Configuration
 
-      ## Core Pattern
-      Each variant has a discriminator field w/ literal value. Runtime/type system uses it to determine valid variant-specific fields.
+            Config from multiple sources with clear precedence.
 
-      ## Benefits
-      - Type safety: validates fields per variant
-      - Self-documenting: config declares its type
-      - Extensible: new variants don't break existing
-      - Exhaustiveness: type systems verify all variants handled
+            ## Precedence (lowest to highest)
 
-      ## Structure
-      ```
-      base_config:
-        type: "variant_a" | "variant_b"  # discriminator
-        # common fields
+            1. **Defaults** - hardcoded sensible defaults
+            2. **Config file** - app.yaml, config.json
+            3. **Environment variables** - 12-factor style
+            4. **CLI arguments** - runtime overrides
 
-      variant_a:
-        type: "variant_a"
-        # variant-specific fields
+            Each layer overrides the previous. Higher = wins.
 
-      variant_b:
-        type: "variant_b"
-        # different fields
-      ```
+            ## Why This Order
 
-      ## Guidelines
-      1. Use `type`/`kind` consistently as discriminator name
-      2. Prefer string literals over enums for discriminator values
-      3. Validate discriminator first, then variant fields
-      4. Fail fast on unrecognized discriminator values
-      5. Avoid default switch cases—explicit handling catches missing variants
+            - Defaults: app works out of box
+            - File: environment-specific settings
+            - Env vars: deployment/container config
+            - CLI: debugging, one-off overrides
 
-      ## TypeScript Example
-      ```typescript
-      type DatabaseConfig =
-        | { type: "postgres"; host: string; port: number; database: string }
-        | { type: "sqlite"; path: string }
-        | { type: "memory" };
+            ## Implementation Pattern
 
-      function connect(config: DatabaseConfig) {
-        switch (config.type) {
-          case "postgres": return connectPostgres(config.host, config.port, config.database);
-          case "sqlite": return connectSqlite(config.path);
-          case "memory": return createInMemoryDb();
-        }
-      }
-      ```
+            ```
+            config = {}
+            config.merge(defaults)
+            config.merge(load_file("config.yaml"))
+            config.merge(load_env_vars())
+            config.merge(parse_cli_args())
+            validate(config)
+            ```
 
-      ## Go Example
-      ```go
-      type Config struct {
-          Type string `json:"type"`
-      }
-      type PostgresConfig struct {
-          Config
-          Host     string `json:"host"`
-          Port     int    `json:"port"`
-          Database string `json:"database"`
-      }
-      type SqliteConfig struct {
-          Config
-          Path string `json:"path"`
-      }
-      ```
+            ## Naming Conventions
 
-      ## Anti-patterns
-      - Optional fields everywhere instead of variant-specific data
-      - Boolean flags (`isPostgres`) instead of discriminator
-      - Inferring type from present fields
-      - Catch-all default cases hiding missing variants
-    distilled_by: claude-code
+            | Layer | Example |
+            |-------|---------|
+            | Config file | `database.host: localhost` |
+            | Env var | `DATABASE_HOST=localhost` |
+            | CLI | `--database-host localhost` |
 
-  config-validation:
-    tags:
-      - configuration
-      - validation
-      - fail-fast
-    content: |-
-      # Config Validation
+            ## Rules
 
-      Fail fast on invalid configuration. Validate everything at startup.
+            - Document precedence clearly
+            - Same config = same name across layers (with format conversion)
+            - Env vars: SCREAMING_SNAKE_CASE, prefixed (APP_DATABASE_HOST)
+            - CLI args: kebab-case (--database-host)
+            - File: nested structure (database.host)
+            - Log final merged config at startup (excluding secrets)
 
-      ## Principles
+            ## Partial Overrides
 
-      - Validate all config before app starts
-      - Fail immediately with clear errors
-      - Never silently use defaults for missing required values
-      - Type-check, range-check, format-check
+            Allow overriding individual fields, not entire sections:
+            ```yaml
+            # File sets defaults
+            database:
+              host: localhost
+              port: 5432
 
-      ## What to Validate
+            # Env overrides just host
+            DATABASE_HOST=production-db
+            # Result: host=production-db, port=5432
+            ```
 
-      - **Required fields** - error if missing
-      - **Types** - string, int, bool, duration, URL
-      - **Ranges** - port 1-65535, timeout > 0
-      - **Formats** - valid URL, valid email, valid path
-      - **Relationships** - max > min, end > start
-      - **Existence** - file paths exist, directories writable
+            ## Anti-patterns
 
-      ## Implementation
+            - Undocumented precedence
+            - Different names for same config in different layers
+            - All-or-nothing section overrides
+            - No way to see final merged config
+        content_hash: sha256:d2e537bb3a1dfd0b16896e763d3e478c335b59ceba3cf3826f4ea7f6b3e2bdc0
+        distilled: |-
+            # Layered Configuration
 
-      ```
-      1. Load all config sources
-      2. Merge according to precedence
-      3. Validate entire config object
-      4. Fail with ALL errors, not just first
-      5. Start app only if validation passes
-      ```
+            Config from multiple sources with clear precedence.
 
-      ## Error Messages
+            ## Precedence (lowest → highest)
+            1. **Defaults** - hardcoded
+            2. **Config file** - app.yaml
+            3. **Env vars** - 12-factor
+            4. **CLI args** - runtime overrides
 
-      Good: `CONFIG ERROR: DATABASE_URL is required but not set`
-      Good: `CONFIG ERROR: PORT must be 1-65535, got 70000`
-      Bad: `invalid config`
-      Bad: `null pointer exception`
+            ## Implementation
+            ```
+            config = {}
+            config.merge(defaults)
+            config.merge(load_file("config.yaml"))
+            config.merge(load_env_vars())
+            config.merge(parse_cli_args())
+            validate(config)
+            ```
 
-      ## Rules
+            ## Naming
+            | Layer | Format | Example |
+            |-------|--------|---------|
+            | File | nested | `database.host` |
+            | Env | SCREAMING_SNAKE, prefixed | `APP_DATABASE_HOST` |
+            | CLI | kebab-case | `--database-host` |
 
-      - Collect all errors, report together
-      - Include field name, expected format, actual value
-      - Never log sensitive values in errors
-      - Validate in one place, not scattered through code
-      - Make invalid states unrepresentable via types
+            ## Rules
+            - Document precedence
+            - Same name across layers (format-converted)
+            - Log merged config at startup (no secrets)
+            - Partial overrides: individual fields, not entire sections
 
-      ## Anti-patterns
+            ## Anti-patterns
+            - Undocumented precedence
+            - Different names per layer
+            - All-or-nothing section overrides
+        distilled_by: claude-3-opus
+    type-discriminated-config:
+        tags:
+            - configuration
+            - patterns
+            - type-safety
+            - polymorphism
+        content: |-
+            # Type-Discriminated Configuration
 
-      - Validating config on first use (fails at runtime)
-      - Silent defaults for missing values
-      - Partial validation (some fields checked, others not)
-      - Generic error messages
-      - Logging secrets in validation errors
+            Use discriminated unions for configuration objects with multiple variants. A discriminator field (typically `type` or `kind`) determines which configuration shape applies.
 
-  layered-config:
-    tags:
-      - configuration
-      - precedence
-      - environments
-    content: |-
-      # Layered Configuration
+            ## Core Pattern
 
-      Config from multiple sources with clear precedence.
+            Every configuration variant includes a discriminator field with a literal value. The runtime or type system uses this field to determine which variant-specific fields are valid.
 
-      ## Precedence (lowest to highest)
+            ## Benefits
+            - **Type safety**: Compiler/runtime validates fields per variant
+            - **Self-documenting**: Config declares its own type explicitly
+            - **Extensible**: Add new variants without breaking existing ones
+            - **Exhaustiveness**: Type systems can verify all variants are handled
 
-      1. **Defaults** - hardcoded sensible defaults
-      2. **Config file** - app.yaml, config.json
-      3. **Environment variables** - 12-factor style
-      4. **CLI arguments** - runtime overrides
+            ## Structure
 
-      Each layer overrides the previous. Higher = wins.
+            ```
+            base_config:
+              type: "variant_a" | "variant_b"  # discriminator
+              # common fields shared by all variants
 
-      ## Why This Order
+            variant_a:
+              type: "variant_a"
+              # variant-specific fields
 
-      - Defaults: app works out of box
-      - File: environment-specific settings
-      - Env vars: deployment/container config
-      - CLI: debugging, one-off overrides
+            variant_b:
+              type: "variant_b"
+              # different variant-specific fields
+            ```
 
-      ## Implementation Pattern
+            ## Implementation Guidelines
 
-      ```
-      config = {}
-      config.merge(defaults)
-      config.merge(load_file("config.yaml"))
-      config.merge(load_env_vars())
-      config.merge(parse_cli_args())
-      validate(config)
-      ```
+            1. **Discriminator field**: Use `type` or `kind` as the discriminator name consistently
+            2. **Literal values**: Discriminator values should be string literals, not enums when possible
+            3. **Validation**: Validate discriminator first, then variant-specific fields
+            4. **Unknown variants**: Fail fast on unrecognized discriminator values
+            5. **Default handling**: Avoid default cases in switches—explicit variant handling catches missing cases
 
-      ## Naming Conventions
+            ## Example (TypeScript)
 
-      | Layer | Example |
-      |-------|---------|
-      | Config file | `database.host: localhost` |
-      | Env var | `DATABASE_HOST=localhost` |
-      | CLI | `--database-host localhost` |
+            ```typescript
+            type DatabaseConfig =
+              | { type: "postgres"; host: string; port: number; database: string }
+              | { type: "sqlite"; path: string }
+              | { type: "memory" };
 
-      ## Rules
+            function connect(config: DatabaseConfig) {
+              switch (config.type) {
+                case "postgres":
+                  return connectPostgres(config.host, config.port, config.database);
+                case "sqlite":
+                  return connectSqlite(config.path);
+                case "memory":
+                  return createInMemoryDb();
+              }
+            }
+            ```
 
-      - Document precedence clearly
-      - Same config = same name across layers (with format conversion)
-      - Env vars: SCREAMING_SNAKE_CASE, prefixed (APP_DATABASE_HOST)
-      - CLI args: kebab-case (--database-host)
-      - File: nested structure (database.host)
-      - Log final merged config at startup (excluding secrets)
+            ## Example (Go)
 
-      ## Partial Overrides
+            ```go
+            type Config struct {
+                Type string `json:"type"`
+            }
 
-      Allow overriding individual fields, not entire sections:
-      ```yaml
-      # File sets defaults
-      database:
-        host: localhost
-        port: 5432
+            type PostgresConfig struct {
+                Config
+                Host     string `json:"host"`
+                Port     int    `json:"port"`
+                Database string `json:"database"`
+            }
 
-      # Env overrides just host
-      DATABASE_HOST=production-db
-      # Result: host=production-db, port=5432
-      ```
+            type SqliteConfig struct {
+                Config
+                Path string `json:"path"`
+            }
+            ```
 
-      ## Anti-patterns
+            ## Anti-patterns
 
-      - Undocumented precedence
-      - Different names for same config in different layers
-      - All-or-nothing section overrides
-      - No way to see final merged config
+            - **Optional fields everywhere**: Don't use nullable fields for variant-specific data
+            - **Boolean flags**: Don't use `isPostgres`, `isSqlite` flags—use discriminator
+            - **Implicit detection**: Don't infer type from which fields are present
+            - **Default switch case**: Avoid catch-all handling that hides missing variants
+        content_hash: sha256:828565e346233eb159764dcdde0051df15391785e411d2f2ce9873162dbf5a4b
+        distilled: |-
+            # Type-Discriminated Configuration
+
+            Discriminated unions for config objects w/ multiple variants. A discriminator field (`type`/`kind`) determines which config shape applies.
+
+            ## Core Pattern
+            Each variant has a discriminator field w/ literal value. Runtime/type system uses it to determine valid variant-specific fields.
+
+            ## Benefits
+            - Type safety: validates fields per variant
+            - Self-documenting: config declares its type
+            - Extensible: new variants don't break existing
+            - Exhaustiveness: type systems verify all variants handled
+
+            ## Structure
+            ```
+            base_config:
+              type: "variant_a" | "variant_b"  # discriminator
+              # common fields
+
+            variant_a:
+              type: "variant_a"
+              # variant-specific fields
+
+            variant_b:
+              type: "variant_b"
+              # different fields
+            ```
+
+            ## Guidelines
+            1. Use `type`/`kind` consistently as discriminator name
+            2. Prefer string literals over enums for discriminator values
+            3. Validate discriminator first, then variant fields
+            4. Fail fast on unrecognized discriminator values
+            5. Avoid default switch cases—explicit handling catches missing variants
+
+            ## TypeScript Example
+            ```typescript
+            type DatabaseConfig =
+              | { type: "postgres"; host: string; port: number; database: string }
+              | { type: "sqlite"; path: string }
+              | { type: "memory" };
+
+            function connect(config: DatabaseConfig) {
+              switch (config.type) {
+                case "postgres": return connectPostgres(config.host, config.port, config.database);
+                case "sqlite": return connectSqlite(config.path);
+                case "memory": return createInMemoryDb();
+              }
+            }
+            ```
+
+            ## Go Example
+            ```go
+            type Config struct {
+                Type string `json:"type"`
+            }
+            type PostgresConfig struct {
+                Config
+                Host     string `json:"host"`
+                Port     int    `json:"port"`
+                Database string `json:"database"`
+            }
+            type SqliteConfig struct {
+                Config
+                Path string `json:"path"`
+            }
+            ```
+
+            ## Anti-patterns
+            - Optional fields everywhere instead of variant-specific data
+            - Boolean flags (`isPostgres`) instead of discriminator
+            - Inferring type from present fields
+            - Catch-all default cases hiding missing variants
+        distilled_by: claude-code

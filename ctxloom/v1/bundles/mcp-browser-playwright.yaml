@@ -1,120 +1,175 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - mcp
-  - browser
-  - automation
-  - testing
-author: "ctxloom"
-description: "MCP browser automation with Playwright for web testing and interaction"
+    - mcp
+    - browser
+    - automation
+    - testing
+author: ctxloom
+description: MCP browser automation with Playwright for web testing and interaction
 notes: |
-  Playwright MCP enables AI-driven browser automation using the accessibility tree
-  rather than pixel-based approaches. Supports Chromium, Firefox, and WebKit.
-
-mcp:
-  playwright:
-    command: npx
-    args:
-      - -y
-      - "@playwright/mcp@latest"
-    note: Browser automation via Playwright accessibility tree
-
+    Playwright MCP enables AI-driven browser automation using the accessibility tree
+    rather than pixel-based approaches. Supports Chromium, Firefox, and WebKit.
 fragments:
-  playwright-mcp:
-    tags:
-      - mcp
-      - browser
-      - playwright
-    content: |-
-      # Playwright MCP
+    playwright-mcp:
+        tags:
+            - mcp
+            - browser
+            - playwright
+        content: |-
+            # Playwright MCP
 
-      Browser automation via Model Context Protocol. Uses accessibility tree for fast, deterministic control.
+            Browser automation via Model Context Protocol. Uses accessibility tree for fast, deterministic control.
 
-      ## Capabilities
+            ## Capabilities
 
-      - Navigate to URLs
-      - Click elements by text/role
-      - Fill forms
-      - Take screenshots
-      - Extract page content
-      - Execute JavaScript
-      - Handle multiple tabs
+            - Navigate to URLs
+            - Click elements by text/role
+            - Fill forms
+            - Take screenshots
+            - Extract page content
+            - Execute JavaScript
+            - Handle multiple tabs
 
-      ## Why Accessibility Tree
+            ## Why Accessibility Tree
 
-      - Text-based, not pixel-based
-      - No vision models needed
-      - Faster and more reliable
-      - Cross-browser (Chromium, Firefox, WebKit)
+            - Text-based, not pixel-based
+            - No vision models needed
+            - Faster and more reliable
+            - Cross-browser (Chromium, Firefox, WebKit)
 
-      ## Common Tasks
+            ## Common Tasks
 
-      ### Navigation
-      "Navigate to https://example.com"
-      "Go back to the previous page"
-      "Open a new tab"
+            ### Navigation
+            "Navigate to https://example.com"
+            "Go back to the previous page"
+            "Open a new tab"
 
-      ### Interaction
-      "Click the Submit button"
-      "Fill the email field with test@example.com"
-      "Select 'Option 2' from the dropdown"
+            ### Interaction
+            "Click the Submit button"
+            "Fill the email field with test@example.com"
+            "Select 'Option 2' from the dropdown"
 
-      ### Extraction
-      "Get the text content of the main article"
-      "List all links on the page"
-      "Take a screenshot"
+            ### Extraction
+            "Get the text content of the main article"
+            "List all links on the page"
+            "Take a screenshot"
 
-      ### Forms
-      "Fill out the login form with username 'admin' and password 'test'"
-      "Submit the form"
+            ### Forms
+            "Fill out the login form with username 'admin' and password 'test'"
+            "Submit the form"
 
-      ## Use Cases
+            ## Use Cases
 
-      - E2E testing via natural language
-      - Web scraping JavaScript-heavy sites
-      - Frontend debugging
-      - Automated form filling
-      - Visual regression testing
+            - E2E testing via natural language
+            - Web scraping JavaScript-heavy sites
+            - Frontend debugging
+            - Automated form filling
+            - Visual regression testing
 
-      ## Best Practices
+            ## Best Practices
 
-      - Be specific about element identification
-      - Use visible text or ARIA labels for targeting
-      - Wait for page loads implicitly
-      - Close browsers when done
+            - Be specific about element identification
+            - Use visible text or ARIA labels for targeting
+            - Wait for page loads implicitly
+            - Close browsers when done
+        content_hash: sha256:7b23896a269e131a2334965b42802d6ab4396936cf4d75d32206e544a0635b54
+        distilled: |-
+            # Playwright MCP
 
-  puppeteer-mcp:
-    tags:
-      - mcp
-      - browser
-      - puppeteer
-    content: |-
-      # Puppeteer MCP (Alternative)
+            Browser automation via MCP using accessibility tree for fast, deterministic control.
 
-      Alternative browser automation using Puppeteer. Chromium-only.
+            ## Why Accessibility Tree
+            - Text-based, no vision models
+            - Faster, more reliable
+            - Cross-browser (Chromium, Firefox, WebKit)
 
-      ## Config
+            ## Capabilities
+            Navigate, click, fill forms, screenshots, extract content, execute JS, multi-tab
 
-      ```json
-      {
-        "mcpServers": {
-          "puppeteer": {
-            "command": "npx",
-            "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
-          }
-        }
-      }
-      ```
+            ## Common Tasks
 
-      ## Differences from Playwright
+            **Navigation**: `Navigate to URL`, `Go back`, `Open new tab`
 
-      - Chromium only (no Firefox/WebKit)
-      - Uses CSS selectors (can be brittle)
-      - Older, more established
+            **Interaction**: `Click [button text]`, `Fill [field] with [value]`, `Select from dropdown`
 
-      ## When to Use
+            **Extraction**: `Get text content`, `List links`, `Take screenshot`
 
-      - Chromium-only projects
-      - Existing Puppeteer infrastructure
-      - Simpler requirements
+            ## Best Practices
+            - Use visible text/ARIA labels for targeting
+            - Be specific about elements
+            - Close browsers when done
+        distilled_by: claude-3-opus
+    puppeteer-mcp:
+        tags:
+            - mcp
+            - browser
+            - puppeteer
+        content: |-
+            # Puppeteer MCP (Alternative)
 
-      Prefer Playwright MCP for new projects.
+            Alternative browser automation using Puppeteer. Chromium-only.
+
+            ## Config
+
+            ```json
+            {
+              "mcpServers": {
+                "puppeteer": {
+                  "command": "npx",
+                  "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+                }
+              }
+            }
+            ```
+
+            ## Differences from Playwright
+
+            - Chromium only (no Firefox/WebKit)
+            - Uses CSS selectors (can be brittle)
+            - Older, more established
+
+            ## When to Use
+
+            - Chromium-only projects
+            - Existing Puppeteer infrastructure
+            - Simpler requirements
+
+            Prefer Playwright MCP for new projects.
+        content_hash: sha256:1cf0c581e58f294a6540a6ff2c1ed86c43194bf82bb18b3c1b01406817634aab
+        distilled: |-
+            # puppeteer-mcp
+
+            Chromium-only browser automation alternative.
+
+            ## Config
+
+            ```json
+            {
+              "mcpServers": {
+                "puppeteer": {
+                  "command": "npx",
+                  "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+                }
+              }
+            }
+            ```
+
+            ## vs Playwright
+
+            - Chromium only
+            - CSS selectors (brittle)
+            - Older/established
+
+            ## Use when
+
+            - Chromium-only projects
+            - Existing Puppeteer infra
+
+            **Prefer Playwright MCP for new projects.**
+        distilled_by: claude-3-opus
+mcp:
+    playwright:
+        command: npx
+        args:
+            - -y
+            - '@playwright/mcp@latest'

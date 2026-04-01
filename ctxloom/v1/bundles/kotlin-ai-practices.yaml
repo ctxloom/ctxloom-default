@@ -1,110 +1,171 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - kotlin
-  - jvm
-  - android
-  - ai
-  - best-practices
-author: "ctxloom"
-description: "Kotlin AI coding practices - null safety, coroutines, idioms"
-
+    - kotlin
+    - jvm
+    - android
+    - ai
+    - best-practices
+author: ctxloom
+description: Kotlin AI coding practices - null safety, coroutines, idioms
 fragments:
-  kotlin-rules:
-    tags:
-      - kotlin
-      - coding
-    content: |-
-      # Kotlin Rules
+    kotlin-rules:
+        tags:
+            - kotlin
+            - coding
+        content: |-
+            # Kotlin Rules
 
-      ## Null Safety
+            ## Null Safety
 
-      ```kotlin
-      // Use nullable types explicitly
-      fun findUser(id: String): User?
+            ```kotlin
+            // Use nullable types explicitly
+            fun findUser(id: String): User?
 
-      // Safe calls
-      user?.profile?.avatar
+            // Safe calls
+            user?.profile?.avatar
 
-      // Elvis operator for defaults
-      val name = user?.name ?: "Unknown"
+            // Elvis operator for defaults
+            val name = user?.name ?: "Unknown"
 
-      // AVOID !! except in tests
-      user!!.name  // Crashes on null
-      ```
+            // AVOID !! except in tests
+            user!!.name  // Crashes on null
+            ```
 
-      ## Data Classes
+            ## Data Classes
 
-      ```kotlin
-      // GOOD - Data class for DTOs
-      data class User(
-          val id: String,
-          val name: String,
-          val email: String
-      )
+            ```kotlin
+            // GOOD - Data class for DTOs
+            data class User(
+                val id: String,
+                val name: String,
+                val email: String
+            )
 
-      // Copy with modifications
-      val updated = user.copy(name = "New Name")
-      ```
+            // Copy with modifications
+            val updated = user.copy(name = "New Name")
+            ```
 
-      ## Coroutines
+            ## Coroutines
 
-      ```kotlin
-      // Structured concurrency
-      suspend fun fetchUsers(): List<User> = coroutineScope {
-          val users = async { api.getUsers() }
-          val profiles = async { api.getProfiles() }
-          merge(users.await(), profiles.await())
-      }
+            ```kotlin
+            // Structured concurrency
+            suspend fun fetchUsers(): List<User> = coroutineScope {
+                val users = async { api.getUsers() }
+                val profiles = async { api.getProfiles() }
+                merge(users.await(), profiles.await())
+            }
 
-      // Use withContext for thread switching
-      withContext(Dispatchers.IO) {
-          database.query()
-      }
-      ```
+            // Use withContext for thread switching
+            withContext(Dispatchers.IO) {
+                database.query()
+            }
+            ```
 
-      ## Extension Functions
+            ## Extension Functions
 
-      ```kotlin
-      // Add functionality without inheritance
-      fun String.toSlug(): String =
-          lowercase().replace(" ", "-")
+            ```kotlin
+            // Add functionality without inheritance
+            fun String.toSlug(): String =
+                lowercase().replace(" ", "-")
 
-      // Use for utility functions on existing types
-      ```
+            // Use for utility functions on existing types
+            ```
 
-      ## Sealed Classes
+            ## Sealed Classes
 
-      ```kotlin
-      sealed class Result<out T> {
-          data class Success<T>(val data: T) : Result<T>()
-          data class Error(val message: String) : Result<Nothing>()
-      }
+            ```kotlin
+            sealed class Result<out T> {
+                data class Success<T>(val data: T) : Result<T>()
+                data class Error(val message: String) : Result<Nothing>()
+            }
 
-      // Exhaustive when
-      when (result) {
-          is Result.Success -> handleSuccess(result.data)
-          is Result.Error -> handleError(result.message)
-      }
-      ```
+            // Exhaustive when
+            when (result) {
+                is Result.Success -> handleSuccess(result.data)
+                is Result.Error -> handleError(result.message)
+            }
+            ```
 
-      ## Avoid
+            ## Avoid
 
-      - `!!` (non-null assertion) outside tests
-      - Java-style getters/setters (use properties)
-      - `lateinit` when nullable or lazy works
-      - Mutable collections when immutable suffices
+            - `!!` (non-null assertion) outside tests
+            - Java-style getters/setters (use properties)
+            - `lateinit` when nullable or lazy works
+            - Mutable collections when immutable suffices
 
-      ## Scope Functions
+            ## Scope Functions
 
-      | Function | Use |
-      |----------|-----|
-      | `let` | Null checks, transformations |
-      | `run` | Object configuration + result |
-      | `apply` | Object configuration |
-      | `also` | Side effects |
-      | `with` | Grouping calls on object |
+            | Function | Use |
+            |----------|-----|
+            | `let` | Null checks, transformations |
+            | `run` | Object configuration + result |
+            | `apply` | Object configuration |
+            | `also` | Side effects |
+            | `with` | Grouping calls on object |
 
-      ```kotlin
-      user?.let { sendEmail(it) }
-      val user = User().apply { name = "Test" }
-      ```
+            ```kotlin
+            user?.let { sendEmail(it) }
+            val user = User().apply { name = "Test" }
+            ```
+        content_hash: sha256:e898126d9092b349a51cb8365366ed41c5c73c410c672d20b800f58ce72eb6d8
+        distilled: |-
+            # Kotlin Rules (Compressed)
+
+            ## Null Safety
+            ```kotlin
+            fun findUser(id: String): User?  // Explicit nullable
+            user?.profile?.avatar            // Safe calls
+            val name = user?.name ?: "Unknown"  // Elvis default
+            // AVOID !! except tests - crashes on null
+            ```
+
+            ## Data Classes
+            ```kotlin
+            data class User(val id: String, val name: String, val email: String)
+            val updated = user.copy(name = "New")
+            ```
+
+            ## Coroutines
+            ```kotlin
+            suspend fun fetchUsers(): List<User> = coroutineScope {
+                val users = async { api.getUsers() }
+                val profiles = async { api.getProfiles() }
+                merge(users.await(), profiles.await())
+            }
+            withContext(Dispatchers.IO) { database.query() }
+            ```
+
+            ## Extension Functions
+            ```kotlin
+            fun String.toSlug(): String = lowercase().replace(" ", "-")
+            ```
+
+            ## Sealed Classes
+            ```kotlin
+            sealed class Result<out T> {
+                data class Success<T>(val data: T) : Result<T>()
+                data class Error(val message: String) : Result<Nothing>()
+            }
+            // Exhaustive when required
+            ```
+
+            ## Avoid
+            - `!!` outside tests
+            - Java-style getters (use properties)
+            - `lateinit` when nullable/lazy works
+            - Mutable collections when immutable suffices
+
+            ## Scope Functions
+            | Func | Use |
+            |------|-----|
+            | `let` | Null checks, transforms |
+            | `run` | Config + result |
+            | `apply` | Config only |
+            | `also` | Side effects |
+            | `with` | Group calls |
+
+            ```kotlin
+            user?.let { sendEmail(it) }
+            val user = User().apply { name = "Test" }
+            ```
+        distilled_by: claude-3-opus

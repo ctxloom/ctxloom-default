@@ -1,391 +1,623 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - typescript
-  - web
-  - frontend
-  - react
-  - vite
-  - eslint
-author: "ctxloom"
-description: "Web frontend development with React, Vite, and ESLint"
-
+    - typescript
+    - web
+    - frontend
+    - react
+    - vite
+    - eslint
+author: ctxloom
+description: Web frontend development with React, Vite, and ESLint
 fragments:
-  react:
-    tags:
-      - react
-      - web
-      - frontend
-    content: |-
-      # React (TypeScript)
-
-      ## Component Structure
-
-      ```
-      components/
-        Button/
-          Button.tsx        # Component
-          Button.test.tsx   # Tests co-located
-          index.ts          # Re-export
-      ```
-
-      ## Function Components Only
-
-      ```typescript
-      // Named export, explicit return type
-      export function UserCard({ user }: UserCardProps): React.ReactElement {
-        return <div>{user.name}</div>
-      }
-
-      // Props interface above component
-      interface UserCardProps {
-        user: User
-        onSelect?: (user: User) => void
-      }
-      ```
-
-      ## Hooks
-
-      ### useState
-      ```typescript
-      // Type inferred from initial value
-      const [count, setCount] = useState(0)
-
-      // Explicit type when initial is null/undefined
-      const [user, setUser] = useState<User | null>(null)
-      ```
-
-      ### useEffect
-      ```typescript
-      useEffect(() => {
-        const controller = new AbortController()
-        fetchData(controller.signal)
-        return () => controller.abort()  // Always cleanup
-      }, [dependency])  // Exhaustive deps
-      ```
-
-      ### Custom Hooks
-      - Prefix with `use`
-      - Extract reusable stateful logic
-      - Return tuple or object, not JSX
-
-      ## Event Handlers
-
-      ```typescript
-      // Inline for simple cases
-      <button onClick={() => setCount(c => c + 1)}>
-
-      // Named handler with proper types
-      function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-        event.preventDefault()
-        // ...
-      }
-      ```
-
-      ## Conditional Rendering
-
-      ```typescript
-      // Short-circuit (preferred for simple cases)
-      {isVisible && <Modal />}
-
-      // Ternary for either/or
-      {isLoading ? <Spinner /> : <Content />}
-
-      // Early return for complex conditions
-      if (!data) return <Loading />
-      return <DataView data={data} />
-      ```
-
-      ## Lists
-
-      ```typescript
-      // Key must be stable, unique identifier - never index
-      {items.map(item => (
-        <ListItem key={item.id} item={item} />
-      ))}
-      ```
-
-      ## Children
-
-      ```typescript
-      interface LayoutProps {
-        children: React.ReactNode  // Most permissive
-      }
-
-      // Or for single element
-      interface WrapperProps {
-        children: React.ReactElement
-      }
-      ```
-
-      ## Refs
-
-      ```typescript
-      const inputRef = useRef<HTMLInputElement>(null)
-
-      // Check before use
-      if (inputRef.current) {
-        inputRef.current.focus()
-      }
-      ```
-
-      ## Context
-
-      ```typescript
-      // Create with explicit type
-      const ThemeContext = createContext<Theme | null>(null)
-
-      // Custom hook for type-safe access
-      export function useTheme(): Theme {
-        const context = useContext(ThemeContext)
-        if (!context) throw new Error('useTheme must be within ThemeProvider')
-        return context
-      }
-      ```
-
-      ## Performance
-
-      - `useMemo` for expensive computations
-      - `useCallback` for stable function references
-      - `React.memo` for pure components (use sparingly)
-      - Avoid inline object/array literals in props
-      - Profile before optimizing
-
-      ## Anti-Patterns
-
-      - No `any` in component props
-      - No `useEffect` for derived state (compute inline)
-      - No state for values derivable from props
-      - No index as key (unless static list)
-      - No direct DOM manipulation (use refs)
-
-  vite:
-    tags:
-      - vite
-      - build
-      - web
-    content: |-
-      # Vite
-
-      Modern build tool for web projects. Fast dev server with HMR, optimized production builds.
-
-      ## Project Structure
-
-      ```
-      src/
-        main.tsx          # Entry point
-        App.tsx           # Root component
-        components/       # UI components
-        hooks/            # Custom hooks
-        utils/            # Utilities
-      public/             # Static assets (copied as-is)
-      index.html          # HTML entry (in root, not public/)
-      vite.config.ts      # Vite configuration
-      ```
-
-      ## Config (vite.config.ts)
-
-      ```typescript
-      import { defineConfig } from 'vite'
-      import react from '@vitejs/plugin-react'
-
-      export default defineConfig({
-        plugins: [react()],
-        build: {
-          rollupOptions: {
-            output: {
-              // Content-hashed filenames for caching
-              entryFileNames: 'assets/[name]-[hash].js',
-              chunkFileNames: 'assets/[name]-[hash].js',
-              assetFileNames: 'assets/[name]-[hash].[ext]',
-            },
-          },
-        },
-        server: {
-          // Disable caching in dev
-          headers: { 'Cache-Control': 'no-store' },
-        },
-      })
-      ```
-
-      ## Commands
-
-      | Command | Purpose |
-      |---------|---------|
-      | `pnpm dev` | Dev server with HMR |
-      | `pnpm build` | Production build (runs tsc first) |
-      | `pnpm preview` | Preview production build locally |
-
-      ## TypeScript Integration
-
-      Use project references for separation:
-      - `tsconfig.json` - References only
-      - `tsconfig.app.json` - App code (src/)
-      - `tsconfig.node.json` - Node code (vite.config.ts)
-
-      Key tsconfig settings for Vite:
-      ```json
-      {
-        "compilerOptions": {
-          "moduleResolution": "bundler",
-          "allowImportingTsExtensions": true,
-          "verbatimModuleSyntax": true,
-          "noEmit": true
-        }
-      }
-      ```
-
-      ## Environment Variables
-
-      - `.env` files: `.env`, `.env.local`, `.env.[mode]`
-      - Prefix with `VITE_` to expose to client
-      - Access via `import.meta.env.VITE_*`
-      - Never put secrets in `VITE_` vars (exposed to client)
-
-      ## Path Aliases
-
-      ```typescript
-      // vite.config.ts
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, './src'),
-        },
-      }
-      ```
-
-      Also add to tsconfig.app.json:
-      ```json
-      "paths": { "@/*": ["./src/*"] }
-      ```
-
-      ## Best Practices
-
-      - Use `import.meta.env.DEV` / `PROD` for env checks
-      - Lazy load routes with `React.lazy()`
-      - Use `vite-plugin-checker` for type checking in dev
-      - Configure `build.target` for browser support
-
-  eslint-flat:
-    tags:
-      - eslint
-      - linting
-      - typescript
-    installation: |-
-      pnpm add -D eslint @eslint/js globals typescript-eslint eslint-plugin-react-hooks eslint-plugin-react-refresh
-    notes: |-
-      Migration from legacy: Delete .eslintrc.* and .eslintignore, create eslint.config.js (ESM), convert plugins to flat config format. Use @eslint/migrate-config for automated help.
-    content: |-
-      # ESLint 9 Flat Config
-
-      ESLint 9 uses flat config (`eslint.config.js`). No more `.eslintrc.*`.
-
-      ## Config File (eslint.config.js)
-
-      ```javascript
-      import js from '@eslint/js'
-      import globals from 'globals'
-      import tseslint from 'typescript-eslint'
-      import reactHooks from 'eslint-plugin-react-hooks'
-      import reactRefresh from 'eslint-plugin-react-refresh'
-      import { defineConfig, globalIgnores } from 'eslint/config'
-
-      export default defineConfig([
-        globalIgnores(['dist', 'node_modules']),
-        {
-          files: ['**/*.{ts,tsx}'],
-          extends: [
-            js.configs.recommended,
-            tseslint.configs.recommended,
-            reactHooks.configs.flat.recommended,
-            reactRefresh.configs.vite,
-          ],
-          languageOptions: {
-            ecmaVersion: 2022,
-            globals: globals.browser,
-          },
-        },
-      ])
-      ```
-
-      ## Key Concepts
-
-      ### Config Array
-      - Config is an array of config objects
-      - Each object applies to matching files
-      - Later configs override earlier ones
-
-      ### globalIgnores
-      - Replaces `.eslintignore`
-      - Must be separate config object (or use helper)
-      - Common: `['dist', 'node_modules', 'coverage']`
-
-      ### extends
-      - Spreads predefined configs into current config
-      - Common: `js.configs.recommended`, `tseslint.configs.recommended`
-
-      ### languageOptions
-      - Replaces `parserOptions` and `env`
-      - `globals`: browser, node, es2022
-      - `ecmaVersion`: 2022 or latest
-
-      ## TypeScript-ESLint
-
-      ```javascript
-      import tseslint from 'typescript-eslint'
-
-      // Basic (no type checking)
-      tseslint.configs.recommended
-
-      // With type checking (slower, more thorough)
-      tseslint.configs.recommendedTypeChecked
-
-      // Strict with type checking
-      tseslint.configs.strictTypeChecked
-      ```
-
-      For type-checked rules, add:
-      ```javascript
-      languageOptions: {
-        parserOptions: {
-          project: true,
-          tsconfigRootDir: import.meta.dirname,
-        },
-      }
-      ```
-
-      ## React Plugins
-
-      ### react-hooks
-      ```javascript
-      import reactHooks from 'eslint-plugin-react-hooks'
-      // Use: reactHooks.configs.flat.recommended
-      ```
-
-      ### react-refresh (Vite HMR)
-      ```javascript
-      import reactRefresh from 'eslint-plugin-react-refresh'
-      // Use: reactRefresh.configs.vite
-      ```
-
-      ## Custom Rules
-
-      ```javascript
-      {
-        files: ['**/*.{ts,tsx}'],
-        rules: {
-          '@typescript-eslint/no-unused-vars': ['error', {
-            argsIgnorePattern: '^_',
-            varsIgnorePattern: '^_',
-          }],
-          '@typescript-eslint/explicit-function-return-type': 'off',
-          'no-console': ['warn', { allow: ['warn', 'error'] }],
-        },
-      }
-      ```
-
-      ## Commands
-
-      ```bash
-      pnpm eslint .           # Lint all files
-      pnpm eslint . --fix     # Auto-fix
-      pnpm eslint --cache     # Cache results for speed
-      ```
+    eslint-flat:
+        tags:
+            - eslint
+            - linting
+            - typescript
+        notes: 'Migration from legacy: Delete .eslintrc.* and .eslintignore, create eslint.config.js (ESM), convert plugins to flat config format. Use @eslint/migrate-config for automated help.'
+        installation: pnpm add -D eslint @eslint/js globals typescript-eslint eslint-plugin-react-hooks eslint-plugin-react-refresh
+        content: |-
+            # ESLint 9 Flat Config
+
+            ESLint 9 uses flat config (`eslint.config.js`). No more `.eslintrc.*`.
+
+            ## Config File (eslint.config.js)
+
+            ```javascript
+            import js from '@eslint/js'
+            import globals from 'globals'
+            import tseslint from 'typescript-eslint'
+            import reactHooks from 'eslint-plugin-react-hooks'
+            import reactRefresh from 'eslint-plugin-react-refresh'
+            import { defineConfig, globalIgnores } from 'eslint/config'
+
+            export default defineConfig([
+              globalIgnores(['dist', 'node_modules']),
+              {
+                files: ['**/*.{ts,tsx}'],
+                extends: [
+                  js.configs.recommended,
+                  tseslint.configs.recommended,
+                  reactHooks.configs.flat.recommended,
+                  reactRefresh.configs.vite,
+                ],
+                languageOptions: {
+                  ecmaVersion: 2022,
+                  globals: globals.browser,
+                },
+              },
+            ])
+            ```
+
+            ## Key Concepts
+
+            ### Config Array
+            - Config is an array of config objects
+            - Each object applies to matching files
+            - Later configs override earlier ones
+
+            ### globalIgnores
+            - Replaces `.eslintignore`
+            - Must be separate config object (or use helper)
+            - Common: `['dist', 'node_modules', 'coverage']`
+
+            ### extends
+            - Spreads predefined configs into current config
+            - Common: `js.configs.recommended`, `tseslint.configs.recommended`
+
+            ### languageOptions
+            - Replaces `parserOptions` and `env`
+            - `globals`: browser, node, es2022
+            - `ecmaVersion`: 2022 or latest
+
+            ## TypeScript-ESLint
+
+            ```javascript
+            import tseslint from 'typescript-eslint'
+
+            // Basic (no type checking)
+            tseslint.configs.recommended
+
+            // With type checking (slower, more thorough)
+            tseslint.configs.recommendedTypeChecked
+
+            // Strict with type checking
+            tseslint.configs.strictTypeChecked
+            ```
+
+            For type-checked rules, add:
+            ```javascript
+            languageOptions: {
+              parserOptions: {
+                project: true,
+                tsconfigRootDir: import.meta.dirname,
+              },
+            }
+            ```
+
+            ## React Plugins
+
+            ### react-hooks
+            ```javascript
+            import reactHooks from 'eslint-plugin-react-hooks'
+            // Use: reactHooks.configs.flat.recommended
+            ```
+
+            ### react-refresh (Vite HMR)
+            ```javascript
+            import reactRefresh from 'eslint-plugin-react-refresh'
+            // Use: reactRefresh.configs.vite
+            ```
+
+            ## Custom Rules
+
+            ```javascript
+            {
+              files: ['**/*.{ts,tsx}'],
+              rules: {
+                '@typescript-eslint/no-unused-vars': ['error', {
+                  argsIgnorePattern: '^_',
+                  varsIgnorePattern: '^_',
+                }],
+                '@typescript-eslint/explicit-function-return-type': 'off',
+                'no-console': ['warn', { allow: ['warn', 'error'] }],
+              },
+            }
+            ```
+
+            ## Commands
+
+            ```bash
+            pnpm eslint .           # Lint all files
+            pnpm eslint . --fix     # Auto-fix
+            pnpm eslint --cache     # Cache results for speed
+            ```
+        content_hash: sha256:0cf0bc7c23596225a389245b19caaacccbf91683ca2c8e31e70bb16116d72b95
+        distilled: |-
+            # ESLint 9 Flat Config
+
+            Flat config only (`eslint.config.js`). No `.eslintrc.*`.
+
+            ## Config
+
+            ```javascript
+            import js from '@eslint/js'
+            import globals from 'globals'
+            import tseslint from 'typescript-eslint'
+            import reactHooks from 'eslint-plugin-react-hooks'
+            import reactRefresh from 'eslint-plugin-react-refresh'
+            import { defineConfig, globalIgnores } from 'eslint/config'
+
+            export default defineConfig([
+              globalIgnores(['dist', 'node_modules']),
+              {
+                files: ['**/*.{ts,tsx}'],
+                extends: [
+                  js.configs.recommended,
+                  tseslint.configs.recommended,
+                  reactHooks.configs.flat.recommended,
+                  reactRefresh.configs.vite,
+                ],
+                languageOptions: {
+                  ecmaVersion: 2022,
+                  globals: globals.browser,
+                },
+              },
+            ])
+            ```
+
+            ## Key Concepts
+
+            - **Config array**: objects apply to matching files, later overrides earlier
+            - **globalIgnores**: replaces `.eslintignore`, separate object
+            - **extends**: spreads predefined configs
+            - **languageOptions**: replaces `parserOptions`/`env`
+
+            ## TypeScript-ESLint
+
+            ```javascript
+            tseslint.configs.recommended           // Basic
+            tseslint.configs.recommendedTypeChecked // With type checking
+            tseslint.configs.strictTypeChecked     // Strict
+            ```
+
+            Type-checked rules need:
+            ```javascript
+            languageOptions: {
+              parserOptions: { project: true, tsconfigRootDir: import.meta.dirname },
+            }
+            ```
+
+            ## React Plugins
+
+            - `reactHooks.configs.flat.recommended`
+            - `reactRefresh.configs.vite` (see Vite sibling)
+
+            ## Custom Rules
+
+            ```javascript
+            rules: {
+              '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+              'no-console': ['warn', { allow: ['warn', 'error'] }],
+            }
+            ```
+
+            ## Commands
+
+            ```bash
+            pnpm eslint .        # Lint
+            pnpm eslint . --fix  # Auto-fix
+            pnpm eslint --cache  # Cached
+            ```
+        distilled_by: claude-3-opus
+    react:
+        tags:
+            - react
+            - web
+            - frontend
+        content: |-
+            # React (TypeScript)
+
+            ## Component Structure
+
+            ```
+            components/
+              Button/
+                Button.tsx        # Component
+                Button.test.tsx   # Tests co-located
+                index.ts          # Re-export
+            ```
+
+            ## Function Components Only
+
+            ```typescript
+            // Named export, explicit return type
+            export function UserCard({ user }: UserCardProps): React.ReactElement {
+              return <div>{user.name}</div>
+            }
+
+            // Props interface above component
+            interface UserCardProps {
+              user: User
+              onSelect?: (user: User) => void
+            }
+            ```
+
+            ## Hooks
+
+            ### useState
+            ```typescript
+            // Type inferred from initial value
+            const [count, setCount] = useState(0)
+
+            // Explicit type when initial is null/undefined
+            const [user, setUser] = useState<User | null>(null)
+            ```
+
+            ### useEffect
+            ```typescript
+            useEffect(() => {
+              const controller = new AbortController()
+              fetchData(controller.signal)
+              return () => controller.abort()  // Always cleanup
+            }, [dependency])  // Exhaustive deps
+            ```
+
+            ### Custom Hooks
+            - Prefix with `use`
+            - Extract reusable stateful logic
+            - Return tuple or object, not JSX
+
+            ## Event Handlers
+
+            ```typescript
+            // Inline for simple cases
+            <button onClick={() => setCount(c => c + 1)}>
+
+            // Named handler with proper types
+            function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+              event.preventDefault()
+              // ...
+            }
+            ```
+
+            ## Conditional Rendering
+
+            ```typescript
+            // Short-circuit (preferred for simple cases)
+            {isVisible && <Modal />}
+
+            // Ternary for either/or
+            {isLoading ? <Spinner /> : <Content />}
+
+            // Early return for complex conditions
+            if (!data) return <Loading />
+            return <DataView data={data} />
+            ```
+
+            ## Lists
+
+            ```typescript
+            // Key must be stable, unique identifier - never index
+            {items.map(item => (
+              <ListItem key={item.id} item={item} />
+            ))}
+            ```
+
+            ## Children
+
+            ```typescript
+            interface LayoutProps {
+              children: React.ReactNode  // Most permissive
+            }
+
+            // Or for single element
+            interface WrapperProps {
+              children: React.ReactElement
+            }
+            ```
+
+            ## Refs
+
+            ```typescript
+            const inputRef = useRef<HTMLInputElement>(null)
+
+            // Check before use
+            if (inputRef.current) {
+              inputRef.current.focus()
+            }
+            ```
+
+            ## Context
+
+            ```typescript
+            // Create with explicit type
+            const ThemeContext = createContext<Theme | null>(null)
+
+            // Custom hook for type-safe access
+            export function useTheme(): Theme {
+              const context = useContext(ThemeContext)
+              if (!context) throw new Error('useTheme must be within ThemeProvider')
+              return context
+            }
+            ```
+
+            ## Performance
+
+            - `useMemo` for expensive computations
+            - `useCallback` for stable function references
+            - `React.memo` for pure components (use sparingly)
+            - Avoid inline object/array literals in props
+            - Profile before optimizing
+
+            ## Anti-Patterns
+
+            - No `any` in component props
+            - No `useEffect` for derived state (compute inline)
+            - No state for values derivable from props
+            - No index as key (unless static list)
+            - No direct DOM manipulation (use refs)
+        content_hash: sha256:6fb54c2694f6f03f0d00ab5b48a0768bc0e5f1dc9665f794aa79e2972a83adff
+        distilled: |-
+            # React (TypeScript)
+
+            ## Structure
+            ```
+            components/Button/{Button.tsx, Button.test.tsx, index.ts}
+            ```
+
+            ## Components
+            ```typescript
+            interface UserCardProps {
+              user: User
+              onSelect?: (user: User) => void
+            }
+
+            export function UserCard({ user }: UserCardProps): React.ReactElement {
+              return <div>{user.name}</div>
+            }
+            ```
+
+            ## Hooks
+            ```typescript
+            // useState: type inferred or explicit for null
+            const [count, setCount] = useState(0)
+            const [user, setUser] = useState<User | null>(null)
+
+            // useEffect: always cleanup, exhaustive deps
+            useEffect(() => {
+              const controller = new AbortController()
+              fetchData(controller.signal)
+              return () => controller.abort()
+            }, [dependency])
+            ```
+
+            - Custom hooks: prefix `use`, return tuple/object not JSX
+
+            ## Patterns
+            ```typescript
+            // Events with proper types
+            function handleSubmit(e: React.FormEvent<HTMLFormElement>): void
+
+            // Conditional: && or ternary; early return for complex
+            // Lists: key=stable id, never index
+            // Children: React.ReactNode (permissive) or ReactElement
+            // Refs: useRef<HTMLInputElement>(null), check .current
+            ```
+
+            ## Context
+            ```typescript
+            const ThemeContext = createContext<Theme | null>(null)
+            export function useTheme(): Theme {
+              const ctx = useContext(ThemeContext)
+              if (!ctx) throw new Error('useTheme must be within ThemeProvider')
+              return ctx
+            }
+            ```
+
+            ## Performance
+            - `useMemo`/`useCallback`/`React.memo` sparingly
+            - Avoid inline object/array props
+            - Profile before optimizing
+
+            ## Anti-Patterns
+            - No `any` in props
+            - No `useEffect` for derived state
+            - No index as key (unless static)
+            - No direct DOM manipulation
+        distilled_by: claude-3-opus
+    vite:
+        tags:
+            - vite
+            - build
+            - web
+        content: |-
+            # Vite
+
+            Modern build tool for web projects. Fast dev server with HMR, optimized production builds.
+
+            ## Project Structure
+
+            ```
+            src/
+              main.tsx          # Entry point
+              App.tsx           # Root component
+              components/       # UI components
+              hooks/            # Custom hooks
+              utils/            # Utilities
+            public/             # Static assets (copied as-is)
+            index.html          # HTML entry (in root, not public/)
+            vite.config.ts      # Vite configuration
+            ```
+
+            ## Config (vite.config.ts)
+
+            ```typescript
+            import { defineConfig } from 'vite'
+            import react from '@vitejs/plugin-react'
+
+            export default defineConfig({
+              plugins: [react()],
+              build: {
+                rollupOptions: {
+                  output: {
+                    // Content-hashed filenames for caching
+                    entryFileNames: 'assets/[name]-[hash].js',
+                    chunkFileNames: 'assets/[name]-[hash].js',
+                    assetFileNames: 'assets/[name]-[hash].[ext]',
+                  },
+                },
+              },
+              server: {
+                // Disable caching in dev
+                headers: { 'Cache-Control': 'no-store' },
+              },
+            })
+            ```
+
+            ## Commands
+
+            | Command | Purpose |
+            |---------|---------|
+            | `pnpm dev` | Dev server with HMR |
+            | `pnpm build` | Production build (runs tsc first) |
+            | `pnpm preview` | Preview production build locally |
+
+            ## TypeScript Integration
+
+            Use project references for separation:
+            - `tsconfig.json` - References only
+            - `tsconfig.app.json` - App code (src/)
+            - `tsconfig.node.json` - Node code (vite.config.ts)
+
+            Key tsconfig settings for Vite:
+            ```json
+            {
+              "compilerOptions": {
+                "moduleResolution": "bundler",
+                "allowImportingTsExtensions": true,
+                "verbatimModuleSyntax": true,
+                "noEmit": true
+              }
+            }
+            ```
+
+            ## Environment Variables
+
+            - `.env` files: `.env`, `.env.local`, `.env.[mode]`
+            - Prefix with `VITE_` to expose to client
+            - Access via `import.meta.env.VITE_*`
+            - Never put secrets in `VITE_` vars (exposed to client)
+
+            ## Path Aliases
+
+            ```typescript
+            // vite.config.ts
+            resolve: {
+              alias: {
+                '@': path.resolve(__dirname, './src'),
+              },
+            }
+            ```
+
+            Also add to tsconfig.app.json:
+            ```json
+            "paths": { "@/*": ["./src/*"] }
+            ```
+
+            ## Best Practices
+
+            - Use `import.meta.env.DEV` / `PROD` for env checks
+            - Lazy load routes with `React.lazy()`
+            - Use `vite-plugin-checker` for type checking in dev
+            - Configure `build.target` for browser support
+        content_hash: sha256:d3c7448c10ad04eb3b555113467c36f744a0865032bc53cc85a96baa5a1518fa
+        distilled: |-
+            # Vite
+
+            Modern build tool. Fast dev server w/ HMR, optimized prod builds.
+
+            ## Structure
+
+            ```
+            src/
+              main.tsx          # Entry
+              App.tsx           # Root
+              components/       # UI
+              hooks/            # Custom hooks
+              utils/            # Utils
+            public/             # Static (copied as-is)
+            index.html          # HTML entry (root, not public/)
+            vite.config.ts      # Config
+            ```
+
+            ## Config
+
+            ```typescript
+            import { defineConfig } from 'vite'
+            import react from '@vitejs/plugin-react'
+
+            export default defineConfig({
+              plugins: [react()],
+              build: {
+                rollupOptions: {
+                  output: {
+                    // Content-hashed for caching
+                    entryFileNames: 'assets/[name]-[hash].js',
+                    chunkFileNames: 'assets/[name]-[hash].js',
+                    assetFileNames: 'assets/[name]-[hash].[ext]',
+                  },
+                },
+              },
+              server: { headers: { 'Cache-Control': 'no-store' } },
+            })
+            ```
+
+            ## Commands
+
+            - `pnpm dev` - Dev server w/ HMR
+            - `pnpm build` - Prod build (runs tsc first)
+            - `pnpm preview` - Preview prod locally
+
+            ## TypeScript
+
+            Project references:
+            - `tsconfig.json` - References only
+            - `tsconfig.app.json` - App (src/)
+            - `tsconfig.node.json` - Node (vite.config.ts)
+
+            Key settings:
+            ```json
+            {
+              "compilerOptions": {
+                "moduleResolution": "bundler",
+                "allowImportingTsExtensions": true,
+                "verbatimModuleSyntax": true,
+                "noEmit": true
+              }
+            }
+            ```
+
+            ## Env Vars
+
+            - Files: `.env`, `.env.local`, `.env.[mode]`
+            - Prefix `VITE_` to expose to client
+            - Access: `import.meta.env.VITE_*`
+            - **Never put secrets in `VITE_` vars**
+
+            ## Path Aliases
+
+            ```typescript
+            // vite.config.ts
+            resolve: { alias: { '@': path.resolve(__dirname, './src') } }
+            ```
+
+            tsconfig.app.json: `"paths": { "@/*": ["./src/*"] }`
+
+            ## Best Practices
+
+            - `import.meta.env.DEV` / `PROD` for env checks
+            - Lazy load routes: `React.lazy()`
+            - `vite-plugin-checker` for type checking in dev
+            - Configure `build.target` for browser support
+        distilled_by: claude-3-opus
