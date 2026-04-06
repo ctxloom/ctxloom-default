@@ -8,13 +8,13 @@ tags:
 
 bundles:
   # AI Practices
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ai-coding-general
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/kotlin-ai-practices
+  - https://github.com/ctxloom/ctxloom-default@v1/bundles/ai-coding-general
+  - https://github.com/ctxloom/ctxloom-default@v1/bundles/kotlin-ai-practices
 
   # Testing
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/testing
+  - https://github.com/ctxloom/ctxloom-default@v1/bundles/testing
 
   # Tooling
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/git
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/ast-grep
-  - https://github.com/SophisticatedContextManager/scm-main@v1/bundles/lsp
+  - https://github.com/ctxloom/ctxloom-default@v1/bundles/git
+  - https://github.com/ctxloom/ctxloom-default@v1/bundles/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@v1/bundles/lsp

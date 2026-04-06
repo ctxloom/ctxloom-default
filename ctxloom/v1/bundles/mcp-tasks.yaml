@@ -27,7 +27,7 @@ installation: |
 
     The MCP server will be auto-registered. Tasks are stored in `.tasks/todos.md`.
 fragments:
-    scm:
+    ctxloom:
         tags:
             - mcp
             - context

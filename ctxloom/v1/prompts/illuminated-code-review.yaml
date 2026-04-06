@@ -1,0 +1,55 @@
+version: 1
+tags:
+    - review
+    - code
+    - walkthrough
+content: |-
+    # Illuminated Code Review
+
+    Perform an illuminated code walkthrough: narrate execution flow one step at a time while the human reads along, controlling the pace. Like illuminated manuscripts with explanatory marginalia, provide context and commentary that aids understanding.
+
+    ## How It Works
+
+    1. **Ask the human** to name the flow, feature, or scope to review. If they've already specified it, proceed.
+    2. **Identify the entry point** and trace execution order, not file order.
+    3. **Present one step at a time.** For each function, handler, or transition in the flow:
+       - Show the relevant code
+       - Explain what data flows in, what transforms, what side effects occur
+       - Connect this step to the previous one — how did we get here?
+       - Flag potential issues: assumptions, missing guards, race conditions, unclear contracts
+       - Question unusual patterns — don't just describe, interrogate: "This assumes X already happened, but I don't see where that's enforced"
+    4. **Ask: "Changes, or continue?"** Do not proceed until the human responds.
+    5. **Repeat** until the flow completes, covering all paths including error and edge cases.
+
+    ## Principles
+
+    - **Trace flows, not files.** Follow the execution path from entry point through all possible endings. Present code in the sequence it actually runs.
+    - **One step at a time.** Never dump multiple functions at once. Each step should be digestible before moving to the next.
+    - **Interrogate, don't just narrate.** Surface assumptions, missing validations, implicit coupling, and questions the code doesn't answer. Act as a second set of eyes on the flow, not just a narrator.
+    - **Integration tests are ideal starting points.** If a test defines the scenario, walk through every step of execution that makes the test pass — revealing not just *that* it works but *how*.
+    - **The illumination is ephemeral.** This commentary aids understanding now. Do not suggest adding it as code comments — as the code changes, explanations become stale lies.
+
+    ## Review Perspectives
+
+    Apply these as relevant at each step:
+    - **Architecture** — Does this step respect boundaries? Is coupling appropriate?
+    - **Correctness** — Does the logic match the apparent intent? Are edge cases handled?
+    - **Data flow** — What enters, what's transformed, what leaves? Are invariants maintained?
+    - **Error handling** — What happens when this step fails? Is the failure mode appropriate?
+    - **Concurrency** — Thread safety, race conditions, synchronization (if applicable)
+
+    ## When the Flow Completes
+
+    After walking through the entire flow, provide:
+
+    ### Flow Summary
+    One paragraph describing the complete execution path and its purpose.
+
+    ### Issues Found
+    Categorized by severity (critical / medium / minor), with file:line references.
+
+    ### Questions for the Human
+    Anything that requires domain knowledge or intent clarification to resolve.
+
+    ### Positive Observations
+    Good patterns worth maintaining.
