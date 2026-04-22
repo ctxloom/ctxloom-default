@@ -11,18 +11,47 @@ fragments:
     tags:
       - git
       - workflow
+    installation: |-
+      Add submodule write-protection to `.claude/settings.json` so the harness enforces the policy rather than relying on prompt guidance alone:
+
+      ```json
+      {
+        "permissions": {
+          "deny": [
+            "Bash(git submodule*)",
+            "Bash(git -c * submodule*)",
+            "Edit(.gitmodules)",
+            "Write(.gitmodules)"
+          ]
+        }
+      }
+      ```
+
+      For each path returned by `git submodule status`, also add `Edit(<path>/**)` and `Write(<path>/**)` deny entries so direct file edits inside a submodule are blocked.
+
+      To perform a one-time approved submodule write, remove the relevant deny rule, execute the change, then restore the rule. Do not leave deny rules disabled.
     content: |-
       # Git Practices
 
       ## Branching Workflow
 
-      - Create a new branch with a short descriptive name before making code changes
-      - All changes related to a conversation/task should occur within that branch
+      - Do not create branches or PRs unless explicitly asked
+      - When creating a branch, use a short descriptive name
+      - Keep all changes for a given task within a single branch
+      - Always branch off `main` or `master`. If asked to branch off anything else, push back and confirm before proceeding
 
       ## General
 
       - **Use `git log`** - View commit history to understand context and recent changes
       - **File removal:** Use `git rm` to remove files, not `rm`
+
+      ## Submodules
+
+      - Treat submodules as write-protected by default
+      - Require explicit permission before any submodule write — pointer updates, content changes, `git submodule update`, sync, init, deinit
+      - A single prior approval does not carry forward; ask each time
+      - Submodule updates are high-blast-radius and often unintentional
+      - Treat unexpected submodule state as in-progress work; investigate before overwriting
 
       ## Commit Messages
 
@@ -57,17 +86,24 @@ fragments:
 
       - Bypass only for WIP on feature branches
       - Document bypass with `--no-verify` and reasoning
-    content_hash: sha256:1f0e101e8c80690717bf32fe61e1b045707df4c63ca815f043659caff04082fd
+    content_hash: sha256:02e3c66f656a03831529bbf7d57b59c32e49e8280e18788b2d40cff0e1faf422
     distilled: |-
       # Git Practices
 
       ## Branching
-      - Create short descriptive branch before changes
-      - Keep related changes in single branch
+      - Do not create branches/PRs unless explicitly asked
+      - When branching: short descriptive name
+      - Keep task changes in single branch
+      - Always branch off `main`/`master`; push back if asked to branch off anything else
 
       ## General
       - Use `git log` for context/history
       - Use `git rm` not `rm` for file removal
+
+      ## Submodules
+      - Write-protected by default; explicit permission required for any submodule write (pointer, contents, `git submodule update`, sync, init, deinit)
+      - Prior approval does not carry forward — ask each time
+      - High blast radius; treat unexpected state as WIP
 
       ## Commits
       - Keep messages brief, describe only code changes
