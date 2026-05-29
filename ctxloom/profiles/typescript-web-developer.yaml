@@ -1,0 +1,24 @@
+version: "1.0.0"
+description: "TypeScript web development profile with AI coding practices"
+tags:
+  - typescript
+  - web
+  - frontend
+  - react
+
+bundles:
+  # AI Practices
+  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
+
+  # Testing
+  - https://github.com/ctxloom/ctxloom-default@bundles/testing
+
+  # Language & Web
+  - https://github.com/ctxloom/ctxloom-default@bundles/typescript-development
+  - https://github.com/ctxloom/ctxloom-default@bundles/web-frontend
+
+  # Tooling
+  - https://github.com/ctxloom/ctxloom-default@bundles/git
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@bundles/lsp
+  - https://github.com/ctxloom/ctxloom-default@bundles/mcp-browser-playwright

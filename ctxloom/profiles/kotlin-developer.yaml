@@ -1,0 +1,20 @@
+version: "1.0.0"
+description: "Kotlin development profile with AI coding practices"
+tags:
+  - kotlin
+  - jvm
+  - android
+  - development
+
+bundles:
+  # AI Practices
+  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
+  - https://github.com/ctxloom/ctxloom-default@bundles/kotlin-ai-practices
+
+  # Testing
+  - https://github.com/ctxloom/ctxloom-default@bundles/testing
+
+  # Tooling
+  - https://github.com/ctxloom/ctxloom-default@bundles/git
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@bundles/lsp

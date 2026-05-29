@@ -1,0 +1,22 @@
+version: "1.0.0"
+description: "Go development profile with AI coding practices"
+tags:
+  - golang
+  - development
+  - backend
+
+bundles:
+  # AI Practices
+  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
+  - https://github.com/ctxloom/ctxloom-default@bundles/go-ai-practices
+
+  # Testing
+  - https://github.com/ctxloom/ctxloom-default@bundles/testing
+
+  # Architecture
+  - https://github.com/ctxloom/ctxloom-default@bundles/12-factor
+
+  # Tooling
+  - https://github.com/ctxloom/ctxloom-default@bundles/git
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@bundles/lsp

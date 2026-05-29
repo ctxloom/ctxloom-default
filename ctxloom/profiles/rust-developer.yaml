@@ -1,0 +1,22 @@
+version: "1.0.0"
+description: "Rust development profile with AI coding practices"
+tags:
+  - rust
+  - development
+  - systems
+
+bundles:
+  # AI Practices
+  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
+  - https://github.com/ctxloom/ctxloom-default@bundles/rust-ai-practices
+
+  # Testing
+  - https://github.com/ctxloom/ctxloom-default@bundles/testing
+
+  # Language-specific
+  - https://github.com/ctxloom/ctxloom-default@bundles/rust-development
+
+  # Tooling
+  - https://github.com/ctxloom/ctxloom-default@bundles/git
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@bundles/lsp

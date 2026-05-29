@@ -1,0 +1,20 @@
+version: "1.0.0"
+description: "Java code review profile with AI practices"
+tags:
+  - java
+  - jvm
+  - review
+  - code-quality
+
+bundles:
+  # AI Practices
+  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
+  - https://github.com/ctxloom/ctxloom-default@bundles/java-ai-practices
+
+  # Review
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-checklists
+
+  # Tooling
+  - https://github.com/ctxloom/ctxloom-default@bundles/git
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@bundles/lsp
