@@ -48,7 +48,6 @@ ctxloom remote pull ctxloom-default/testing --type bundle
 | git | Git practices and workflows |
 | lsp | Language Server Protocol for AI agents |
 | mcp-browser-playwright | Browser automation MCP server |
-| mcp-tasks | Task management MCP server |
 | python-development | Python style, testing, tooling |
 | rtk | Rust Token Killer output optimization |
 | rust-development | Rust idioms and tooling |
