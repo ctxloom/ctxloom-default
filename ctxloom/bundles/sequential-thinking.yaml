@@ -16,7 +16,7 @@ installation: |
 
     Run via npx (no install needed):
     ```bash
-    npx -y @anthropics/mcp-server-sequential-thinking
+    npx -y @modelcontextprotocol/server-sequential-thinking
     ```
 
     The MCP server will be auto-registered when this bundle is active.
@@ -25,7 +25,7 @@ mcp:
         command: npx
         args:
             - -y
-            - '@anthropics/mcp-server-sequential-thinking'
+            - '@modelcontextprotocol/server-sequential-thinking'
         note: Provides structured sequential thinking for complex problem-solving
 fragments:
     usage:
