@@ -16,5 +16,4 @@ bundles:
 
   # Tooling
   - https://github.com/ctxloom/ctxloom-default@bundles/git
-  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
   - https://github.com/ctxloom/ctxloom-default@bundles/lsp

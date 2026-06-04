@@ -1,0 +1,17 @@
+version: "1.0.0"
+description: "Baseline profile seeded by `ctxloom init`: conduct/practice directives plus the sequential-thinking MCP server."
+tags:
+  - default
+  - base
+
+bundles:
+  # Baseline interaction & problem-solving conduct
+  - https://github.com/ctxloom/ctxloom-default@bundles/default
+  # Code-quality standards
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+  # llm-tool-killer command-redirect guidance
+  - https://github.com/ctxloom/ctxloom-default@bundles/ltk
+  # Versioning workflow prompts
+  - https://github.com/ctxloom/ctxloom-default@bundles/versionator
+  # Structured reasoning MCP server
+  - https://github.com/ctxloom/ctxloom-default@bundles/sequential-thinking

@@ -4,18 +4,12 @@ tags:
   - python
   - development
 
+parents:
+  - https://github.com/ctxloom/ctxloom-default@profiles/developer
+
 bundles:
-  # AI Practices
-  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
-
-  # Testing
-  - https://github.com/ctxloom/ctxloom-default@bundles/testing
-
   # Language-specific
   - https://github.com/ctxloom/ctxloom-default@bundles/python-development
 
   # Tooling
-  - https://github.com/ctxloom/ctxloom-default@bundles/git
-  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
   - https://github.com/ctxloom/ctxloom-default@bundles/asdf
-  - https://github.com/ctxloom/ctxloom-default@bundles/lsp

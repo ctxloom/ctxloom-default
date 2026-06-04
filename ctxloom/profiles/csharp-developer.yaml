@@ -5,14 +5,9 @@ tags:
   - dotnet
   - development
 
+parents:
+  - https://github.com/ctxloom/ctxloom-default@profiles/developer
+
 bundles:
   # AI Practices
-  - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
   - https://github.com/ctxloom/ctxloom-default@bundles/csharp-ai-practices
-
-  # Testing
-  - https://github.com/ctxloom/ctxloom-default@bundles/testing
-
-  # Tooling
-  - https://github.com/ctxloom/ctxloom-default@bundles/git
-  - https://github.com/ctxloom/ctxloom-default@bundles/lsp
