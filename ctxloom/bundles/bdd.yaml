@@ -93,3 +93,62 @@ fragments:
             See also the `gherkin`, `tdd`, and `test-organization` fragments. The unit-level
             analogue of this idea is the **Behavioral Interface Test (BIT)**: one behavioral
             suite asserted against every implementation of a trait/interface.
+        content_hash: sha256:52d869ae1dcbf96084528912905a3bf5cbc260f4411d4812bbe01963f9ff7494
+        distilled: |-
+            # behavioral-cross-backend
+
+            Gherkin describes **behavior**, not the **backend** providing it. For interchangeable implementations (store: filesystem/S3/GCS; bus: Kafka/NATS/AMQP), write **one** behavioral suite and run it **unchanged against every backend**. Backend is a test-harness dimension, not part of the spec.
+
+            Passing the suite on all implementations proves substitutability (Liskov). A spec naming a backend tests only one.
+
+            ## The Rule
+
+            Features/steps must not name or assume a backend, nor assert backend mechanics.
+
+            ```gherkin
+            # Wrong — backend mechanics leak into spec
+            When the payload is written to the S3 bucket
+            Then a 200 response is returned
+
+            # Right — behavior only; every backend must satisfy it
+            When a payload larger than the inline threshold is published
+            And the message is consumed
+            Then the consumer receives the original payload unchanged
+            ```
+
+            **Litmus test**: if wording changes when swapping backends, it describes *how*, not *what* — abstract to behavior.
+
+            ## The Harness Carries the Backend
+
+            Feature stays constant; harness parameterizes implementations.
+
+            ```
+            features/payload_offload.feature      # behavioral spec — no backend named
+            harness/run.rs                         # runs suite against each: filesystem, s3, gcs
+            ```
+
+            Backend wired via `Given` setup; steps never know which is running. Use testcontainers/emulators for real implementations, not mocks.
+
+            ## Benefits
+
+            - **Substitutability proof** — green across all backends = Liskov-compliant
+            - **No drift** — backends share one contract suite
+            - **Cheap new backends** — wire into harness, don't author new specs
+            - **Refactor-safe** — backend changes don't edit features
+
+            ## TDD Order
+
+            1. Write behavioral feature + failing harness
+            2. Parameterize harness over all target backends
+            3. Implement until suite passes each backend
+            4. Refactor while keeping all green
+
+            ## Anti-Patterns
+
+            - Backend names in feature/step text
+            - Per-backend feature files that drift
+            - Asserting backend mechanics vs. observable behavior
+            - Mocking backends — tests the mock, not substitutability
+
+            See also: `gherkin`, `tdd`, `test-organization`. Unit-level analogue: **Behavioral Interface Test (BIT)** — one suite against every trait/interface impl.
+        distilled_by: claude-haiku-4-5-20251001

@@ -77,33 +77,41 @@ prompts:
               then push the underlying commit (`git push origin main`).
 
             IMPORTANT: Never auto-select version. User must explicitly specify.
-        content_hash: ""
+        content_hash: sha256:f4d8b288864a83d740fa89190aa0b1ca9a7dfd3663d61e0a99acacc52294c9c1
         distilled: |-
             # release
 
             Release workflow for versionator. User MUST specify version.
 
-            Input: $ARGUMENTS
-            - Fixed: "0.1.0", "1.0.0"
-            - Bump: "patch", "minor", "major"
+            User input: $ARGUMENTS
+            - Fixed: X.Y.Z
+            - Bump: "patch" | "minor" | "major"
 
-            No version → STOP and ask. Never guess.
+            STOP and ask if no version specified. Never guess.
 
             Steps:
-            1. Parse input
+            1. Parse user input for version or bump instruction
             2. `git add -A`
-            3. Create conventional commit
-            4. Bump instruction: commit w/ fix:/feat:/feat!:, run `./versionator bump`, amend
-            5. Fixed version: write VERSION, commit
-            6. `./versionator release push` → atomic tag+branch+push to origin
+            3. Analyze changes; create conventional commit message
+            4. Bump instruction:
+               - Commit with prefix (fix:/feat:/feat!:)
+               - `./versionator bump` to increment and amend
+            5. Fixed version:
+               - Write to VERSION file
+               - Commit with version in message
+            6. `./versionator release push` — creates tag/branch and pushes atomically.
 
-            ALWAYS use `release push`. Never `release` alone, never raw
-            `git push origin <tag>`. `release` without `push` only creates
-            local refs — downstream automation (GitHub Releases, release
-            completers, deploy pipelines) only fires on the tag-push event.
-            If you already ran bare `release`, recover with
-            `release push --force` then `git push origin main`.
-        distilled_by: claude-3-opus
+            CRITICAL — ALWAYS `versionator release push`. Never:
+            - `versionator release` alone (creates local only; doesn't publish)
+            - Raw `git push origin <tag>` or `git push origin <branch>`
+            - Split create/push (causes drift, orphaned tags, conflicts)
+
+            `release push` = source of truth for public version. Downstream automation (GitHub Releases, CI/CD, deploys) requires tag+branch on origin together.
+
+            If tag/branch created locally, run `versionator release push --force` to reconcile + `git push origin main`.
+
+            RULE: Never auto-select version. User specifies explicitly.
+        distilled_by: claude-haiku-4-5-20251001
     suggest-version:
         description: Display current version and suggest next version based on changes
         tags:
@@ -145,40 +153,40 @@ prompts:
             asks to actually cut the release, hand off to the `release`
             prompt, which mandates `versionator release push` (NOT bare
             `versionator release`, and NOT raw `git push` of the tag).
-        content_hash: ""
+        content_hash: sha256:e08d843405a79c373987ae0f60090289cfc891787fa7e2cc749076e3033a0819
         distilled: |-
             # suggest-version
 
-            Analyze repo, suggest next semver.
+            Analyze repo and suggest next semantic version.
 
             Steps:
-            1. Read VERSION file
+            1. Read current version from VERSION file
             2. Get changes: `git log --oneline $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD`
-            3. Analyze commits/changes
+            3. Analyze commit messages and code changes
 
             Output:
             ```
             Current version: X.Y.Z
             Commits since last release: N
-            Changes: [list]
+
+            Changes:
+            - [key changes list]
+
             Suggested next version: X.Y.Z
-            Reasoning: [semver basis]
+            Reasoning: [semver justification]
             ```
 
             Semver:
-            - MAJOR: Breaking/incompatible changes
-            - MINOR: New backward-compatible features
-            - PATCH: Bug fixes, docs, minor improvements
+            - MAJOR (X): Breaking API changes
+            - MINOR (Y): New backward-compatible features
+            - PATCH (Z): Bug fixes, minor improvements
 
-            Pre-1.0:
-            - Breaking → MINOR (0.X.0)
-            - Features → PATCH (0.0.X)
+            Pre-1.0: Breaking changes → MINOR (0.X.0), features → PATCH (0.0.X)
 
-            When uncertain, suggest lower bump.
+            **BE CONSERVATIVE** — uncertain cases use lower bump.
 
-            Suggest only — does not execute. To cut the release, hand off
-            to `release`, which mandates `versionator release push`.
-        distilled_by: claude-3-opus
+            **HAND OFF to `release` prompt** for actual release execution (mandates `versionator release push`, never bare `versionator release` or raw `git push`).
+        distilled_by: claude-haiku-4-5-20251001
     version-bump:
         description: Determine appropriate version bump
         tags:
@@ -206,22 +214,22 @@ prompts:
             (NOT bare `versionator release`, and NOT a manual sequence of
             `versionator bump` + `versionator release` + raw `git push`,
             which leaves the local tag/branch and the remote out of sync).
-        content_hash: ""
+        content_hash: sha256:cac3b046a464e3c80dc37f22291e139b0ec832df5c0e532d37253b6ac4eaeb41
         distilled: |-
             # version-bump
 
-            Analyze changes, recommend semver bump:
+            Analyze changes and recommend semantic version bump.
 
-            Current: {{version}}
+            Current version: {{version}}
             Changes: {{changes}}
 
-            - Breaking API → major
-            - New features (backward-compat) → minor
+            Decision rules:
+            - Breaking API changes → major
+            - New backward-compatible features → minor
             - Bug fixes → patch
-            - Pre-1.0: different rules
+            - Pre-1.0 applies different rules
 
-            Recommend version + reasoning.
+            Output: Recommended version + reasoning.
 
-            Recommends only — does not execute. To cut, use `release`
-            (which mandates `versionator release push`).
-        distilled_by: claude-3-opus
+            ⚠️ Recommendation only. For actual release: invoke `release` prompt with `versionator release push` (NOT bare `versionator release` or manual `bump` + `release` + `git push` — prevents remote/local sync issues).
+        distilled_by: claude-haiku-4-5-20251001

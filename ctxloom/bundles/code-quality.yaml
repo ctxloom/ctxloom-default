@@ -1,10 +1,10 @@
 version: 1.0.0
-author: ctxloom
-description: Baseline code-quality standards — size, naming, SOLID/KISS/YAGNI, and the search-before-you-write, extend-don't-duplicate rule.
 tags:
     - code
     - quality
     - principles
+author: ctxloom
+description: Baseline code-quality standards — size, naming, SOLID/KISS/YAGNI, and the search-before-you-write, extend-don't-duplicate rule.
 notes: |
     Language- and stack-agnostic engineering standards applied to every
     project. Kept separate from the conduct/interaction `default` bundle so a
@@ -85,3 +85,64 @@ fragments:
             - **No revision history in code** - don't document what was modified, when, or by whom
             - **No commented-out code** - delete it; git has it if needed
             - Comments explain *why*, not *what* or *what changed*
+        content_hash: sha256:38a0a80863e7d87822e6e7bf5ff9afe74fc920108bd7f472fb28d3508dd8b1d5
+        distilled: |-
+            # code-quality
+
+            ## Before Writing Code
+            - **Search** codebase for existing implementations before writing
+            - **Extend, don't recreate**: Refactor existing rather than duplicate
+            - **Reuse** functions, types, modules
+
+            ## Code Size
+            - Files: <500 lines, small & focused
+            - Functions: One thing each
+            - Optimize for readability, not performance
+            - Separate interfaces from implementations
+
+            ## Naming
+            - **Interfaces/Protocols**: UserService (not IUserService)
+            - **Implementations** named by how they work:
+              - Single: DefaultUserService
+              - Multiple: HttpUserService, CachedUserService
+
+            ## Philosophy
+            - **SOLID**: Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion
+            - **KISS**: Clear, straightforward solutions
+            - **YAGNI**: Build only when needed
+
+            ## General Principles
+            - Follow language style guides
+            - Type hints/annotations
+            - Self-documenting code > excessive comments
+            - Document public APIs
+            - Composition over inheritance
+
+            ## Coupling & Cohesion
+            - **Low coupling**: Minimal dependencies
+            - **High cohesion**: Group related functionality
+            - Single, well-defined purpose per module/class
+
+            ## Code Markers
+            - `TODO`: Work needed
+            - `FIXME`: Known bugs
+            - `NOTE`: Important info
+            - `HACK`: Works but needs improvement
+
+            ## Performance
+            - Profile before optimizing
+            - Document requirements in tests
+            - Appropriate data structures
+            - State algorithmic complexity for non-trivial algorithms
+            - Consider memory allocation patterns
+
+            ## Clean Up
+            - Kill background processes when done
+            - Remove unused: code, files, imports, variables
+            - No dead code
+
+            ## Comments
+            - **Never** change-tracking comments (git tracks history)
+            - **No** revision history or commented-out code (delete; git preserves)
+            - Comments explain **why**, not what or changes
+        distilled_by: claude-haiku-4-5-20251001
