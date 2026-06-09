@@ -8,6 +8,6 @@ tags:
   - typescript
 # TypeScript member: general lens + TypeScript idioms. A `ctxloom weave` member.
 bundles:
-  - ctxloom-default/code-review-base#fragments/conduct
-  - ctxloom-default/code-review-reliability#fragments/general
-  - ctxloom-default/code-review-reliability#fragments/typescript
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/general
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/typescript

@@ -5,5 +5,5 @@ tags:
   - security
 # Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
 bundles:
-  - ctxloom-default/code-review-base#fragments/conduct
-  - ctxloom-default/code-review-security#fragments/general
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-security#fragments/general

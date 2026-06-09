@@ -6,6 +6,6 @@ tags:
   - swift
 # Swift member: general lens + Swift idioms. A `ctxloom weave` member.
 bundles:
-  - ctxloom-default/code-review-base#fragments/conduct
-  - ctxloom-default/code-review-testing#fragments/general
-  - ctxloom-default/code-review-testing#fragments/swift
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/general
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/swift

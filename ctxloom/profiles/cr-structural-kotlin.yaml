@@ -8,6 +8,6 @@ tags:
   - kotlin
 # Kotlin member: general lens + Kotlin idioms. A `ctxloom weave` member.
 bundles:
-  - ctxloom-default/code-review-base#fragments/conduct
-  - ctxloom-default/code-review-structural#fragments/general
-  - ctxloom-default/code-review-structural#fragments/kotlin
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/general
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/kotlin

@@ -4,4 +4,4 @@ tags:
   - review
   - synthesis
 bundles:
-  - ctxloom-default/code-review-base#fragments/synthesis
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/synthesis

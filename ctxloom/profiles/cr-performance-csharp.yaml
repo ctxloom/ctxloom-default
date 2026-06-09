@@ -6,6 +6,6 @@ tags:
   - csharp
 # C# member: general lens + C# idioms. A `ctxloom weave` member.
 bundles:
-  - ctxloom-default/code-review-base#fragments/conduct
-  - ctxloom-default/code-review-performance#fragments/general
-  - ctxloom-default/code-review-performance#fragments/csharp
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/general
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/csharp
