@@ -1,0 +1,13 @@
+version: "1.0.0"
+description: "Design & architecture review for Python"
+tags:
+  - review
+  - structural
+  - architecture
+  - design
+  - python
+# Python member: general lens + Python idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-structural#fragments/general
+  - ctxloom-default/code-review-structural#fragments/python

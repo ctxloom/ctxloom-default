@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Maintainability & readability review for Kotlin"
+tags:
+  - review
+  - maintainability
+  - readability
+  - kotlin
+# Kotlin member: general lens + Kotlin idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-maintainability#fragments/general
+  - ctxloom-default/code-review-maintainability#fragments/kotlin

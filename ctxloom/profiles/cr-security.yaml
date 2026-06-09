@@ -1,0 +1,9 @@
+version: "1.0.0"
+description: "Security review (OWASP/ASVS), language-agnostic"
+tags:
+  - review
+  - security
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-security#fragments/general

@@ -1,0 +1,30 @@
+version: 1.0.0
+tags:
+    - review
+    - documentation
+author: ctxloom
+description: Documentation review. Language-agnostic — a single `general` fragment. Compose `code-review-documentation#fragments/general` as a `ctxloom weave` member.
+fragments:
+    general:
+        tags:
+            - review
+            - documentation
+        content: |-
+            # Lens: Documentation
+
+            ## Check
+            - Public APIs/exports have docstrings/comments explaining contract and
+              *why*.
+            - User-facing or behavioral changes update README/reference/changelog.
+            - Significant decisions captured (ADR/design note) where warranted.
+            - No stale docs/comments left describing the old behavior.
+        content_hash: sha256:d6631b1087ac5ebe5c152c67399ae17c77687e614b7246b0016c039e22b710f0
+        distilled: |-
+            # Lens: Documentation
+
+            ## Check
+            - APIs/exports: docstrings with contract & rationale
+            - User-facing changes: update README/reference/changelog
+            - Significant decisions: capture (ADR/design note)
+            - Remove stale docs describing old behavior
+        distilled_by: claude-haiku-4-5-20251001

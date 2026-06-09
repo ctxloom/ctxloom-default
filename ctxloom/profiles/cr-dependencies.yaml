@@ -1,0 +1,10 @@
+version: "1.0.0"
+description: "Dependencies, supply-chain & licensing review, language-agnostic"
+tags:
+  - review
+  - dependencies
+  - supply-chain
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-dependencies#fragments/general

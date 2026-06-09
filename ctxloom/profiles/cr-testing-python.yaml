@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Testing-quality review for Python"
+tags:
+  - review
+  - testing
+  - python
+# Python member: general lens + Python idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-testing#fragments/general
+  - ctxloom-default/code-review-testing#fragments/python

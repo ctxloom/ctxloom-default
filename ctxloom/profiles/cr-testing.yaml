@@ -1,0 +1,9 @@
+version: "1.0.0"
+description: "Testing-quality review, language-agnostic"
+tags:
+  - review
+  - testing
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-testing#fragments/general

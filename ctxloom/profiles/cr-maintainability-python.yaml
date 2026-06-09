@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Maintainability & readability review for Python"
+tags:
+  - review
+  - maintainability
+  - readability
+  - python
+# Python member: general lens + Python idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-maintainability#fragments/general
+  - ctxloom-default/code-review-maintainability#fragments/python

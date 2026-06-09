@@ -1,0 +1,9 @@
+version: "1.0.0"
+description: "User-experience review (user-facing apps), language-agnostic"
+tags:
+  - review
+  - ux
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-ux#fragments/general

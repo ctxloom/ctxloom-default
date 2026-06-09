@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Testing-quality review for Go"
+tags:
+  - review
+  - testing
+  - golang
+# Go member: general lens + Go idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-testing#fragments/general
+  - ctxloom-default/code-review-testing#fragments/golang

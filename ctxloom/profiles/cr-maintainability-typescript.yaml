@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Maintainability & readability review for TypeScript"
+tags:
+  - review
+  - maintainability
+  - readability
+  - typescript
+# TypeScript member: general lens + TypeScript idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-maintainability#fragments/general
+  - ctxloom-default/code-review-maintainability#fragments/typescript

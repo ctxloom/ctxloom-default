@@ -1,0 +1,10 @@
+version: "1.0.0"
+description: "Language idioms & best-practices review, language-agnostic"
+tags:
+  - review
+  - idioms
+  - best-practices
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-language-idioms#fragments/general

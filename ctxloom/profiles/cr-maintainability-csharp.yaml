@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Maintainability & readability review for C#"
+tags:
+  - review
+  - maintainability
+  - readability
+  - csharp
+# C# member: general lens + C# idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-maintainability#fragments/general
+  - ctxloom-default/code-review-maintainability#fragments/csharp

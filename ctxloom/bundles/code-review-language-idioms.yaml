@@ -1,0 +1,285 @@
+version: 1.0.0
+tags:
+    - review
+    - idioms
+    - best-practices
+author: ctxloom
+description: Language idioms & best-practices review lens. A thin `general` framing plus a rich per-language fragment (ecosystem conventions, error model, tooling, idiomatic constructs). Compose `code-review-language-idioms#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+fragments:
+    cpp:
+        tags:
+            - review
+            - idioms
+            - cpp
+        content: |-
+            # Lens: Idioms — C++
+
+            ## Check
+            - **RAII** and the **Rule of Zero/Five**; smart pointers over raw owning
+              pointers; `const`-correctness.
+            - **`std::ranges`/`views`** over hand-rolled loops; `std::print`/`std::format` over
+              iostream/`printf`; `std::expected` (C++23) for errors-as-values; move semantics;
+              `auto` judiciously.
+            - `constexpr`, templates/concepts, uniform initialization, `nullptr`; `import std;`
+              is available but adoption is still cautious in 2026.
+            - Prefer `std::` over C equivalents; build with a **hardened stdlib**; follow the
+              Core Guidelines. (C++26 added hardened stdlib + contracts but NOT lifetime/borrow
+              safety — "Safe C++" rejected, profiles deferred to C++29.)
+        content_hash: sha256:b9b5157407c02b3e648cb34d21238a780649cc30f4998b0d9355a7749f7d0d57
+        distilled: |-
+            # Lens: Idioms — C++
+
+            ## Check
+            - **RAII**, **Rule of Zero/Five**; smart pointers vs. raw pointers; `const`-correctness
+            - **`std::ranges`/`views`** vs. hand-rolled loops; **`std::print`/`std::format`** vs. iostream/`printf`; **`std::expected`** (C++23); move semantics; `auto`
+            - `constexpr`, templates/concepts, uniform initialization, `nullptr`; `import std;` available
+            - Prefer `std::` over C; hardened stdlib; Core Guidelines
+            - C++26: hardened stdlib + contracts; safety profiles deferred to C++29
+        distilled_by: claude-haiku-4-5-20251001
+    csharp:
+        tags:
+            - review
+            - idioms
+            - csharp
+        content: |-
+            # Lens: Idioms — C#
+
+            ## Check
+            - Properties over public fields; **LINQ**; **async/await** end to end.
+            - Modern C# (12–14): collection expressions `[…]`, primary constructors (note: their
+              params are mutable, not auto-properties), the `field` keyword, extension members,
+              `params` collections, `record`s, pattern matching/switch expressions, nullable
+              reference types, target-typed `new`, `using` declarations.
+            - `IEnumerable`/`yield`; events/delegates; constructor DI.
+            - Expression-bodied members; `IDisposable` for resources.
+        content_hash: sha256:f370d3d9aee1a0368fbc220fcc6e2ccb2dee18021aac27bfe50295c033dc0fd0
+        distilled: |-
+            # Lens: Idioms — C#
+
+            ## Check
+            - Properties over fields; **LINQ**; **async/await**.
+            - C# 12–14: collection `[…]`, primary ctors (⚠ mutable params ≠ auto-props), `field`, extensions, `params`, `record`s, pattern/switch, nullable refs, target `new`, `using`.
+            - `IEnumerable`/`yield`, events/delegates, DI.
+            - Expression members, `IDisposable`.
+        distilled_by: claude-haiku-4-5-20251001
+    general:
+        tags:
+            - review
+            - idioms
+            - best-practices
+        content: |-
+            # Lens: Language Idioms & Best Practices
+
+            Is the code idiomatic for its language and ecosystem? This lens carries the
+            language specifics — pair the project's language fragment.
+
+            ## Concept
+            - Use the language's idiomatic constructs and standard library rather than
+              transliterating from another language.
+            - Follow the ecosystem's accepted conventions, error model, and tooling.
+            - Avoid the language's known anti-patterns and footguns.
+        content_hash: sha256:78ebe84d7ca7a5f2330c85773bda3b03baa52cb38cb843890d06b46b1de7a6cc
+        distilled: |-
+            # Lens: Language Idioms & Best Practices
+
+            Code idiomatic to language/ecosystem? Pair language fragment.
+
+            ## Concept
+            - Use idiomatic constructs & stdlib, not transliteration
+            - Follow ecosystem conventions, error model, tooling
+            - Avoid language anti-patterns & footguns
+        distilled_by: claude-haiku-4-5-20251001
+    golang:
+        tags:
+            - review
+            - idioms
+            - go
+        content: |-
+            # Lens: Idioms — Go
+
+            ## Check
+            - **Errors are values**: return/wrap them (`%w`, `errors.Is`/`As`, `errors.Join`,
+              sentinel/typed errors); no exceptions-style control flow.
+            - **Accept interfaces, return structs** (a guideline, not dogma); keep interfaces
+              small and consumer-defined.
+            - **`context.Context` as the first param** for cancelable/IO work.
+            - Idiomatic constructs: `iota` enums, `defer` cleanup, no getters/setters, channels
+              for coordination; `log/slog` for structured logging; `min`/`max`/`clear` +
+              `slices`/`maps`/`cmp`; `iter.Seq` range-over-func (1.23) over channel generators.
+            - Tooling: `gofmt`, `go vet`, `golangci-lint` (v2 schema); keep `go fix`/gopls
+              `modernize` clean — leftover legacy patterns are a review smell.
+        content_hash: sha256:5563b56e1297824781beab8ff2b495c093ad7c089068dcb2ef705171ae50193c
+        distilled: |-
+            # Lens: Idioms — Go
+
+            ## Check
+            - **Errors are values**: wrap with `%w`, `errors.Is`/`As`/`Join`, sentinel/typed; no exception control flow.
+            - **Accept interfaces, return structs**; small, consumer-defined interfaces.
+            - **`context.Context` first param** for cancelable/IO.
+            - Idioms: `iota` enums, `defer` cleanup, no getters/setters, channels, `log/slog`, `min`/`max`/`clear`, `slices`/`maps`/`cmp`, `iter.Seq` range-over-func (1.23).
+            - Tools: `gofmt`, `go vet`, `golangci-lint` (v2), `go fix`/gopls `modernize`; legacy patterns = review flag.
+        distilled_by: claude-haiku-4-5-20251001
+    java:
+        tags:
+            - review
+            - idioms
+            - java
+        content: |-
+            # Lens: Idioms — Java
+
+            ## Check
+            - **Modern Java** (21/25 LTS): `record`s + record-pattern deconstruction, `sealed`
+              hierarchies, pattern matching for `switch`, sequenced collections, stream gatherers,
+              `var` locals.
+            - `Optional` for return values (a convention, not for fields/params); streams where
+              they clarify; **virtual threads** for I/O concurrency.
+            - `equals`/`hashCode` together; enums with behavior; `java.time`; builders.
+            - Constructor injection; disciplined checked-exception use. (String templates were
+              withdrawn in JDK 23 — don't use them.)
+        content_hash: sha256:b7c58f5bd9f2f1a58d9f77575600feedd771059059401b384b64f3f7d125929d
+        distilled: |-
+            # Lens: Idioms — Java
+
+            ## Check
+            - **Java 21/25 LTS**: records, record-pattern deconstruction, sealed hierarchies, pattern matching (switch), sequenced collections, stream gatherers, var locals
+            - Optional (return values only); streams (when clarifying); virtual threads (I/O concurrency)
+            - equals/hashCode together; enums with behavior; java.time; builders
+            - Constructor injection; checked exceptions (disciplined). String templates (JDK 23+)—don't use.
+        distilled_by: claude-haiku-4-5-20251001
+    kotlin:
+        tags:
+            - review
+            - idioms
+            - kotlin
+        content: |-
+            # Lens: Idioms — Kotlin
+
+            ## Check
+            - **Null-safety** as a first-class tool; `val`/immutability by default; K2 is the
+              only compiler — flag `language-version` pins below 2.0.
+            - `data`/`sealed` classes, `data object` for stateless members, `when` with guard
+              conditions (`is X if …`), named/default args, extension functions, delegation (`by`).
+            - **Coroutines** for async; `sequence` for lazy pipelines; explicit backing fields
+              (`field =`) over `_state`/`state` mirror properties.
+            - Idiomatic collection operators; smart casts; context parameters (Stable 2.4) for
+              scoped deps — use sparingly, don't hide critical dependencies.
+        content_hash: sha256:b415746e1a7e763857469ab044f5d3286a842de199378f2f6bd74bc025c95b0c
+        distilled: |-
+            # Lens: Idioms — Kotlin
+
+            ## Check
+            - **Null-safety** (first-class); `val`/immutability default; K2 only; `language-version` pins <2.0.
+            - `data`/`sealed` classes, `data object` (stateless), `when` + guards (`is X if …`), named/default args, extension functions, delegation (`by`).
+            - **Coroutines** (async); `sequence` (lazy); explicit backing fields (`field =`) — avoid `_state`/`state` patterns.
+            - Collection operators, smart casts, context parameters (Stable 2.4) — use sparingly, never hide critical deps.
+        distilled_by: claude-haiku-4-5-20251001
+    python:
+        tags:
+            - review
+            - idioms
+            - python
+        content: |-
+            # Lens: Idioms — Python
+
+            ## Check
+            - **PEP 8** + **EAFP** (try/except) over LBYL where idiomatic.
+            - Idiomatic constructs: comprehensions/generators, context managers, dunder
+              methods, `enumerate`/`zip`, `pathlib`, `dataclasses`/`enum`; **PEP 695** inline
+              generics (`class C[T]`, `type` aliases); stdlib `tomllib` for config.
+            - **f-strings**; `__main__` guard; duck typing / `typing.Protocol`; annotations are
+              lazy (PEP 649, 3.14) — read via `annotationlib`, not raw `__annotations__`.
+            - Type-checked (mypy/pyright/ty) + `ruff` (lint+format, not a type checker);
+              `pyproject.toml` packaging (`distutils` gone in 3.12); **`uv`** preferred env/runner.
+        content_hash: sha256:5e7ff3feb3d87a20989a7fa84ddeef0f6ab20b11439b70463b7a03a94f965095
+        distilled: |-
+            # Lens: Idioms — Python
+
+            ## Check
+            - **PEP 8** + **EAFP** over LBYL
+            - Idioms: comprehensions, generators, context managers, dunder, enumerate/zip, pathlib, dataclasses/enum; **PEP 695** inline generics; tomllib
+            - f-strings, `__main__` guard, duck typing/Protocol; lazy annotations (PEP 649, 3.14 via annotationlib, not `__annotations__`)
+            - Type-check: mypy/pyright/ruff; pyproject.toml (distutils gone 3.12); **uv** preferred
+        distilled_by: claude-haiku-4-5-20251001
+    rust:
+        tags:
+            - review
+            - idioms
+            - rust
+        content: |-
+            # Lens: Idioms — Rust
+
+            ## Check
+            - **Ownership & borrowing** over cloning; `Result`/`Option` + `?`; no
+              `unwrap`/`panic` in library code.
+            - **Match-based** flow; iterators over manual loops; `derive` and newtypes.
+            - **Error model**: `thiserror` for libraries, `anyhow`/`eyre` for applications.
+            - **Edition 2024** norms: async-fn-in-trait/RPITIT stable but not `dyn`-safe
+              (`#[trait_variant]`/`async-trait` for `dyn`); `static mut` references are a hard
+              error (use `&raw`).
+            - Make illegal states unrepresentable; declare `rust-version` (MSRV); `clippy` +
+              `rustfmt`; `#[expect(reason=…)]` over `#[allow]`; centralize lints in `[lints]`.
+        content_hash: sha256:a9cc5b58fd0f4edd2cb5ec44c879dcf85bb89052d5a7eabf44afaf3dbbe9806c
+        distilled: |-
+            # Lens: Idioms — Rust
+
+            ## Check
+            - Ownership & borrowing > cloning; `Result`/`Option` + `?`; no `unwrap`/`panic` (libs)
+            - Match-based flow; iterators > loops; `derive`, newtypes
+            - Error: `thiserror` (libs), `anyhow`/`eyre` (apps)
+            - 2024: async-fn-in-trait/RPITIT stable, not `dyn`-safe (`#[trait_variant]`/`async-trait`); `static mut` hard error (use `&raw`)
+            - Make illegal states unrepresentable; declare `rust-version` (MSRV); `clippy`+`rustfmt`; `#[expect(reason=…)]` > `#[allow]`; centralize lints in `[lints]`
+        distilled_by: claude-haiku-4-5-20251001
+    swift:
+        tags:
+            - review
+            - idioms
+            - swift
+        content: |-
+            # Lens: Idioms — Swift
+
+            ## Check
+            - **Optionals + `guard`**; value types and **protocol-oriented** design; noncopyable
+              `~Copyable` (`borrowing`/`consuming`) for unique-ownership resources.
+            - `enum` with associated values; extensions; `Result`; `Codable`; property wrappers;
+              macros (`@attached`/freestanding) judiciously; `@Observable` over `ObservableObject`.
+            - **API Design Guidelines**: names read as phrases at the call site.
+            - Trailing closures, `defer`, deliberate access control, `some`/`any`.
+        content_hash: sha256:2ef89759465d2e1fe8c7bf6050e90f0b1bfbac658f445a86e1990cf6b2e54904
+        distilled: |-
+            # Lens: Idioms — Swift
+
+            ## Check
+            - **Optionals + `guard`**; value types, **protocol-oriented** design; `~Copyable` (`borrowing`/`consuming`) unique-ownership
+            - `enum` w/ associated values; extensions; `Result`; `Codable`; property wrappers; macros (`@attached`/freestanding); `@Observable` over `ObservableObject`
+            - **API Design Guidelines**: names read as phrases at call site
+            - Trailing closures, `defer`, access control, `some`/`any`
+        distilled_by: claude-haiku-4-5-20251001
+    typescript:
+        tags:
+            - review
+            - idioms
+            - typescript
+        content: |-
+            # Lens: Idioms — TypeScript
+
+            ## Check
+            - **`strict` mode**; model with discriminated unions; `unknown` over `any`;
+              type guards/narrowing.
+            - Utility types (`Partial`/`Pick`/`Record`), `readonly`/`as const`, `const` type
+              params, `satisfies` for safe inference; prefer union literals/`as const` over `enum`.
+            - **ES modules**, `async/await`, nullish coalescing / optional chaining;
+              `erasableSyntaxOnly` — avoid runtime-emitting syntax (enums/namespaces) so it runs
+              under native Node TS execution.
+            - Tooling: `eslint` (flat config) + `prettier` or **Biome**; `tsc`/`tsgo` (TS 7
+              native) in strict mode.
+        content_hash: sha256:c0d1b9eebc3fb60bbe2fe9c13ea6497bf90997c5f2068b78a8f9ee1567430d96
+        distilled: |-
+            # Lens: Idioms — TypeScript
+
+            ## Check
+            - **`strict` mode**, discriminated unions, `unknown` over `any`, type guards/narrowing
+            - Utility types (`Partial`/`Pick`/`Record`), `readonly`/`as const`, `const` type params, `satisfies`, union literals/`as const` (not `enum`)
+            - **ES modules**, `async/await`, nullish coalescing/optional chaining
+            - **No runtime-emitting syntax** (enums/namespaces) for native Node TS execution
+            - Tooling: `eslint` (flat) + `prettier`/`Biome`; `tsc`/`tsgo` (TS 7 native) in strict mode
+        distilled_by: claude-haiku-4-5-20251001

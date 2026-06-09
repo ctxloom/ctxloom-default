@@ -1,0 +1,10 @@
+version: "1.0.0"
+description: "Data, migrations & privacy review, language-agnostic"
+tags:
+  - review
+  - data
+  - privacy
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-data#fragments/general

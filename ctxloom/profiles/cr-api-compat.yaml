@@ -1,0 +1,10 @@
+version: "1.0.0"
+description: "API design & backward-compatibility review, language-agnostic"
+tags:
+  - review
+  - api
+  - compatibility
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-api-compat#fragments/general

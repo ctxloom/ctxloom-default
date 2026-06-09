@@ -1,0 +1,10 @@
+version: "1.0.0"
+description: "Maintainability & readability review, language-agnostic"
+tags:
+  - review
+  - maintainability
+  - readability
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-maintainability#fragments/general

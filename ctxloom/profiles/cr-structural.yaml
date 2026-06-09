@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Design & architecture review, language-agnostic"
+tags:
+  - review
+  - structural
+  - architecture
+  - design
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-structural#fragments/general

@@ -1,0 +1,13 @@
+version: "1.0.0"
+description: "Design & architecture review for Rust"
+tags:
+  - review
+  - structural
+  - architecture
+  - design
+  - rust
+# Rust member: general lens + Rust idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-structural#fragments/general
+  - ctxloom-default/code-review-structural#fragments/rust

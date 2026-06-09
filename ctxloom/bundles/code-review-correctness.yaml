@@ -1,0 +1,326 @@
+version: 1.0.0
+tags:
+    - review
+    - correctness
+author: ctxloom
+description: Correctness & functionality review lens. Language-agnostic `general` fragment plus per-language correctness footguns. Compose `code-review-correctness#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+fragments:
+    cpp:
+        tags:
+            - review
+            - correctness
+            - cpp
+        content: |-
+            # Lens: Correctness — C++
+
+            ## Check
+            - **Signed overflow is UB**; unsigned wraps; **narrowing conversions**
+              silently lose data.
+            - **Uninitialized locals**: initialize at declaration (C++26 reclassifies reads
+              as *erroneous behavior* — diagnosable — not UB).
+            - **`size_t` underflow** (`size() - 1` on empty) wraps to a huge value.
+            - **Iterator/reference invalidation** after container mutation; dangling
+              references to temporaries/locals.
+            - **Float `==`**; integer division truncates.
+            - **Unsequenced modifications** (`i = i++`) are UB.
+            - `std::sort` and friends require a strict-weak-ordering comparator.
+        content_hash: sha256:122b5b6c05a2c4b4a9cb414db32e22bf52df869365a624f9790121f1139dad56
+        distilled: |-
+            # Lens: Correctness — C++
+
+            ## Check
+            - Signed overflow = UB; unsigned wraps; narrowing conversions lose data
+            - Uninitialized locals: init at declaration
+            - `size_t` underflow wraps huge (`size() - 1` on empty)
+            - Iterator/ref invalidation after mutation; dangling refs to temporaries/locals
+            - Float `==`; integer division truncates
+            - Unsequenced modifications (`i = i++`) = UB
+            - `std::sort` etc. require strict-weak-ordering comparator
+        distilled_by: claude-haiku-4-5-20251001
+    csharp:
+        tags:
+            - review
+            - correctness
+            - csharp
+        content: |-
+            # Lens: Correctness — C#
+
+            ## Check
+            - **Integer overflow is unchecked by default** — wrap risky math in
+              `checked`.
+            - **Reference vs value equality**: string interning hides bugs — be explicit
+              about `==`/`.Equals` semantics per type.
+            - **`double` for money** — use `decimal`; float `==`.
+            - **Nullable value types** and `?.` propagation arms.
+            - **LINQ deferred execution**: re-enumerating reruns the query — multiple
+              enumeration can double-fetch or observe different data.
+            - **`DateTime` vs `DateTimeOffset`/`Kind`** for time correctness.
+            - `int` division truncates; off-by-one in ranges.
+        content_hash: sha256:62381c2dbb9d86b68eee7d943ad54f4ab6a795b0c96c155fa2a3a6f8ec4da336
+        distilled: |-
+            # Lens: Correctness — C#
+
+            - **Integer overflow unchecked** → wrap in `checked`
+            - **Reference vs value equality**: string interning — explicit `==` vs `.Equals`
+            - **Money**: `decimal` not `double`; float `==` risky
+            - **Nullable value types** & `?.` propagation
+            - **LINQ deferred execution**: re-enumeration reruns query; watch multiple enumeration
+            - **`DateTime` vs `DateTimeOffset`/`Kind`** for time correctness
+            - **`int` division** truncates; off-by-one risks
+        distilled_by: claude-haiku-4-5-20251001
+    general:
+        tags:
+            - review
+            - correctness
+        content: |-
+            # Lens: Correctness & Functionality
+
+            Does the code do what it's supposed to, for all inputs?
+
+            ## Check
+            - Logic matches the stated intent / ticket / PR description.
+            - Edge & boundary cases: empty, null/nil, zero, negative, max, single
+              element, duplicates, unicode, very large inputs.
+            - Off-by-one, integer overflow/truncation, float/precision, time zones.
+            - Untrusted input validated and normalized at the boundary; safe defaults.
+            - Algorithmic correctness for the access pattern (right data structure;
+              no accidental O(n²)/N+1).
+            - Error/edge paths produce correct results, not just the happy path.
+
+            Pair with the project's language fragment for idiom-specific footguns.
+        content_hash: sha256:1ec903d2b45b19ceb260c06ec207eb16ef8ce0b56dda5d837cc53805e5aea536
+        distilled: |-
+            # Lens: Correctness & Functionality
+
+            Code does what intended for all inputs?
+
+            ## Check
+            - Logic matches intent/ticket/PR
+            - Edge/boundary cases: empty, null/nil, zero, negative, max, single element, duplicates, unicode, large inputs
+            - Off-by-one, integer overflow/truncation, float precision, time zones
+            - Untrusted input: validate/normalize at boundary; safe defaults
+            - Algorithmic correctness: right data structure; no O(n²)/N+1
+            - Error/edge paths correct, not just happy path
+
+            Pair w/ language fragment for idiom-specific footguns.
+        distilled_by: claude-haiku-4-5-20251001
+    golang:
+        tags:
+            - review
+            - correctness
+            - go
+        content: |-
+            # Lens: Correctness — Go
+
+            ## Check
+            - **nil maps**: reading is fine, writing panics — initialize before write.
+            - **nil vs empty slice**: distinct to callers and to JSON/equality even
+              though `len`/`append` work on both.
+            - **Zero values look valid**: a zeroed field can pass as a real value;
+              distinguish "unset" (pointer / `ok` bool) where it matters.
+            - **Integer division truncates**; mixed int/float needs explicit conversion.
+            - **`append` aliasing**: appends can share/overwrite a backing array — copy
+              when retaining a sub-slice.
+            - **`:=` shadowing** of `err`/vars in nested scopes (loop-variable capture was
+              a footgun only pre-1.22; in 1.22+ a leftover `v := v` is dead code `go fix` removes).
+            - **String iteration** ranges over runes, indexing yields bytes.
+            - `==` on interfaces holding an uncomparable dynamic type panics.
+        content_hash: sha256:62c5083ea667904cbd223779333aa5796750eecc48130fa2d6a4b5939b2dcbc1
+        distilled: |-
+            # Lens: Correctness — Go
+
+            - **nil maps**: read OK, write panics → init before write
+            - **nil vs empty slice**: distinct to callers, JSON, equality (though `len`/`append` work)
+            - **zero values**: use pointer/`ok` bool for "unset" detection
+            - **integer division**: truncates; int/float needs explicit conversion
+            - **`append` aliasing**: shares backing array → copy sub-slices being retained
+            - **`:= shadowing`** in nested scopes (loop-var capture pre-1.22 issue)
+            - **string iteration**: ranges over runes; indexing yields bytes
+            - **`==` on interfaces**: uncomparable dynamic types panic
+        distilled_by: claude-haiku-4-5-20251001
+    java:
+        tags:
+            - review
+            - correctness
+            - java
+        content: |-
+            # Lens: Correctness — Java
+
+            ## Check
+            - **Boxed equality**: `==` compares references; `Integer` caches −128..127
+              so it *looks* right then breaks — use `.equals()`.
+            - **Autoboxing NPE**: unboxing a `null` wrapper throws.
+            - **Integer overflow is silent**; `int`/`long` division truncates.
+            - **`double` for money** loses precision — use `BigDecimal`; float `==`.
+            - **Legacy `Date`/`Calendar`** pitfalls — prefer `java.time`.
+            - Modulo of negatives; off-by-one in loops/substrings.
+            - Exposing internal mutable collections; unguarded shared state.
+        content_hash: sha256:6f4693bc8768481703a2eb6e4e39c0b850bda58c77c518b61486939387591268
+        distilled: |-
+            # Lens: Correctness — Java
+
+            ## Check
+            - **Boxed equality**: `==` refs only; `Integer` caches −128..127; use `.equals()`
+            - **Autoboxing NPE**: unboxing `null` wrapper throws
+            - **Integer overflow silent**; `int`/`long` divide truncate
+            - **`double`/float for money**: precision loss; use `BigDecimal`; avoid `==`
+            - **`Date`/`Calendar` legacy**: prefer `java.time`
+            - Modulo negatives; off-by-one loops/substrings
+            - Mutable collections exposed; unguarded shared state
+        distilled_by: claude-haiku-4-5-20251001
+    kotlin:
+        tags:
+            - review
+            - correctness
+            - kotlin
+        content: |-
+            # Lens: Correctness — Kotlin
+
+            ## Check
+            - **Platform types** from Java carry no nullability — assert/annotate at the
+              seam or risk a surprise NPE.
+            - **`==` is structural, `===` referential** (opposite of Java's `==`).
+            - **Smart-cast limits**: custom-getter / cross-module `open val`, and `var`s the
+              compiler can't prove stable (K2 widened smart-casts; delegated/externally-mutable
+              props still won't).
+            - **`!!`** converts a null into a crash — handle it instead.
+            - **Integer overflow silent**, `Int` division truncates (JVM semantics).
+            - **Range inclusivity**: `1..10` includes 10; use `until` / `..<` for
+              exclusive.
+            - Keep `when` exhaustive — enforced on sealed/enum and (2.3+) via data-flow
+              narrowing; omit `else` so new subtypes break the build.
+        content_hash: sha256:3948f31073e9edd72897e7c7ce90c921d6a76e2f5ae91aa7ab331190e8316a62
+        distilled: |-
+            # Lens: Correctness — Kotlin
+
+            ## Check
+            - **Platform types** from Java: no nullability — assert/annotate at seam or risk NPE.
+            - **`==` structural, `===` referential** (vs. Java's `==`).
+            - **Smart-cast limits**: custom-getters, cross-module `open val`, unstable `var` (K2 widened; delegated/external won't).
+            - **`!!`** → crash; handle instead.
+            - **Integer overflow** silent; `Int` division truncates (JVM).
+            - **Ranges**: `1..10` inclusive; `until`/`.<` exclusive.
+            - **`when`** exhaustive (sealed/enum enforced; 2.3+ data-flow)—omit `else` to catch new types.
+        distilled_by: claude-haiku-4-5-20251001
+    python:
+        tags:
+            - review
+            - correctness
+            - python
+        content: |-
+            # Lens: Correctness — Python
+
+            ## Check
+            - **Falsy traps**: `0`, `0.0`, `""`, `[]`, `{}`, `None` are all falsy;
+              `if x:` conflates "empty" with "absent" — test `is None` when that's the
+              actual question.
+            - **Mutable default args** (`def f(x=[])`) persist across calls.
+            - **Division**: `/` is float, `//` floors; mixing surprises.
+            - **Late binding** in loop closures captures the variable, not its value.
+            - **`is` vs `==`**: `is` is identity; small-int/string interning makes it
+              *appear* to work for values — use `==`.
+            - **Float equality** — use `math.isclose`; **shallow vs deep copy** of
+              nested structures.
+            - Slicing is end-exclusive; bare `except:` silently hides bugs.
+        content_hash: sha256:baeee200eeefd5c381215bc25cd791e10abf4d0764d49aeecf1c4c40673dfae6
+        distilled: |-
+            # Lens: Correctness — Python
+
+            ## Check
+            - **Falsy traps**: `0`, `0.0`, `""`, `[]`, `{}`, `None` all falsy; `if x:` conflates empty/absent—use `is None` for None-checks.
+            - **Mutable default args**: `def f(x=[])` persist across calls.
+            - **Division**: `/` is float, `//` floors; mixing surprises.
+            - **Late binding**: Loop closures capture variable, not value.
+            - **`is` vs `==`**: `is` checks identity (interning misleads); use `==` for values.
+            - **Float equality**: Use `math.isclose`; note shallow vs deep copy in nested structures.
+            - **Slicing**: End-exclusive; bare `except:` hides bugs.
+        distilled_by: claude-haiku-4-5-20251001
+    rust:
+        tags:
+            - review
+            - correctness
+            - rust
+        content: |-
+            # Lens: Correctness — Rust
+
+            ## Check
+            - **Integer overflow** panics in debug, wraps in release — use
+              `checked_`/`saturating_`/`wrapping_` when overflow is reachable.
+            - **`as` casts** truncate/wrap silently; prefer `TryFrom` at boundaries.
+            - **`unwrap`/`expect`** on `None`/`Err` aborts — handle or propagate (`?`).
+            - **`usize` underflow** (`len() - 1` on empty) panics.
+            - **Float `==` / NaN**: `NaN != NaN`.
+            - **Iterator laziness**: adapters do nothing until consumed.
+            - Range inclusivity (`..` vs `..=`) and signed/unsigned conversions.
+        content_hash: sha256:626f27ebf770c1f9f470a14bcecaa5f161f49c5bc6f16cdb838dfa449885d12a
+        distilled: |-
+            # Lens: Correctness — Rust
+
+            - **Integer overflow**: panics debug, wraps release — use `checked_`/`saturating_`/`wrapping_` when reachable.
+            - **`as` casts**: truncate/wrap silently → prefer `TryFrom` at boundaries.
+            - **`unwrap`/`expect`**: abort on `None`/`Err` → handle or propagate (`?`).
+            - **`usize` underflow**: (`len()-1` on empty) panics.
+            - **Float `==`/NaN**: `NaN != NaN`.
+            - **Iterators**: lazy, adapters inactive until consumed.
+            - **Ranges** (`..` vs `..=`) & signed/unsigned conversions.
+        distilled_by: claude-haiku-4-5-20251001
+    swift:
+        tags:
+            - review
+            - correctness
+            - swift
+        content: |-
+            # Lens: Correctness — Swift
+
+            ## Check
+            - **Integer overflow traps** by default; use `&+`/`&*` only when wrapping is
+              intended.
+            - **Force-unwrap `!`** and implicitly-unwrapped optionals crash on nil.
+            - **`Int`/`Double` division** and float `==`.
+            - **String length** counts grapheme clusters, not UTF-16 units (`count` vs
+              `utf16.count`).
+            - **Range inclusivity**: `...` includes the upper bound, `..<` excludes.
+            - Optional chaining short-circuits to nil — handle the nil arm.
+        content_hash: sha256:66f0f06b11b00b1182e3c0b965bc949b57a35e491c9ed34319a3eb873ac11ba8
+        distilled: |-
+            # Lens: Correctness — Swift
+
+            - Integer overflow traps; `&+`/`&*` for wrapping only
+            - Force-unwrap `!` & implicitly-unwrapped optionals crash on nil
+            - `Int`/`Double` division & float `==` precision issues
+            - String length counts grapheme clusters not UTF-16 (`count` vs `utf16.count`)
+            - Range: `...` includes bound, `..<` excludes
+            - Optional chaining → nil; handle nil arm
+        distilled_by: claude-haiku-4-5-20251001
+    typescript:
+        tags:
+            - review
+            - correctness
+            - typescript
+        content: |-
+            # Lens: Correctness — TypeScript / JS
+
+            ## Check
+            - **`==` coercion**: use `===`; loose equality equates
+              `0`/`""`/`false`/`null`/`undefined` in surprising ways.
+            - **Falsy traps**: `0` and `""` are falsy — use `=== undefined` / `??` when
+              zero/empty are valid values.
+            - **Floating point** (`0.1 + 0.2 !== 0.3`); integers past
+              `MAX_SAFE_INTEGER` need `BigInt`.
+            - **`Array.sort()`** is lexicographic by default — pass a numeric comparator.
+            - **`typeof null === "object"`**; `NaN !== NaN` (use `Number.isNaN`).
+            - **`Date` months are 0-indexed**; watch UTC/timezone handling.
+            - Sparse arrays/holes; `parseInt` radix; optional chaining short-circuits.
+        content_hash: sha256:bb1a7604adab296c761b276407476f35cbfd851394563b8ad7af8173fc76cd58
+        distilled: |-
+            # Lens: Correctness — TypeScript / JS
+
+            ## Check
+            - `==` → use `===` (coerces `0`/`""`/`false`/`null`/`undefined`)
+            - Falsy traps (`0`, `""`) — use `=== undefined`/`??` when valid
+            - Floating point (`0.1 + 0.2 !== 0.3`); `MAX_SAFE_INTEGER` → `BigInt`
+            - `Array.sort()` lexicographic — pass numeric comparator
+            - `typeof null === "object"`; `NaN !== NaN` — use `Number.isNaN`
+            - `Date` months 0-indexed; watch UTC/timezone
+            - Sparse arrays/holes; `parseInt` radix; optional chaining short-circuits
+        distilled_by: claude-haiku-4-5-20251001

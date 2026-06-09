@@ -1,0 +1,9 @@
+version: "1.0.0"
+description: "Documentation review, language-agnostic"
+tags:
+  - review
+  - documentation
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-documentation#fragments/general

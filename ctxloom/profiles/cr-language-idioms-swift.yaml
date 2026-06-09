@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Language idioms & best-practices review for Swift"
+tags:
+  - review
+  - idioms
+  - best-practices
+  - swift
+# Swift member: general lens + Swift idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-language-idioms#fragments/general
+  - ctxloom-default/code-review-language-idioms#fragments/swift

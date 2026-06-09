@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Testing-quality review for C++"
+tags:
+  - review
+  - testing
+  - cpp
+# C++ member: general lens + C++ idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-testing#fragments/general
+  - ctxloom-default/code-review-testing#fragments/cpp

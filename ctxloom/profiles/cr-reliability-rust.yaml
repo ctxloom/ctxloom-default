@@ -1,0 +1,13 @@
+version: "1.0.0"
+description: "Reliability, error-handling & concurrency review for Rust"
+tags:
+  - review
+  - reliability
+  - concurrency
+  - error-handling
+  - rust
+# Rust member: general lens + Rust idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-reliability#fragments/general
+  - ctxloom-default/code-review-reliability#fragments/rust

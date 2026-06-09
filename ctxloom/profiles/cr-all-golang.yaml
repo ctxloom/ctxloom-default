@@ -1,0 +1,33 @@
+version: "1.0.0"
+description: "Comprehensive single-agent code review across every lens, tuned for Go."
+tags:
+  - review
+  - comprehensive
+  - golang
+# One agent, all lenses + Go idioms.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-structural#fragments/general
+  - ctxloom-default/code-review-structural#fragments/golang
+  - ctxloom-default/code-review-correctness#fragments/general
+  - ctxloom-default/code-review-correctness#fragments/golang
+  - ctxloom-default/code-review-maintainability#fragments/general
+  - ctxloom-default/code-review-maintainability#fragments/golang
+  - ctxloom-default/code-review-reliability#fragments/general
+  - ctxloom-default/code-review-reliability#fragments/golang
+  - ctxloom-default/code-review-performance#fragments/general
+  - ctxloom-default/code-review-performance#fragments/golang
+  - ctxloom-default/code-review-language-idioms#fragments/general
+  - ctxloom-default/code-review-language-idioms#fragments/golang
+  - ctxloom-default/code-review-testing#fragments/general
+  - ctxloom-default/code-review-testing#fragments/golang
+  - ctxloom-default/code-review-security#fragments/general
+  - ctxloom-default/code-review-api-compat#fragments/general
+  - ctxloom-default/code-review-dx#fragments/general
+  - ctxloom-default/code-review-ux#fragments/general
+  - ctxloom-default/code-review-accessibility-i18n#fragments/general
+  - ctxloom-default/code-review-cost-infra#fragments/general
+  - ctxloom-default/code-review-data#fragments/general
+  - ctxloom-default/code-review-observability#fragments/general
+  - ctxloom-default/code-review-dependencies#fragments/general
+  - ctxloom-default/code-review-documentation#fragments/general

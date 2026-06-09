@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Language idioms & best-practices review for C++"
+tags:
+  - review
+  - idioms
+  - best-practices
+  - cpp
+# C++ member: general lens + C++ idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-language-idioms#fragments/general
+  - ctxloom-default/code-review-language-idioms#fragments/cpp

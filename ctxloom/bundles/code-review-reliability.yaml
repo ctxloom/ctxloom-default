@@ -1,0 +1,328 @@
+version: 1.0.0
+tags:
+    - review
+    - reliability
+    - concurrency
+    - error-handling
+author: ctxloom
+description: Reliability, error-handling & concurrency review lens. Language-agnostic `general` fragment plus each language's cleanup and concurrency model. Compose `code-review-reliability#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+fragments:
+    cpp:
+        tags:
+            - review
+            - reliability
+            - cpp
+        content: |-
+            # Lens: Reliability — C++
+
+            ## Check
+            - **RAII for every resource** — the core safety mechanism; smart pointers,
+              not raw owning pointers; no manual `new`/`delete` pairs.
+            - **Errors-as-values**: `std::expected<T,E>` (C++23) for recoverable failures —
+              reserve exceptions for the exceptional; state the exception guarantee
+              (basic/strong/nothrow) and mark non-throwing code `noexcept`.
+            - **Lifetime bugs**: use-after-free, dangling references, double-free. Build with a
+              **hardened stdlib** (`_LIBCPP_HARDENING_MODE`) to trap OOB on `vector`/`span`/`string`.
+            - **Concurrency**: data races are UB — `std::atomic`/mutexes; `std::scoped_lock`
+              for multiple locks (deadlock avoidance); prefer **`std::jthread`** (auto-join +
+              `stop_token`) over a bare `std::thread`.
+        content_hash: sha256:7e4588fff1b234962c7ead851c7d517d2f8e0c36aea3162054ea6512d7c90c9e
+        distilled: |-
+            # Lens: Reliability — C++
+
+            ## Check
+            - **RAII every resource** — smart pointers (not raw owning); no `new`/`delete`.
+            - **Errors-as-values**: `std::expected<T,E>` (C++23). State exception guarantee (basic/strong/nothrow); mark `noexcept`.
+            - **Lifetime bugs**: use-after-free, dangling refs, double-free. Build w/ hardened stdlib (`_LIBCPP_HARDENING_MODE`) to trap OOB.
+            - **Concurrency**: data races = UB. `std::atomic`, mutexes. `std::scoped_lock` for multi-lock. Prefer `std::jthread` (auto-join, `stop_token`) over `std::thread`.
+        distilled_by: claude-haiku-4-5-20251001
+    csharp:
+        tags:
+            - review
+            - reliability
+            - csharp
+        content: |-
+            # Lens: Reliability — C#
+
+            ## Check
+            - **`using`/`IDisposable`** (and `IAsyncDisposable`) for deterministic
+              cleanup.
+            - **Async hygiene**: no `async void` (except event handlers); `.Result`/`.Wait()`
+              deadlocks only where a `SynchronizationContext` exists (UI / legacy ASP.NET, not
+              ASP.NET Core) — but still avoid sync-over-async; `ConfigureAwait(false)` in
+              context-agnostic libraries.
+            - **`CancellationToken`** threaded through and honored.
+            - **Concurrency**: `System.Threading.Lock` (C# 13) over `lock(object)`;
+              `Interlocked`/concurrent collections; observe `Task` exceptions (unobserved are
+              lost).
+        content_hash: sha256:ccf8f482d2e6d569df6eb1bfbc3f932509b3bbf20837f4b2a3b18f51f7e00882
+        distilled: |-
+            # Lens: Reliability — C#
+
+            ## Check
+            - **`using`/`IDisposable`** & `IAsyncDisposable` for deterministic cleanup
+            - **Async hygiene**: no `async void` except event handlers; avoid `.Result`/`.Wait()` & sync-over-async; `ConfigureAwait(false)` in libraries
+            - **`CancellationToken`** threaded & honored
+            - **Concurrency**: `System.Threading.Lock` (C# 13) over `lock(object)`; `Interlocked`/concurrent collections; observe `Task` exceptions (unobserved lost)
+        distilled_by: claude-haiku-4-5-20251001
+    general:
+        tags:
+            - review
+            - reliability
+            - concurrency
+            - error-handling
+        content: |-
+            # Lens: Reliability, Errors & Concurrency
+
+            Does it fail safely and stay correct under failure and concurrency?
+
+            ## Check
+            - **Errors**: handled, not swallowed; meaningful context propagated; errors
+              not used for normal control flow.
+            - **Resource cleanup on every path** (including errors/early returns):
+              files, handles, connections, locks.
+            - **Fault tolerance**: timeouts on all I/O; retries with backoff+jitter, idempotency,
+              and a **retry budget / token bucket** — coordinate retry policy across layers to
+              avoid retry storms; circuit breakers/fallbacks (mind their modal behavior, often
+              better at the platform/mesh layer); degrade rather than crash.
+            - **Concurrency**: shared mutable state confined, immutable, or lock-guarded;
+              consistent lock ordering (deadlock); atomic compound updates; no data races;
+              cancellation/context propagation.
+
+            Pair with the project's language fragment for its cleanup and concurrency
+            model. (True races need a race detector / runtime confirmation — flag
+            candidates.)
+        content_hash: sha256:0634823cbc1fe6daa3a8ab9e6c470b5822c1934e27f742a643e5e68ad64dc046
+        distilled: |-
+            # Lens: Reliability, Errors & Concurrency
+
+            Fails safely; correct under failure/concurrency?
+
+            ## Check
+            - **Errors**: handled (not swallowed); meaningful context propagated; not for control flow
+            - **Cleanup**: all paths (errors/early returns) — files, handles, connections, locks
+            - **Fault tolerance**: I/O timeouts; retries (backoff+jitter, idempotency); retry budget/token bucket; cross-layer coordination; circuit breakers/fallbacks; degrade
+            - **Concurrency**: mutable state (confined/immutable/locked); consistent lock ordering; atomic updates; no races; cancellation/context propagation
+
+            Pair w/ language fragment for cleanup/concurrency model. Flag races for detector.
+        distilled_by: claude-haiku-4-5-20251001
+    golang:
+        tags:
+            - review
+            - reliability
+            - go
+        content: |-
+            # Lens: Reliability — Go
+
+            ## Check
+            - **`defer`** for cleanup; watch defer-in-loop accumulation and that args
+              are evaluated at `defer` time.
+            - **Don't drop errors** (`_ =`); wrap with `%w`; `errors.Join` for multi-error
+              aggregation.
+            - **`context`** deadline/cancellation propagated through call chains and
+              respected in loops/`select`; `context.AfterFunc`/`WithoutCancel` for
+              cleanup-after-cancel.
+            - **Goroutine leaks**: every goroutine needs a guaranteed exit (ctx/done).
+            - **Channels**: the sender closes (once); a nil channel blocks forever;
+              never send on a closed channel.
+            - **Data races**: guard shared state (`sync.Mutex`; don't copy a held
+              mutex); `sync.OnceFunc`/`OnceValue` over hand-rolled `sync.Once`; run tests
+              with `-race`.
+        content_hash: sha256:ca5e041d1a92820b6bc5ac1d80e56b3447088eeb6329e1e98a04c1468b14639a
+        distilled: |-
+            # Lens: Reliability — Go
+
+            ## Check
+            - **`defer`**: cleanup; defer-in-loop accumulation; args eval at defer time
+            - **Errors**: never drop (`_ =`); wrap `%w`; `errors.Join` multi-error
+            - **`context`**: deadline/cancel through chains, loops/`select`; `context.AfterFunc`/`WithoutCancel` for cleanup
+            - **Goroutines**: guaranteed exit (ctx/done)
+            - **Channels**: sender closes (once); nil blocks forever; never send closed
+            - **Data races**: guard shared state (`sync.Mutex`; never copy held); prefer `sync.OnceFunc`/`OnceValue` over `sync.Once`; test `-race`
+        distilled_by: claude-haiku-4-5-20251001
+    java:
+        tags:
+            - review
+            - reliability
+            - java
+        content: |-
+            # Lens: Reliability — Java
+
+            ## Check
+            - **try-with-resources** for `AutoCloseable`; `finally` otherwise.
+            - **Don't swallow** exceptions; preserve the cause; respect interrupts.
+            - **Virtual threads** (Java 21+) for I/O-bound concurrency
+              (`newVirtualThreadPerTaskExecutor`) — one VT per task, never pool/reuse; prefer
+              **scoped values** (final in 25) over `ThreadLocal`. (Structured concurrency is
+              still preview → JDK 27 — don't treat it as settled.)
+            - **Concurrency**: `java.util.concurrent` over hand-rolled locks;
+              `volatile`/atomics for visibility; immutability for safety.
+            - **Shut down `ExecutorService`s**; observe `Future`/`CompletableFuture`
+              exceptions.
+            - Watch `ConcurrentModificationException`, deadlock via lock ordering, and
+              broken double-checked locking.
+        content_hash: sha256:3e0dd75663df94e6367f9fac0b810f0c20ebf9bf6f411b47171a26918a0f40a5
+        distilled: |-
+            # Lens: Reliability — Java
+
+            ## Check
+            - **try-with-resources** `AutoCloseable`; `finally` otherwise
+            - Don't swallow exceptions; preserve cause; respect interrupts
+            - **Virtual threads** (Java 21+): `newVirtualThreadPerTaskExecutor`, 1/task, no pooling. Prefer **scoped values** (final in 25) over `ThreadLocal` (preview → JDK 27)
+            - **Concurrency**: `java.util.concurrent` > hand-rolled; `volatile`/atomics; immutability
+            - Shut down `ExecutorService`s; observe `Future`/`CompletableFuture` exceptions
+            - Watch: `ConcurrentModificationException`, deadlock, double-checked locking bugs
+        distilled_by: claude-haiku-4-5-20251001
+    kotlin:
+        tags:
+            - review
+            - reliability
+            - kotlin
+        content: |-
+            # Lens: Reliability — Kotlin
+
+            ## Check
+            - **`use {}`** for closeables; `try/finally` otherwise.
+            - **Structured concurrency**: cancellation is cooperative — check
+              `isActive`/`ensureActive` in loops; never swallow `CancellationException`.
+            - **Scope choice**: `coroutineScope` (fail-fast) vs `supervisorScope`
+              (isolate child failures) — pick deliberately.
+            - **Don't block** a coroutine thread; use the right `Dispatcher`.
+            - JVM thread-safety rules still apply to shared mutable state.
+        content_hash: sha256:5ef39af7b807a024bc2dc5286769b2c41ca826ea46932c30a62c60442e071f97
+        distilled: |-
+            # Lens: Reliability — Kotlin
+
+            ## Check
+            - **`use {}`** for closeables; `try/finally` otherwise
+            - **Structured concurrency**: check `isActive`/`ensureActive` in loops; never swallow `CancellationException`
+            - **Scope choice**: `coroutineScope` (fail-fast) vs `supervisorScope` (isolate failures)—choose deliberately
+            - **Don't block** coroutine threads; use right `Dispatcher`
+            - JVM thread-safety rules apply to shared mutable state
+        distilled_by: claude-haiku-4-5-20251001
+    python:
+        tags:
+            - review
+            - reliability
+            - python
+        content: |-
+            # Lens: Reliability — Python
+
+            ## Check
+            - **`with`/context managers** (or `try/finally`) for files, sockets, locks,
+              sessions.
+            - **Don't swallow** with bare `except`; chain with `raise ... from e`.
+            - **Concurrency model**: a GIL build serializes CPU — use `multiprocessing`, or
+              threads on a free-threaded build (3.13t/3.14t, now officially supported); asyncio
+              is concurrency, not CPU parallelism. Guard shared state with locks.
+            - **Free-threaded build**: no GIL means latent data races surface —
+              read-modify-write on a shared dict/list/counter is no longer accidentally atomic;
+              lock it.
+            - **asyncio**: handle `CancelledError`, surface `gather` exceptions, and put
+              no blocking calls in the event loop.
+            - Ensure pool/executor exceptions are observed, not silently lost.
+        content_hash: sha256:7254338713254d91d180711c2beb9c2a7a987c50db650b23073162ea828a3a7a
+        distilled: |-
+            # Lens: Reliability — Python
+
+            ## Check
+            - **`with`/context managers** (or `try/finally`): files, sockets, locks, sessions
+            - **Never bare `except`**: chain with `raise ... from e`
+            - **GIL**: CPU-serialized; use `multiprocessing` or free-threaded (3.13t/3.14t); asyncio = concurrency-only. Lock shared state.
+            - **Free-threaded**: no GIL surfaces data races; read-modify-write on shared dict/list/counter not atomic; lock it
+            - **asyncio**: handle `CancelledError`, surface `gather` exceptions, no blocking calls in event loop
+            - Observe pool/executor exceptions (don't lose silently)
+        distilled_by: claude-haiku-4-5-20251001
+    rust:
+        tags:
+            - review
+            - reliability
+            - rust
+        content: |-
+            # Lens: Reliability — Rust
+
+            ## Check
+            - **RAII/`Drop`** handles cleanup; `?` propagates; avoid `unwrap` in
+              libraries.
+            - **Compiler prevents data races** via `Send`/`Sync` — but logical races and
+              **deadlocks** remain (consistent lock ordering; don't hold a lock across
+              `.await`).
+            - **Shared mutable state**: `Arc<Mutex<>>`/`RwLock`; handle `std` lock poisoning
+              (`parking_lot`/`tokio` mutexes don't poison).
+            - **2024 edition**: `static mut` references are a hard error — use `&raw const`/
+              `&raw mut`.
+            - **Async cancellation**: dropping a future cancels it — ensure that leaves
+              no half-completed critical section.
+            - `panic` unwinds — decide whether to catch at a thread/task boundary.
+        content_hash: sha256:86d7a3519f45a8f3dddabb9a36dbc026445fb722d6a2a0a536a8f86061d0b711
+        distilled: |-
+            # Lens: Reliability — Rust
+
+            ## Check
+            - **RAII/`Drop`** cleanup; `?` propagates; avoid `unwrap` in libraries.
+            - **Compiler prevents data races** via `Send`/`Sync` — logical races & **deadlocks** remain (consistent lock order; don't hold locks across `.await`).
+            - **Shared mutable state**: `Arc<Mutex<>>`/`RwLock`; handle `std` poisoning (`parking_lot`/`tokio` don't poison).
+            - **2024 edition**: `static mut` is error — use `&raw const`/`&raw mut`.
+            - **Async cancellation**: dropping future cancels it — ensure no half-completed critical sections.
+            - `panic` unwinds — catch at thread/task boundary.
+        distilled_by: claude-haiku-4-5-20251001
+    swift:
+        tags:
+            - review
+            - reliability
+            - swift
+        content: |-
+            # Lens: Reliability — Swift
+
+            ## Check
+            - **`defer`** for cleanup; `do/catch`; consider **typed throws** (`throws(E)`,
+              Swift 6) at stable API boundaries, untyped internally where error modes evolve.
+            - **ARC leaks**: break retain cycles with `weak`/`unowned` in closures and
+              delegates.
+            - **Concurrency**: Swift 6 enforces data-race safety at compile time. In 6.2
+              projects default isolation is `@MainActor` — flag work that should leave it
+              (`@concurrent` / hop to an actor); `actor`s isolate shared mutable state;
+              `Sendable` across isolation boundaries.
+            - **Cancellation**: cooperative — call `Task.checkCancellation()`; structured
+              tasks (`async let`, task groups) propagate errors.
+        content_hash: sha256:7a8a1dd000bf4fe4b1ff432c283fb8659ab551d5eb568ac00a318ae8f7a3473b
+        distilled: |-
+            # Lens: Reliability — Swift
+
+            ## Check
+            - **`defer`** cleanup; `do/catch`; **typed throws** (`throws(E)`) at stable API boundaries
+            - **ARC**: break cycles with `weak`/`unowned` in closures, delegates
+            - **Concurrency**: Swift 6 compile-time data-race safety. Default `@MainActor` (6.2+)—flag non-Main work. `actor`s isolate state; `Sendable` across boundaries
+            - **Cancellation**: cooperative; `Task.checkCancellation()`; structured tasks propagate errors
+        distilled_by: claude-haiku-4-5-20251001
+    typescript:
+        tags:
+            - review
+            - reliability
+            - typescript
+        content: |-
+            # Lens: Reliability — TypeScript / JS
+
+            ## Check
+            - **No floating promises**: every promise is awaited or explicitly handled;
+              unhandled rejections leak/crash.
+            - **`try/finally`** — or `using`/`await using` (`Symbol.dispose`/`asyncDispose`,
+              TS 5.2+) for deterministic cleanup; `clearTimeout`/close handles.
+            - **`Promise.all` fails fast**; use `allSettled` when partial success is
+              valid.
+            - **Cancellation** via `AbortController`/signal propagation.
+            - Single-threaded event loop means no data races, but **async-ordering
+              races** are real (interleaved awaits mutating shared state).
+            - Don't bury errors in an empty `.catch(() => {})`.
+        content_hash: sha256:fda540840e6008a3adafa108c36d7ebbe3e97429f861a4dd5a6a6a45886e9e90
+        distilled: |-
+            # Lens: Reliability — TypeScript / JS
+
+            ## Check
+            - **No floating promises**: await all or handle explicitly; unhandled rejections crash
+            - **`try/finally`** or `using`/`await using` (`Symbol.dispose`/`asyncDispose`) for cleanup; clear timeouts/close handles
+            - **`Promise.all` fails fast**; use `allSettled` when partial success valid
+            - **Cancellation**: `AbortController`/signal propagation
+            - **Async-ordering races**: interleaved awaits mutate shared state
+            - Never use empty `.catch(() => {})` — buries errors
+        distilled_by: claude-haiku-4-5-20251001

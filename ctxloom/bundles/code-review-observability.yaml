@@ -1,0 +1,36 @@
+version: 1.0.0
+tags:
+    - review
+    - observability
+    - backend
+author: ctxloom
+description: Observability review. Language-agnostic — a single `general` fragment. Compose `code-review-observability#fragments/general` as a `ctxloom weave` member.
+fragments:
+    general:
+        tags:
+            - review
+            - observability
+            - backend
+        content: |-
+            # Lens: Observability
+
+            Can we tell what happened in production?
+
+            ## Check
+            - **Logging**: structured, correct levels, actionable; no secrets/PII;
+              correlation/request IDs.
+            - **Metrics**: key operations measured; bounded label cardinality.
+            - **Tracing**: spans for significant operations; trace context propagated
+              across boundaries.
+            - **Security/audit logging**: auth events, access-control denials, and
+              privileged actions recorded (OWASP A09:2025 — Security Logging & Alerting
+              Failures; logging without alerting is the failure mode).
+        content_hash: sha256:b855600bfb85e8634ecdbf2defa5392b9b3d085455780c50de8dc8e025606f2d
+        distilled: |-
+            # Observability
+
+            - **Logging**: structured, correct levels, actionable; no secrets/PII; correlation/request IDs
+            - **Metrics**: key ops measured; bounded label cardinality
+            - **Tracing**: spans for significant ops; trace context propagated across boundaries
+            - **Security/audit logging**: auth events, access-control denials, privileged actions (OWASP A09:2025; logging without alerting = failure)
+        distilled_by: claude-haiku-4-5-20251001

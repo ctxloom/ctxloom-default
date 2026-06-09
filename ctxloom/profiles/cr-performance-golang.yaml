@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Performance & efficiency review for Go"
+tags:
+  - review
+  - performance
+  - golang
+# Go member: general lens + Go idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-performance#fragments/general
+  - ctxloom-default/code-review-performance#fragments/golang

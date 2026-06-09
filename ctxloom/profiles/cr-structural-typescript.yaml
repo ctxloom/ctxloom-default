@@ -1,0 +1,13 @@
+version: "1.0.0"
+description: "Design & architecture review for TypeScript"
+tags:
+  - review
+  - structural
+  - architecture
+  - design
+  - typescript
+# TypeScript member: general lens + TypeScript idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-structural#fragments/general
+  - ctxloom-default/code-review-structural#fragments/typescript

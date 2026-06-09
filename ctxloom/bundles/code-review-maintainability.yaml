@@ -1,0 +1,288 @@
+version: 1.0.0
+tags:
+    - review
+    - maintainability
+    - readability
+author: ctxloom
+description: Maintainability & readability review lens. Language-agnostic `general` fragment plus per-language idiomatic-readability guidance. Compose `code-review-maintainability#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+fragments:
+    cpp:
+        tags:
+            - review
+            - maintainability
+            - cpp
+        content: |-
+            # Lens: Maintainability — C++
+
+            ## Check
+            - **RAII** removes manual-cleanup clutter; ownership visible in signatures
+              (smart pointers / value types).
+            - **`const`-correctness** documents intent; `auto` where it aids reading,
+              not where it hides the type.
+            - **`std::ranges`/`views`** (and STL algorithms) over hand-rolled loops where clearer.
+            - Keep template metaprogramming and macros to what genuinely needs them.
+            - Meaningful names; small functions; headers expose contract, not internals.
+        content_hash: sha256:3882b476d0e864b3ada3cd74ac66727de586a050b40c9716f22c15dd18bef1cd
+        distilled: |-
+            # Lens: Maintainability — C++
+
+            ## Check
+            - **RAII** — ownership in signatures
+            - **`const`-correctness**; judicious `auto`
+            - **`std::ranges`/`views`, STL algorithms** vs. hand-rolled loops
+            - Template metaprogramming, macros: genuine needs only
+            - Meaningful names; small functions; contracts in headers
+        distilled_by: claude-haiku-4-5-20251001
+    csharp:
+        tags:
+            - review
+            - maintainability
+            - csharp
+        content: |-
+            # Lens: Maintainability — C#
+
+            ## Check
+            - **Expression-bodied members** and **`var`** where the type is obvious.
+            - **`record`/pattern matching/switch expressions** over verbose branching.
+            - **Guard clauses** over nested `if`; constants over magic values.
+            - Avoid `#region` hiding complexity; XML docs on public API.
+            - LINQ where it reads clearly; loops where they're clearer.
+        content_hash: sha256:e52c567610c580904fa69066ba7627d7c78e7aeac4706b525f329e53df443627
+        distilled: |-
+            # Lens: Maintainability — C#
+
+            ## Check
+            - Expression-bodied members; `var` when obvious
+            - `record`, pattern matching, switch expressions vs. verbose branching
+            - Guard clauses, not nested `if`; constants, not magic values
+            - Avoid `#region` hiding; XML docs on public API
+            - LINQ where readable; loops when clearer
+        distilled_by: claude-haiku-4-5-20251001
+    general:
+        tags:
+            - review
+            - maintainability
+            - readability
+        content: |-
+            # Lens: Maintainability & Readability
+
+            Can the next engineer understand and safely change this quickly?
+
+            ## Check
+            - **Simplicity**: is there a simpler solution to the actual problem? Deep
+              nesting, long functions/params, high branching → flag.
+            - **Duplication**: copy-paste or near-duplicate logic that should be shared
+              (vs. coincidental similarity that should stay separate).
+            - **Naming**: intention-revealing, consistent vocabulary, no stale or
+              misleading names.
+            - **Comments**: explain *why* (rationale, trade-offs), not *what* the code
+              already says; no dead/commented-out code.
+            - Consistent with surrounding code's prevailing patterns.
+
+            (Formatting/style is a linter's job — don't spend review on it.)
+            Pair with the project's language fragment for idiomatic readability.
+        content_hash: sha256:5117aacebe7d20e5c5cfbd52303347f807840da863de11c466d7ee24a3b43668
+        distilled: |-
+            # Lens: Maintainability & Readability
+
+            Can the next engineer understand and safely change this quickly?
+
+            ## Check
+            - **Simplicity**: Flag deep nesting, long functions/params, high branching.
+            - **Duplication**: Extract shared logic; distinguish coincidental similarity.
+            - **Naming**: Intention-revealing, consistent, no stale/misleading names.
+            - **Comments**: *Why* (rationale, trade-offs), not *what*. Remove dead code.
+            - **Consistency**: Match surrounding patterns.
+
+            Formatting → linter. Pair with language fragment for idiomatic guidance.
+        distilled_by: claude-haiku-4-5-20251001
+    golang:
+        tags:
+            - review
+            - maintainability
+            - go
+        content: |-
+            # Lens: Maintainability — Go
+
+            ## Check
+            - **Guard clauses / early return**: handle errors immediately; avoid nested
+              `if err == nil` pyramids.
+            - **Naming**: short names in short scopes, descriptive at package level;
+              avoid stutter (`user.UserName`).
+            - **Don't over-abstract**: no interface until there's a second
+              implementation.
+            - Return errors with context (`fmt.Errorf("...: %w", err)`) rather than bare
+              re-returns.
+            - Keep functions small; prefer clear control flow over clever tricks. Let
+              `gofmt`/`golangci-lint` own layout.
+        content_hash: sha256:33afaf4688665dc358603dea5de1e45d8bfe3c631482736661cdfb1d17f559dd
+        distilled: |-
+            # Lens: Maintainability — Go
+
+            ## Check
+            - **Guard clauses/early return**: handle errors immediately; avoid nested `if err == nil` pyramids
+            - **Naming**: short in short scopes, descriptive at package level; no stutter (`user.UserName`)
+            - **Don't over-abstract**: no interface until 2nd implementation
+            - Return errors with context (`fmt.Errorf("...: %w", err)`) not bare re-returns
+            - Keep functions small; clear control flow > clever tricks. Let `gofmt`/`golangci-lint` own layout
+        distilled_by: claude-haiku-4-5-20251001
+    java:
+        tags:
+            - review
+            - maintainability
+            - java
+        content: |-
+            # Lens: Maintainability — Java
+
+            ## Check
+            - **Small methods**, single responsibility; avoid deep inheritance — favor
+              composition.
+            - **`record`/`Optional`/`enum`** to express intent over boilerplate or
+              sentinel values.
+            - **Constants** for magic numbers/strings; meaningful names (no Hungarian).
+            - Streams where they clarify, plain loops where they're clearer.
+            - Javadoc on public API explaining contract and *why*.
+        content_hash: sha256:c5172a4728b90437277da26fb863c9c80b2303e86ffe0ff023779109f401c454
+        distilled: |-
+            # Lens: Maintainability — Java
+
+            ## Check
+            - Small methods, single responsibility; prefer composition over deep inheritance
+            - `record`/`Optional`/`enum` for intent (not boilerplate/sentinels)
+            - Constants for magic numbers/strings; no Hungarian notation
+            - Streams if clearer; else plain loops
+            - Javadoc: public API contract & rationale
+        distilled_by: claude-haiku-4-5-20251001
+    kotlin:
+        tags:
+            - review
+            - maintainability
+            - kotlin
+        content: |-
+            # Lens: Maintainability — Kotlin
+
+            ## Check
+            - **Scope functions** (`let/run/apply/also`) used sparingly — chained, they
+              hurt readability more than they help.
+            - **Expression bodies**, `data class`, named/default args over telescoping
+              overloads; guard conditions in `when` (`is X if …`) over nested branching.
+            - **Extension functions** grouped by feature, not dumped as a global
+              grab-bag; explicit backing fields (`field =`) over `_state`/`state` mirrors.
+            - Prefer `val`/immutability; clear null-handling (`?.`/`?:`) over `!!`.
+        content_hash: sha256:2e9ff8eb485e493ad03d68088970ee410260892d93464289fbfc16a4ce62853a
+        distilled: |-
+            # Lens: Maintainability — Kotlin
+
+            ## Check
+            - **Scope functions** — avoid chains (hurt readability)
+            - **Expression bodies**, `data class`, named/default args over overloads; guard conditions in `when` (`is X if …`)
+            - **Extension functions** — group by feature, not globally; explicit backing fields (`field =`)
+            - **Immutability** — prefer `val`; clear null-handling (`?.`/`?:`) over `!!`
+        distilled_by: claude-haiku-4-5-20251001
+    python:
+        tags:
+            - review
+            - maintainability
+            - python
+        content: |-
+            # Lens: Maintainability — Python
+
+            ## Check
+            - **Comprehensions** where they read clearly; avoid nested/triple
+              comprehensions that need decoding.
+            - **Type hints** on public functions aid the next reader and tooling.
+            - **f-strings** over `%`/`.format`; **dataclasses/enums** over dicts of
+              magic keys.
+            - Early returns over deep nesting; avoid clever one-liners.
+            - Meaningful names (no `l`, `I`, `O`, `data2`); explicit params over
+              `**kwargs` pass-through when the contract is known.
+        content_hash: sha256:69b8a4c6ad969dcc11fd01e31fa234604e0226b0981c2e67f262e38cc767a7b7
+        distilled: |-
+            # Lens: Maintainability — Python
+
+            ## Check
+            - **Comprehensions**: readable; avoid nested/triple
+            - **Type hints** on functions
+            - **f-strings** over `%`/`.format`; **dataclasses/enums** over dicts w/ magic keys
+            - Early returns over nesting; no clever one-liners
+            - Meaningful names (not `l`, `I`, `O`, `data2`); explicit params over `**kwargs`
+        distilled_by: claude-haiku-4-5-20251001
+    rust:
+        tags:
+            - review
+            - maintainability
+            - rust
+        content: |-
+            # Lens: Maintainability — Rust
+
+            ## Check
+            - **`?` to flatten** error handling; `match`/`if let`/`let ... else` over
+              nested `if let` pyramids.
+            - **Iterator chains** where they read clearly (not unreadable mega-chains).
+            - **Newtypes** and descriptive types over bare primitives for intent.
+            - Doc comments (`///`) with examples on public items.
+            - Keep `unsafe` minimal and comment its invariant; let `clippy` flag the
+              rest.
+        content_hash: sha256:f22c767599bf4094ac717e271f2d3acb34c26fd189fe1aae8d1b889cad0c5bd7
+        distilled: |-
+            # Lens: Maintainability — Rust
+
+            ## Check
+            - **`?` to flatten** error handling; `match`/`if let`/`let ... else` over nested `if let`.
+            - **Iterator chains** when readable.
+            - **Newtypes** & descriptive types over primitives.
+            - Doc comments (`///`) w/ examples on public items.
+            - Keep `unsafe` minimal; comment invariants; let `clippy` flag rest.
+        distilled_by: claude-haiku-4-5-20251001
+    swift:
+        tags:
+            - review
+            - maintainability
+            - swift
+        content: |-
+            # Lens: Maintainability — Swift
+
+            ## Check
+            - **`guard`** for early exit and unwrapping; keep the happy path
+              un-indented.
+            - **Extensions** to organize a type by concern (conformances, helpers).
+            - Names follow the API Design Guidelines — clarity at the call site.
+            - Avoid massive view controllers; extract responsibilities.
+            - Computed properties over ad-hoc getter methods where natural.
+        content_hash: sha256:aaaff1602eaaea7ca20348385ca1b3893e4c3ae07dfffb3b83144789c26b9982
+        distilled: |-
+            # Lens: Maintainability — Swift
+
+            ## Check
+            - **`guard`** for early exit/unwrapping; keep happy path unindented
+            - **Extensions** organize by concern (conformances, helpers)
+            - Names per API Design Guidelines
+            - Avoid massive view controllers; extract responsibilities
+            - Computed properties > ad-hoc getters
+        distilled_by: claude-haiku-4-5-20251001
+    typescript:
+        tags:
+            - review
+            - maintainability
+            - typescript
+        content: |-
+            # Lens: Maintainability — TypeScript
+
+            ## Check
+            - **Avoid `any`** and `as` casts — prefer `satisfies`/type guards; casts erase
+              the types the next reader relies on.
+            - **Named types** for non-trivial shapes over inline anonymous objects.
+            - **Destructuring** and early returns for clarity; avoid nested ternaries.
+            - Narrow at boundaries so internals stay strongly typed.
+            - JSDoc only where the types don't already express intent.
+        content_hash: sha256:d94eb0740948eba3a97b4c0f2a1273372266fe7ea90e9ccedb2b78d806ff7fc2
+        distilled: |-
+            # Lens: Maintainability — TypeScript
+
+            ## Check
+            - Avoid `any`/`as` casts; prefer `satisfies`/type guards
+            - Named types for non-trivial shapes; skip inline anonymous
+            - Destructuring & early returns; avoid nested ternaries
+            - Narrow at boundaries for strong internal types
+            - JSDoc only where types don't express intent
+        distilled_by: claude-haiku-4-5-20251001

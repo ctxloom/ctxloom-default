@@ -1,0 +1,9 @@
+version: "1.0.0"
+description: "Correctness & functionality review, language-agnostic"
+tags:
+  - review
+  - correctness
+# Single-lens member for `ctxloom weave`. Optionally set `llm:` to tier models.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-correctness#fragments/general

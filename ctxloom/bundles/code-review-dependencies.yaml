@@ -1,0 +1,37 @@
+version: 1.0.0
+tags:
+    - review
+    - dependencies
+    - supply-chain
+    - licensing
+author: ctxloom
+description: Dependencies, supply-chain & licensing review. Language-agnostic — a single `general` fragment. Compose `code-review-dependencies#fragments/general` as a `ctxloom weave` member.
+fragments:
+    general:
+        tags:
+            - review
+            - dependencies
+            - supply-chain
+            - licensing
+        content: |-
+            # Lens: Dependencies, Supply Chain & Licensing
+
+            ## Check
+            - New/updated deps: necessary? maintained? known CVEs? (a small utility may
+              not warrant a dependency.)
+            - Versions pinned/locked; provenance trusted; transitive risk considered.
+            - **Licensing**: new deps' licenses compatible with this project's; no
+              copyleft contamination; attribution where required.
+            - **Provenance**: SLSA build level; Sigstore-signed artifacts; SBOM in SPDX or
+              CycloneDX. (Vulnerable/outdated components = OWASP A03:2025, Software Supply
+              Chain Failures.)
+        content_hash: sha256:ed705d6108b7e99173317813b1d10475f37ed7de3949ff9df18241c473e45b5a
+        distilled: |-
+            # Lens: Dependencies, Supply Chain & Licensing
+
+            ## Check
+            - New/updated deps: necessary? maintained? known CVEs?
+            - Versions pinned; provenance trusted; transitive risk considered
+            - **Licenses**: compatible; no copyleft; attribution required
+            - **Provenance**: SLSA; Sigstore-signed; SBOM (SPDX/CycloneDX)
+        distilled_by: claude-haiku-4-5-20251001

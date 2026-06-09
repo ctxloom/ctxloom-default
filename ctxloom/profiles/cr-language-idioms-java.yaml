@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Language idioms & best-practices review for Java"
+tags:
+  - review
+  - idioms
+  - best-practices
+  - java
+# Java member: general lens + Java idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-language-idioms#fragments/general
+  - ctxloom-default/code-review-language-idioms#fragments/java

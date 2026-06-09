@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Correctness & functionality review for Rust"
+tags:
+  - review
+  - correctness
+  - rust
+# Rust member: general lens + Rust idioms. A `ctxloom weave` member.
+bundles:
+  - ctxloom-default/code-review-base#fragments/conduct
+  - ctxloom-default/code-review-correctness#fragments/general
+  - ctxloom-default/code-review-correctness#fragments/rust

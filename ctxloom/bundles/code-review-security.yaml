@@ -1,0 +1,46 @@
+version: 1.0.0
+tags:
+    - review
+    - security
+author: ctxloom
+description: Security review lens (OWASP / ASVS). Language-agnostic — a single `general` fragment. Compose `code-review-security#fragments/general` as a `ctxloom weave` member; pair with the project's language fragment from another lens for memory/injection specifics.
+fragments:
+    general:
+        tags:
+            - review
+            - security
+        content: |-
+            # Lens: Security (OWASP Top 10:2025 / ASVS 5.0)
+
+            Does the change protect data and resist abuse?
+
+            ## Check
+            - **Access control**: every privileged action is authorized server-side;
+              deny by default; no object-level IDOR (acting on IDs without an owner
+              check).
+            - **Injection / output encoding**: untrusted input never reaches an
+              interpreter unescaped — parameterized queries (SQLi), context-aware
+              encoding (XSS), no shell/`eval`/template injection.
+            - **Secrets & crypto**: no hard-coded credentials/keys/tokens; strong,
+              standard algorithms; secure randomness; data encrypted in transit/at rest.
+            - **Secure design**: SSRF (validate/allow-list outbound URLs); safe
+              deserialization; least privilege; safe-by-default config.
+            - **AuthN/session**: token expiry, no session fixation, MFA paths intact.
+            - Memory safety in unsafe/native code (bounds, use-after-free).
+
+            Flag concrete, exploitable issues with the attack in mind — not generic
+            "add validation" notes.
+        content_hash: sha256:08ae0b3c455041ba48489b245d14f9de753e311584750e6338379d1e5c07635f
+        distilled: |-
+            # Lens: Security (OWASP Top 10:2025 / ASVS 5.0)
+
+            ## Check
+            - **Access control**: Privileged actions authorized server-side; deny by default; no IDOR.
+            - **Injection / output encoding**: Untrusted input never unescaped to interpreter—parameterized queries (SQLi), context-aware encoding (XSS), no shell/eval/template injection.
+            - **Secrets & crypto**: No hard-coded credentials/keys/tokens; strong standard algorithms; secure randomness; encrypt transit/rest.
+            - **Secure design**: SSRF (validate/allow-list URLs); safe deserialization; least privilege; secure-by-default config.
+            - **AuthN/session**: Token expiry; no session fixation; MFA intact.
+            - **Memory safety**: Unsafe/native code—bounds, use-after-free.
+
+            Flag concrete exploitable issues, not generic validation notes.
+        distilled_by: claude-haiku-4-5-20251001
