@@ -57,7 +57,7 @@ fragments:
             - Review and adjust intermediate conclusions
             - Summarize the final reasoning chain
         no_distill: true
-prompts:
+skills:
     complex-problem:
         description: Analyze a complex problem using sequential thinking
         tags:

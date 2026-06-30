@@ -30,7 +30,7 @@ installation: |
     ```bash
     versionator init
     ```
-prompts:
+skills:
     release:
         description: Release workflow for versionator projects
         tags:
