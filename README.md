@@ -53,12 +53,14 @@ bundles.
 | typescript-development | TypeScript strict mode and conventions |
 | web-frontend | React, Vite, ESLint patterns |
 
-## Prompts
+## Skills
 
-| Prompt | Description |
-|--------|-------------|
-| code-review | Comprehensive code review |
-| code-review-recent | Review recent changes |
+| Skill | Description |
+|-------|-------------|
+| weave-review | Parallel synthesized code review — fans per-lens reviewers via `ctxloom weave` + `cr-synthesis` (bundle skill in `code-review-base`) |
+| review-perspectives | Comprehensive single-agent code review (multi-perspective) |
+| review-recent | Review recent changes |
+| review-illuminated | Interactive step-by-step code-review walkthrough |
 | distill | Text compression utility |
 | write-readme | README generation |
 

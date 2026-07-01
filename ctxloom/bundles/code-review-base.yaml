@@ -102,6 +102,29 @@ fragments:
             2. **Critical, Major, Minor**: `file:line`, consequence, fix, source lens(es)
             3. **Notable strengths** (brief)
         distilled_by: claude-haiku-4-5-20251001
+    thorough:
+        tags:
+            - review
+            - base
+        content: |-
+            # Code Review — Thoroughness
+
+            Review the ACTUAL code. Do NOT judge from summaries, prior memories,
+            commit messages, or file names — those mislead. For every file in scope:
+
+            - OPEN and read the file (or the full diff hunk plus enough surrounding
+              context to understand it), top to bottom. A name like `validate.go`
+              or a summary like "adds validation" is a hypothesis, not evidence.
+            - Do not assume a function does what its name says — read its body.
+            - Do not skip a file because it "looks unrelated" or "looks generated" —
+              confirm by reading. Name anything you deliberately skip, and why.
+            - Trace the change end to end: callers, callees, error paths, and the
+              data it touches — not only the lines that changed.
+            - Trust what you have read this session over anything recalled from a
+              previous one; re-read rather than rely on memory.
+
+            If the change is too large to read in full, say so explicitly and scope
+            exactly what you did and did not read — never imply coverage you did not do.
 profiles:
     cr-all:
         description: "Comprehensive single-agent code review across every lens, language-agnostic. A ready-to-run exemplar bundle profile; for a parallel synthesized review, compose tight per-lens members for the project's language(s) and reduce with cr-synthesis (see the code-review composition guidance)."
@@ -134,3 +157,59 @@ profiles:
             - synthesis
         bundles:
             - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/synthesis
+skills:
+    weave-review:
+        description: "Run a parallel, synthesized code review: fan per-lens reviewers with `ctxloom weave` and reduce with cr-synthesis (agent-driven, language-aware)."
+        tags:
+            - review
+            - weave
+        content: |-
+            # Weave Code Review
+
+            Run a parallel, synthesized code review by fanning per-lens reviewers
+            with `ctxloom weave`, then reducing their findings into one report. Each
+            lens looks at the change independently, in parallel, and a synthesis step
+            de-duplicates and ranks. You (the orchestrating agent) drive this end to
+            end — the weave output IS the review; do not also review inline.
+
+            ## 1. Get the diff
+            Use the change under review: `git diff` (working tree), `git diff
+            --staged`, or `git diff <base>...HEAD` for a branch/PR. Honor a range the
+            user named.
+
+            ## 2. Detect the project's language(s)
+            Scan for markers: go.mod, Cargo.toml, package.json, pyproject.toml,
+            pom.xml, *.csproj, Package.swift, CMakeLists.txt, etc. A polyglot repo has
+            several — review only the language(s) actually present in the diff.
+
+            ## 3. Find the review members to fan
+            The reviewers are built ONCE — at `ctxloom init` / `ctxloom subagent
+            setup` — and persisted locally, a discrete per-(lens × language) member
+            each (conduct + thorough + that lens's `general` fragment + the language
+            fragment). You do NOT compose them here; you fan what is already
+            persisted. The `code-review-base#fragments/thorough` fragment makes each
+            reviewer read every file rather than trust summaries/memories/names. Find the
+            members for the language(s) in the diff:
+            - `ctxloom subagent list` and `ctxloom profile list` — the persisted local
+              review members, plus any per-lens subagents with a chosen engine and the
+              `cr-synthesis` reduce member.
+
+            If this project has no review members yet, they haven't been built: run
+            `ctxloom subagent setup` (or ask the user to) to compose and persist them
+            for this project's language(s), then return here. For a one-off without an
+            ensemble, run the single-agent `cr-all` profile instead.
+
+            ## 4. Fan and synthesize
+            Fan the members in parallel and reduce with the synthesis profile:
+
+                ctxloom weave -p <member1> -p <member2> ... -s cr-synthesis "<diff>"
+
+            - `-p <member>` is bare-profile sugar (a default-engine member); if the
+              user has a same-named local subagent, its chosen engine wins.
+            - `-s cr-synthesis` is the reduce step — bind a high-power engine there.
+            - Pass or pipe the diff as the task.
+
+            ## 5. Report
+            Surface the synthesized report: a summary + merge recommendation, then
+            Critical / Major / Minor findings (each with `file:line`, the consequence,
+            the fix, and which lens raised it), and notable strengths.
