@@ -116,3 +116,15 @@ fragments:
 
             State brief plans with steps and verification. Strong criteria enable independent looping.
         distilled_by: claude-haiku-4-5-20251001
+profiles:
+    developer:
+        description: "Developer composition root: AI coding practices, testing, and tooling. Compose it with a language's ai-practices bundle (e.g. go-ai-practices) plus 12-factor to build a language developer; `ctxloom init` composes this per project rather than shipping a fixed per-language matrix."
+        tags:
+            - development
+            - base
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
+            - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer
+            - https://github.com/ctxloom/ctxloom-default@bundles/testing
+            - https://github.com/ctxloom/ctxloom-default@bundles/git
+            - https://github.com/ctxloom/ctxloom-default@bundles/lsp

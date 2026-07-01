@@ -213,3 +213,15 @@ fragments:
             - Logging context?
             - Error conditions & messages?
         distilled_by: claude-haiku-4-5-20251001
+profiles:
+    default:
+        description: "Baseline profile seeded by `ctxloom init`: conduct/practice directives plus the sequential-thinking MCP server. A local coding profile inherits this as its baseline."
+        tags:
+            - default
+            - base
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/default
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+            - https://github.com/ctxloom/ctxloom-default@bundles/ltk
+            - https://github.com/ctxloom/ctxloom-default@bundles/versionator
+            - https://github.com/ctxloom/ctxloom-default@bundles/sequential-thinking

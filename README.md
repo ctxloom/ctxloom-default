@@ -4,44 +4,40 @@ Default bundles and profiles for [ctxloom](https://github.com/ctxloom/ctxloom).
 
 ## Usage
 
-This remote is pre-configured in ctxloom. After `ctxloom init`, you can use profiles directly:
-
-```yaml
-# .ctxloom/config.yaml
-defaults:
-  profiles:
-    - ctxloom-default/go-developer
-```
-
-Or pull content manually:
+This remote is pre-configured in ctxloom. `ctxloom init` seeds a local `default`
+coding profile (inheriting the base profiles below) and, working with your agent,
+composes the language developer(s) and code-review members your project needs from
+these bundles — rather than shipping a fixed matrix of per-language profiles.
 
 ```bash
-# Pull a profile
-ctxloom remote pull ctxloom-default/go-developer --type profile
-
 # Pull a bundle
 ctxloom remote pull ctxloom-default/testing --type bundle
 ```
 
-## Available Profiles
+## Profiles
+
+Profiles ship **inside bundles**, addressed as `<bundle>#profiles/<name>`.
+ctxloom-default provides composition roots and exemplars; `ctxloom init` composes
+the project-specific language developers and review members from the fragment
+bundles.
 
 | Profile | Description |
 |---------|-------------|
-| go-developer | Go backend development with testing, 12-factor, tooling |
-| go-code-reviewer | Go code review with checklists |
-| python-developer | Python development with modern tooling (uv, pipx) |
-| python-code-reviewer | Python code review with checklists |
-| rust-developer | Rust systems development with tooling |
-| rust-code-reviewer | Rust code review with checklists |
-| typescript-web-developer | TypeScript/React web development |
+| `default#profiles/default` | Baseline conduct/practices + sequential-thinking MCP (seeded by init) |
+| `ai-developer#profiles/developer` | Developer composition root — compose with a `<lang>-ai-practices` bundle |
+| `code-review-base#profiles/cr-all` | Comprehensive single-agent code review (all lenses) |
+| `code-review-base#profiles/cr-synthesis` | Synthesis/reduce step for a `ctxloom weave` review ensemble |
 
 ## Available Bundles
 
 | Bundle | Description |
 |--------|-------------|
 | 12-factor | Cloud-native application methodology |
+| agent-roles | finder + developer-escalation role fragments for orchestrated subagents |
 | asdf | Version manager for multiple runtimes |
 | ast-grep | Structural code search and replace |
+| code-review-base | Review scaffolding (conduct + synthesis) and the cr-all/cr-synthesis exemplar profiles |
+| code-review-\<lens\> | Per-lens review fragments (general + per-language) to compose `ctxloom weave` members |
 | code-review-checklists | Review perspectives (architecture, performance, etc.) |
 | configuration-patterns | Type-discriminated config, validation, layering |
 | cqrs | Command Query Responsibility Segregation |
