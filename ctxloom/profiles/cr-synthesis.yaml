@@ -1,7 +1,0 @@
-version: "1.0.0"
-description: "Synthesis profile for cr-* weave ensembles: agglomerates per-lens member findings into one de-duplicated, ranked report. Set a high-power `llm:` here for the reduce step."
-tags:
-  - review
-  - synthesis
-bundles:
-  - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/synthesis

@@ -102,3 +102,35 @@ fragments:
             2. **Critical, Major, Minor**: `file:line`, consequence, fix, source lens(es)
             3. **Notable strengths** (brief)
         distilled_by: claude-haiku-4-5-20251001
+profiles:
+    cr-all:
+        description: "Comprehensive single-agent code review across every lens, language-agnostic. A ready-to-run exemplar bundle profile; for a parallel synthesized review, compose tight per-lens members for the project's language(s) and reduce with cr-synthesis (see the code-review composition guidance)."
+        tags:
+            - review
+            - comprehensive
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-correctness#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-maintainability#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-language-idioms#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-security#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-api-compat#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-dx#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-ux#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-accessibility-i18n#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-cost-infra#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-data#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-observability#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-dependencies#fragments/general
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-documentation#fragments/general
+    cr-synthesis:
+        description: "Synthesis (reduce) profile for a code-review weave ensemble: agglomerates the per-lens members' findings into one de-duplicated, severity-ranked report. Bind a high-power engine for the reduce step."
+        tags:
+            - review
+            - synthesis
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/synthesis
