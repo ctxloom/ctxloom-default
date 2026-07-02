@@ -7,9 +7,10 @@ author: ctxloom
 description: taskloom — persistent per-project task tracking; tooling declaration for the companion binary.
 notes: |
     ctxloom EMBEDS the taskloom usage fragment as a builtin (it auto-injects
-    whenever the companion binary is present), so this bundle deliberately
-    ships no fragment — only the tooling declaration that gets the binary into
-    agent environments in the first place.
+    whenever the companion binary is present), so this bundle ships no
+    usage fragment. It ships the deferral-tracking policy fragment (a
+    behavioral default layered on the builtin) plus the tooling declaration
+    that gets the binary into agent environments in the first place.
 skills:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
@@ -21,3 +22,40 @@ skills:
               server (`taskloom mcp`) come with the one binary; ctxloom's
               builtin taskloom fragment activates automatically once it is
               on PATH.
+fragments:
+    deferral-tracking:
+        tags:
+            - tasks
+            - workflow
+        content: |-
+            # Deferral Tracking
+
+            Deferred work lives in taskloom, not in conversation memory or plan prose.
+
+            ## Agent deferrals
+
+            When work gets deferred in a session — descoped from the current task, a follow-up discovered mid-implementation, a fix postponed — record it with task_add before moving on:
+
+            - A concrete revive condition exists ("after X merges", "when CI is green") → status "Deferred" with that condition as the trigger.
+            - No condition, just later → "To Do".
+
+            Don't close out work that spawned deferred items until each one is recorded.
+
+            ## User deferrals
+
+            When the user defers something ("later", "not now", "punt on that", "park it"), offer to record it as a taskloom entry and create it on confirmation. One short offer alongside the acknowledgment; don't push if declined.
+
+            ## Why
+
+            A deferral that exists only in chat or a plan file is lost when the session ends. The task log is the durable record; plans and summaries reference entries by harp ID.
+        content_hash: sha256:baa1dc81369a575b4bcfcb513fb1af375a7d7de5c68f0bbd1eebe65b7bfa0ce6
+        distilled: |-
+            # Deferral Tracking
+
+            Deferred work → taskloom, not conversation memory or plan prose.
+
+            - Agent deferrals (descoped work, discovered follow-ups, postponed fixes): task_add before moving on. Concrete revive condition → "Deferred" + trigger; else "To Do".
+            - Don't close work with unrecorded deferred items.
+            - User deferrals ("later", "not now", "punt", "park it"): offer once to record as a taskloom entry; create on confirmation; don't push if declined.
+            - Chat/plan-only deferrals are lost at session end; the task log is the record (reference by harp ID).
+        distilled_by: claude-code
