@@ -1,0 +1,23 @@
+version: 1.0.0
+tags:
+    - taskloom
+    - tasks
+    - tooling
+author: ctxloom
+description: taskloom — persistent per-project task tracking; tooling declaration for the companion binary.
+notes: |
+    ctxloom EMBEDS the taskloom usage fragment as a builtin (it auto-injects
+    whenever the companion binary is present), so this bundle deliberately
+    ships no fragment — only the tooling declaration that gets the binary into
+    agent environments in the first place.
+skills:
+    tooling:
+        description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
+        tags:
+            - tooling
+        content: |
+            - taskloom: Homebrew or a release binary from GitHub
+              (https://github.com/ctxloom/taskloom). The task store and MCP
+              server (`taskloom mcp`) come with the one binary; ctxloom's
+              builtin taskloom fragment activates automatically once it is
+              on PATH.

@@ -1,0 +1,68 @@
+version: 1.0.0
+tags:
+    - reprise
+    - duplication
+    - code-quality
+    - tooling
+author: ctxloom
+description: reprise — duplicate detection for LLM-generated code; how the agent runs it, responds to findings, and wires it as a lefthook pre-commit gate.
+fragments:
+    reprise:
+        tags:
+            - reprise
+            - duplication
+        content: |
+            # reprise
+
+            This project runs **reprise**, duplicate detection built for
+            LLM-generated code (a *reprise* is a theme that returns in altered
+            form — a near-duplicate). LLM assistants systematically
+            reimplement existing helpers instead of calling them, and the
+            copies then drift apart; reprise catches clone Types 1-3 plus the
+            reimplemented-helper slice of Type-4, within this codebase. It is
+            REPORT-ONLY: it never edits code — responding to findings is your
+            job.
+
+            ## The three commands
+
+            - `reprise scan` — full-repo ranked report of duplicate groups.
+            - `reprise check` — PR/commit mode: findings involving units
+              changed since a git ref fail unless baselined and unworsened.
+              Its flagship finding is `inconsistent-update`: a change edited
+              ONE copy of a known duplicate group but not the others.
+            - `reprise baseline` — record all current findings to a
+              checked-in baseline (`reprise-baseline.json`); the adoption
+              path for legacy duplication.
+
+            ## How to respond to findings
+
+            - **Before writing a helper**, search for an existing one and
+              call it — that is the failure mode reprise exists to catch.
+            - **`inconsistent-update`**: the fix you just made belongs to
+              every copy in the group. Prefer extracting the shared helper
+              and calling it everywhere; at minimum, apply the change to all
+              copies.
+            - **A new duplicate group**: replace your new implementation with
+              a call to the existing unit (or extract one shared helper).
+            - **Legacy noise**: `reprise baseline` once, checked in — never
+              delete or regenerate the baseline just to make a failing check
+              pass, and never suppress a finding without the user's say-so.
+
+            ## Pre-commit gate
+
+            reprise runs as a **lefthook pre-commit hook** (`reprise check`
+            in lefthook.yml). A failing hook means respond as above and
+            retry the commit — do not bypass with `--no-verify`.
+skills:
+    tooling:
+        description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
+        tags:
+            - tooling
+        content: |
+            - reprise: Homebrew or GitHub (https://github.com/ctxloom/reprise)
+              — a release binary if published, else build from source
+              (`cargo build --release`; Rust 2024 toolchain).
+            - lefthook: reprise gates commits through it (see the lefthook
+              bundle's tooling) — `brew install lefthook` or a release from
+              https://github.com/evilmartians/lefthook/releases, then wire
+              `reprise check` as a pre-commit command in lefthook.yml.
