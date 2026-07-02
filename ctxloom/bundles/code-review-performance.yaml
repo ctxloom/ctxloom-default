@@ -14,29 +14,11 @@ fragments:
 
             Does it use time, memory, and I/O well — and scale?
 
-            ## Check
-            - Hot-path work: avoidable allocations/serialization, expensive ops inside
-              loops, repeated recomputation (cache where sound).
-            - I/O & data access: N+1 queries, unbatched/chatty calls, missing
-              pagination, fetching more than needed.
-            - **Unbounded growth**: in-memory collections/caches without limits or
-              eviction; goroutine/thread leaks.
-            - Scalability: statelessness for horizontal scale; no global locks on hot
-              paths; back-pressure.
-
             Distinguish proven hot paths from micro-optimization; deep claims need
-            profiling (say so). Pair with the project's language fragment.
-        content_hash: sha256:092626048d9ec19cd79b9baeec12cd00d607326d9a2017b4e74613c29a901da8
+            profiling (say so).
+        content_hash: sha256:bb21ec40e872071b3425e65cdb006c8f8ab46647de53fd7cc36154f82530df37
         distilled: |-
             # Lens: Performance & Efficiency
-
-            Time, memory, I/O usage and scalability?
-
-            ## Check
-            - Hot-path: avoidable allocations/serialization, expensive ops in loops, repeated recomputation (cache appropriately).
-            - I/O & data access: N+1 queries, unbatched/chatty calls, missing pagination, over-fetching.
-            - **Unbounded growth**: in-memory collections/caches without limits/eviction; goroutine/thread leaks.
-            - Scalability: statelessness for horizontal scale; no global locks on hot paths; back-pressure.
-
-            Distinguish proven hot paths from micro-optimization. Profile deep claims. Pair w/ language fragment.
-        distilled_by: claude-haiku-4-5-20251001
+            Does it use time, memory, and I/O well — and scale?
+            Distinguish proven hot paths from micro-optimization; deep claims need profiling (say so).
+        distilled_by: claude-code

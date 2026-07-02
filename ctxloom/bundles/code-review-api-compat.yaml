@@ -1,39 +1,25 @@
 version: 1.0.0
 tags:
-    - review
-    - api
-    - compatibility
-    - library
+- review
+- api
+- compatibility
+- library
 author: ctxloom
 description: API design & backward-compatibility review. Language-agnostic — a single `general` fragment. Compose `code-review-api-compat#fragments/general` as a `ctxloom weave` member.
 fragments:
     general:
         tags:
-            - review
-            - api
-            - compatibility
-            - library
+        - review
+        - api
+        - compatibility
+        - library
         content: |-
             # Lens: API Design & Backward Compatibility
 
-            For public/library/service interfaces and wire/schemas.
-
-            ## Check
-            - **Design**: clear, minimal, hard to misuse; sensible defaults; consistent
-              with existing API conventions; make illegal states unrepresentable.
-            - **Breaking changes**: removed/renamed/retyped fields or changed semantics
-              flagged; prefer additive change + deprecation before removal.
-            - **Versioning**: SemVer correctness (breaking→major, additive→minor); wire
-              compatibility (protobuf field-number reuse, JSON shape, enum additions).
-            - Migration/deprecation path documented for consumers.
-        content_hash: sha256:5630106bb2adaffe9d1dd9788a65194fef82464633dbb4a3306c5cef8ea6e9e2
+            For public/library/service interfaces and wire/schemas: is the design sound,
+            and does this change break existing consumers?
+        content_hash: sha256:d42c285bb27a11ac307499079229a49102f27886eed3d885ce08ee2ab70d1e0c
         distilled: |-
-            # API Design & Backward Compatibility
-            Public APIs, wire/schemas.
-
-            ## Check
-            - **Design**: clear, minimal, hard to misuse; sensible defaults; API-convention consistent; make illegal states unrepresentable.
-            - **Breaking changes**: removals/renames/retypes/semantics flagged; prefer additive+deprecation over removal.
-            - **Versioning**: SemVer (breaking→major, additive→minor); wire compat (protobuf field reuse, JSON shape, enum additions).
-            - Migration/deprecation path documented.
-        distilled_by: claude-haiku-4-5-20251001
+            # Lens: API Design & Backward Compatibility
+            For public/library/service interfaces and wire/schemas: is the design sound, and does this change break existing consumers?
+        distilled_by: claude-code

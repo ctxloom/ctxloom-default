@@ -1,46 +1,24 @@
 version: 1.0.0
 tags:
-    - review
-    - accessibility
-    - i18n
-    - frontend
+- review
+- accessibility
+- i18n
+- frontend
 author: ctxloom
 description: Accessibility & internationalization review. Language-agnostic — a single `general` fragment. Compose `code-review-accessibility-i18n#fragments/general` as a `ctxloom weave` member.
 fragments:
     general:
         tags:
-            - review
-            - accessibility
-            - i18n
-            - frontend
+        - review
+        - accessibility
+        - i18n
+        - frontend
         content: |-
             # Lens: Accessibility & Internationalization (web/frontend)
 
-            ## Accessibility (WCAG 2.2, POUR)
-            - Native HTML over ARIA — "no ARIA beats bad ARIA"; roles/labels only where needed.
-            - Keyboard operable; focus visible and not obscured; logical focus order.
-            - Sufficient color contrast; never convey meaning by color alone.
-            - Images have alt text; form fields have labels.
-            - **WCAG 2.2** additions: target size ≥24×24px, drag alternatives, accessible auth
-              (no cognitive-test gates), consistent help, avoid redundant entry.
-
-            ## Internationalization
-            - No hard-coded user-facing strings (externalized/translatable).
-            - Locale-aware dates/numbers/currency/collation.
-            - Layout tolerates text expansion (~30–50%) and RTL.
-        content_hash: sha256:2d88e3f3850615c6322d3274b7a086ebf93cf99b80e09f62672a1a429b50e454
+            Can every user — keyboard-only, assistive-tech, any locale — use this change?
+        content_hash: sha256:67af1d190c647c269c14db9f88377f0fe549392dda06ead6482fbdc624d1041c
         distilled: |-
-            # Lens: Accessibility & Internationalization
-
-            ## Accessibility (WCAG 2.2, POUR)
-            - Native HTML preferred; ARIA only where needed
-            - Keyboard: visible, unobscured focus; logical order
-            - Sufficient color contrast; never color-only meaning
-            - Images: alt text; form fields: labels
-            - WCAG 2.2: ≥24×24px targets, drag alternatives, accessible auth (no cognitive gates), consistent help, no redundant entry
-
-            ## Internationalization
-            - Externalize all user-facing strings
-            - Locale-aware: dates/numbers/currency/collation
-            - Layout: 30–50% text expansion tolerance, RTL support
-        distilled_by: claude-haiku-4-5-20251001
+            # Lens: Accessibility & Internationalization (web/frontend)
+            Can every user — keyboard-only, assistive-tech, any locale — use this change?
+        distilled_by: claude-code

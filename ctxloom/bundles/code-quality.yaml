@@ -1,8 +1,8 @@
 version: 1.0.0
 tags:
-    - code
-    - quality
-    - principles
+- code
+- quality
+- principles
 author: ctxloom
 description: Baseline code-quality standards — size, naming, SOLID/KISS/YAGNI, and the search-before-you-write, extend-don't-duplicate rule.
 notes: |
@@ -13,10 +13,10 @@ notes: |
 fragments:
     code-quality:
         tags:
-            - code
-            - quality
-            - principles
-        content: |
+        - code
+        - quality
+        - principles
+        content: |-
             # Code Quality Standards
 
             ## Before Writing Code
@@ -27,51 +27,16 @@ fragments:
             - **Extend, don't recreate**: If similar functionality exists, extend or refactor it instead of writing parallel implementations
 
             ## Code Size
-            - **Small**: Less than 500 lines of code per file
-            - Keep files small and focused.  Only exceed small if necessary, with very high coupling and cohesion
-            - Keep functions small.  Each function should do one thing and do it well
+
+            - Less than 500 lines of code per file; exceed only when necessary, with very high coupling and cohesion
+            - Keep functions small — each does one thing and does it well
             - Optimize for reading and understanding, not performance
-            - Prefer to separate via files interfaces and implementations
+            - Prefer separating interfaces and implementations into different files
 
             ## Naming
-            - Interfaces/protocols (py) are the thing -- UserService is a Protocol.  Do not use IWhatever
+
+            - Interfaces/protocols (py) are the thing — UserService is a Protocol. Do not use IWhatever
             - Implementations are named after *how* the interface is implemented. Single implementation: DefaultUserService. Multiple: HttpUserService, CachedUserService.
-
-            ## Philosophy
-
-            - **SOLID** - Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion
-            - **KISS** - Keep It Simple, Stupid. Prefer clear, straightforward solutions
-            - **YAGNI** - You Ain't Gonna Need It. Don't build features until they're actually needed
-
-            ## General Principles
-
-            - Follow language-specific style guides
-            - Use type hints/annotations where available
-            - Write clear, self-documenting code over excessive comments
-            - Document public APIs
-            - Keep functions small and focused
-            - Prefer composition over inheritance
-
-            ## Coupling and Cohesion
-
-            - **Low coupling**: Modules should have minimal dependencies on other modules
-            - **High cohesion**: Related functionality should be grouped together
-            - Each module/class should have a single, well-defined purpose
-
-            ## Code Markers
-
-            - `TODO` - Work that needs to be done
-            - `FIXME` - Known bugs or issues that need fixing
-            - `NOTE` - Important explanations or warnings
-            - `HACK` - Non-ideal solutions that work but need improvement
-
-            ## Performance Considerations
-
-            - Profile before optimizing
-            - Document performance requirements in tests
-            - Use appropriate data structures
-            - State algorithmic complexity for non-trivial algorithms
-            - Consider memory allocation patterns
 
             ## Clean Up
 
@@ -81,68 +46,21 @@ fragments:
 
             ## Comments
 
-            - **Never add change-tracking comments** - git tracks history; no "changed X to Y", "removed Z", "updated for feature W"
-            - **No revision history in code** - don't document what was modified, when, or by whom
-            - **No commented-out code** - delete it; git has it if needed
+            - **Never add change-tracking comments** — git tracks history; no "changed X to Y", "removed Z", "updated for feature W"
+            - **No revision history in code** — don't document what was modified, when, or by whom
+            - **No commented-out code** — delete it; git has it if needed
             - Comments explain *why*, not *what* or *what changed*
-        content_hash: sha256:38a0a80863e7d87822e6e7bf5ff9afe74fc920108bd7f472fb28d3508dd8b1d5
+        content_hash: sha256:6ad355db55054317591efbe18aa9da9c4d903254f8f2f18991e33ca85d33c0e5
         distilled: |-
-            # code-quality
+            # Code Quality
 
-            ## Before Writing Code
-            - **Search** codebase for existing implementations before writing
-            - **Extend, don't recreate**: Refactor existing rather than duplicate
-            - **Reuse** functions, types, modules
+            Before writing: search the codebase for existing implementations; reuse or extend rather than duplicate or recreate.
 
-            ## Code Size
-            - Files: <500 lines, small & focused
-            - Functions: One thing each
-            - Optimize for readability, not performance
-            - Separate interfaces from implementations
+            Size: <500 lines per file (exceed only with very high coupling/cohesion); small single-purpose functions; optimize for reading, not performance; separate interfaces from implementations by file.
 
-            ## Naming
-            - **Interfaces/Protocols**: UserService (not IUserService)
-            - **Implementations** named by how they work:
-              - Single: DefaultUserService
-              - Multiple: HttpUserService, CachedUserService
+            Naming: the interface is the thing — UserService is the Protocol, never IWhatever; implementations are named for how they implement: DefaultUserService (single), HttpUserService/CachedUserService (multiple).
 
-            ## Philosophy
-            - **SOLID**: Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion
-            - **KISS**: Clear, straightforward solutions
-            - **YAGNI**: Build only when needed
+            Clean up: kill background processes when done; remove unused code, files, imports, variables; no dead code.
 
-            ## General Principles
-            - Follow language style guides
-            - Type hints/annotations
-            - Self-documenting code > excessive comments
-            - Document public APIs
-            - Composition over inheritance
-
-            ## Coupling & Cohesion
-            - **Low coupling**: Minimal dependencies
-            - **High cohesion**: Group related functionality
-            - Single, well-defined purpose per module/class
-
-            ## Code Markers
-            - `TODO`: Work needed
-            - `FIXME`: Known bugs
-            - `NOTE`: Important info
-            - `HACK`: Works but needs improvement
-
-            ## Performance
-            - Profile before optimizing
-            - Document requirements in tests
-            - Appropriate data structures
-            - State algorithmic complexity for non-trivial algorithms
-            - Consider memory allocation patterns
-
-            ## Clean Up
-            - Kill background processes when done
-            - Remove unused: code, files, imports, variables
-            - No dead code
-
-            ## Comments
-            - **Never** change-tracking comments (git tracks history)
-            - **No** revision history or commented-out code (delete; git preserves)
-            - Comments explain **why**, not what or changes
-        distilled_by: claude-haiku-4-5-20251001
+            Comments explain why only. No change-tracking comments, no revision history in code, no commented-out code — git has it.
+        distilled_by: claude-code

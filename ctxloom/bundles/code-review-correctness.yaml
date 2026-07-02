@@ -14,30 +14,10 @@ fragments:
 
             Does the code do what it's supposed to, for all inputs?
 
-            ## Check
-            - Logic matches the stated intent / ticket / PR description.
-            - Edge & boundary cases: empty, null/nil, zero, negative, max, single
-              element, duplicates, unicode, very large inputs.
-            - Off-by-one, integer overflow/truncation, float/precision, time zones.
-            - Untrusted input validated and normalized at the boundary; safe defaults.
-            - Algorithmic correctness for the access pattern (right data structure;
-              no accidental O(n²)/N+1).
-            - Error/edge paths produce correct results, not just the happy path.
-
             Pair with the project's language fragment for idiom-specific footguns.
-        content_hash: sha256:1ec903d2b45b19ceb260c06ec207eb16ef8ce0b56dda5d837cc53805e5aea536
+        content_hash: sha256:1a1087d9609c31b735914fcfe317f25b929dd0c666a898c6095a869bee0dba23
         distilled: |-
             # Lens: Correctness & Functionality
-
-            Code does what intended for all inputs?
-
-            ## Check
-            - Logic matches intent/ticket/PR
-            - Edge/boundary cases: empty, null/nil, zero, negative, max, single element, duplicates, unicode, large inputs
-            - Off-by-one, integer overflow/truncation, float precision, time zones
-            - Untrusted input: validate/normalize at boundary; safe defaults
-            - Algorithmic correctness: right data structure; no O(n²)/N+1
-            - Error/edge paths correct, not just happy path
-
-            Pair w/ language fragment for idiom-specific footguns.
-        distilled_by: claude-haiku-4-5-20251001
+            Does the code do what it's supposed to, for all inputs?
+            Pair with the project's language fragment for idiom-specific footguns.
+        distilled_by: claude-code

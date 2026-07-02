@@ -18,33 +18,16 @@ fragments:
 
             Does it fail safely and stay correct under failure and concurrency?
 
-            ## Check
-            - **Errors**: handled, not swallowed; meaningful context propagated; errors
-              not used for normal control flow.
-            - **Resource cleanup on every path** (including errors/early returns):
-              files, handles, connections, locks.
             - **Fault tolerance**: timeouts on all I/O; retries with backoff+jitter, idempotency,
               and a **retry budget / token bucket** — coordinate retry policy across layers to
               avoid retry storms; circuit breakers/fallbacks (mind their modal behavior, often
               better at the platform/mesh layer); degrade rather than crash.
-            - **Concurrency**: shared mutable state confined, immutable, or lock-guarded;
-              consistent lock ordering (deadlock); atomic compound updates; no data races;
-              cancellation/context propagation.
 
-            Pair with the project's language fragment for its cleanup and concurrency
-            model. (True races need a race detector / runtime confirmation — flag
-            candidates.)
-        content_hash: sha256:0634823cbc1fe6daa3a8ab9e6c470b5822c1934e27f742a643e5e68ad64dc046
+            (True races need a race detector / runtime confirmation — flag candidates.)
+        content_hash: sha256:cdc6c92c4f8939a9861681919ea1fb70b9666bc34999c2a4cb85db68d63c321e
         distilled: |-
             # Lens: Reliability, Errors & Concurrency
-
-            Fails safely; correct under failure/concurrency?
-
-            ## Check
-            - **Errors**: handled (not swallowed); meaningful context propagated; not for control flow
-            - **Cleanup**: all paths (errors/early returns) — files, handles, connections, locks
-            - **Fault tolerance**: I/O timeouts; retries (backoff+jitter, idempotency); retry budget/token bucket; cross-layer coordination; circuit breakers/fallbacks; degrade
-            - **Concurrency**: mutable state (confined/immutable/locked); consistent lock ordering; atomic updates; no races; cancellation/context propagation
-
-            Pair w/ language fragment for cleanup/concurrency model. Flag races for detector.
-        distilled_by: claude-haiku-4-5-20251001
+            Does it fail safely and stay correct under failure and concurrency?
+            - **Fault tolerance**: timeouts on all I/O; retries with backoff+jitter, idempotency, and a **retry budget / token bucket** — coordinate retry policy across layers to avoid retry storms; circuit breakers/fallbacks (mind their modal behavior, often better at the platform/mesh layer); degrade rather than crash.
+            (True races need a race detector / runtime confirmation — flag candidates.)
+        distilled_by: claude-code

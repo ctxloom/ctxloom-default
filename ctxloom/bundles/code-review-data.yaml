@@ -1,46 +1,25 @@
 version: 1.0.0
 tags:
-    - review
-    - data
-    - migrations
-    - privacy
+- review
+- data
+- migrations
+- privacy
 author: ctxloom
 description: Data, migrations & privacy review. Language-agnostic — a single `general` fragment. Compose `code-review-data#fragments/general` as a `ctxloom weave` member.
 fragments:
     general:
         tags:
-            - review
-            - data
-            - migrations
-            - privacy
+        - review
+        - data
+        - migrations
+        - privacy
         content: |-
             # Lens: Data, Migrations & Privacy
 
-            ## Migrations
-            - Backward/forward compatible during rollout (expand–contract); reversible/
-              rollback path; no long locks on large tables; safe defaults for new
-              NOT NULL columns; zero/low-downtime.
-
-            ## Integrity
-            - Referential integrity; transactions/atomicity around multi-step writes;
-              idempotency for retried operations.
-
-            ## Privacy / PII
-            - PII identified and minimized to purpose; masked/pseudonymized where possible;
-              no PII in logs; encryption of sensitive fields; retention/deletion honored.
-            - Regulatory: support deletion/DSAR across systems; flag automated-decision/
-              profiling flows (GDPR / CCPA-CPRA).
-        content_hash: sha256:1e7591ebbd5ca7cdab9d2fac52bd68d3904c417dd68ece27c5a5ee975c07f46b
+            Are schema and data changes safe to roll out, is integrity preserved, and is
+            PII handled lawfully?
+        content_hash: sha256:f8be3190e8a1bb7c362d2dad429afdc16a4e3c862b177ff1acedee6770eb3fa8
         distilled: |-
             # Lens: Data, Migrations & Privacy
-
-            ## Migrations
-            - Backward/forward compatible (expand–contract); reversible w/ rollback path; no long table locks; safe NOT NULL defaults; zero/low-downtime
-
-            ## Integrity
-            - Referential integrity; transactional atomicity for multi-step writes; idempotent retries
-
-            ## Privacy / PII
-            - Minimize PII to purpose; mask/pseudonymize; no PII in logs; encrypt sensitive fields; honor retention/deletion policies
-            - Regulatory: support deletion/DSAR; flag automated decisions/profiling (GDPR/CCPA-CPRA)
-        distilled_by: claude-haiku-4-5-20251001
+            Are schema and data changes safe to roll out, is integrity preserved, and is PII handled lawfully?
+        distilled_by: claude-code

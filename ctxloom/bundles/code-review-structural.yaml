@@ -18,12 +18,8 @@ fragments:
 
             Do the pieces fit the system, and will future changes stay cheap?
 
-            ## Check
             - **Fit**: does this belong in this layer/module/service? Does it respect
               existing boundaries and dependency direction (no inward leaks)?
-            - **SOLID** (concepts, any paradigm): single responsibility; open to
-              extension without modifying callers; substitutable abstractions; narrow
-              interfaces; depend on abstractions, not concretions.
             - **Cohesion & coupling**: related things together; minimal cross-module
               knowledge. Watch **connascence** — prefer weak/static forms (name, type)
               over strong/dynamic (position, meaning, execution order, timing); keep
@@ -35,17 +31,12 @@ fragments:
 
             Pair this with the project's language fragment for idiom-specific structural
             footguns.
-        content_hash: sha256:734907c8330e106f36160b52986842062c8414b4a05478788012f9e3b4ed94d5
+        content_hash: sha256:bc8f16d3cc76cf63210702319913e078a8d4bcbee0f0881ae4f69e2e51a97c64
         distilled: |-
             # Lens: Design & Architecture
-
-            Do pieces fit? Will changes stay cheap?
-
-            ## Check
-            - **Fit**: belongs here? Respects boundaries & dependency direction (no inward leaks)?
-            - **SOLID** (any paradigm): single responsibility; open to extension without modifying callers; substitutable abstractions; narrow interfaces; depend on abstractions, not concretions.
-            - **Cohesion & coupling**: related code together; minimal cross-module knowledge. Prefer weak connascence (name, type) over strong (position, meaning, execution order, timing); keep connascent code close; reduce co-dependent sites.
-            - **Extensibility vs over-engineering**: hard-to-change-later decisions (schemas, wire formats, public contracts, vendor lock-in) scrutinized; reject speculative generality (YAGNI) and interface proliferation.
-
-            Pair with language fragment for idiom-specific footguns.
-        distilled_by: claude-haiku-4-5-20251001
+            Do the pieces fit the system, and will future changes stay cheap?
+            - **Fit**: does this belong in this layer/module/service? Does it respect existing boundaries and dependency direction (no inward leaks)?
+            - **Cohesion & coupling**: related things together; minimal cross-module knowledge. Watch **connascence** — prefer weak/static forms (name, type) over strong/dynamic (position, meaning, execution order, timing); keep connascent code close; reduce the number of co-dependent sites.
+            - **Extensibility vs over-engineering**: the hard-to-change-later decisions (schemas, wire formats, public contracts, vendor lock-in) get the most scrutiny; speculative generality (YAGNI) and SOLID weaponized into interface proliferation both get pushed back.
+            Pair this with the project's language fragment for idiom-specific structural footguns.
+        distilled_by: claude-code

@@ -13,28 +13,8 @@ fragments:
             # Lens: Testing Quality
 
             Are there correct, well-designed, trustworthy tests for this change?
-
-            ## Check
-            - **Coverage of behavior**: new/changed paths exercised, including error and
-              edge paths — not just the happy path.
-            - **Meaningful assertions**: tests verify behavior, not just "doesn't throw".
-            - **Test smells**: assertion roulette (unlabeled, hard-to-attribute assertions —
-              the smell is ambiguity, not count), mystery guest, over-mocking, fixture coupling,
-              order-dependent tests.
-            - **Determinism**: no reliance on wall-clock, real network, random seeds,
-              sleeps, or shared global state. Prefer fakes/clocks/sync over timing.
-
-            Pair with the project's language fragment for framework idioms.
-        content_hash: sha256:dd81188bf89e8bb102d96d73e3dc850a932157e7676a6227cc86442f2fc41281
+        content_hash: sha256:975fa183fbefd7bba7abd36446562f112042c427347cf6068b3489caeb6085ec
         distilled: |-
             # Lens: Testing Quality
-            Correct, well-designed, trustworthy tests for this change?
-
-            ## Check
-            - **Coverage**: new/changed paths incl. error/edge cases
-            - **Assertions**: verify behavior, not just "doesn't throw"
-            - **Test smells**: assertion roulette, mystery guest, over-mocking, fixture coupling, order-dependent tests
-            - **Determinism**: no wall-clock, real network, random seeds, sleeps, shared globals; use fakes/clocks/sync
-
-            Pair w/ language fragment for idioms.
-        distilled_by: claude-haiku-4-5-20251001
+            Are there correct, well-designed, trustworthy tests for this change?
+        distilled_by: claude-code

@@ -1,37 +1,22 @@
 version: 1.0.0
 tags:
-    - review
-    - dx
-    - library
+- review
+- dx
+- library
 author: ctxloom
 description: Developer-experience review (libraries/SDKs/tooling). Language-agnostic — a single `general` fragment. Compose `code-review-dx#fragments/general` as a `ctxloom weave` member.
 fragments:
     general:
         tags:
-            - review
-            - dx
-            - library
+        - review
+        - dx
+        - library
         content: |-
             # Lens: Developer Experience (libraries / SDKs / tooling)
 
             How does it feel to *use* this as a calling developer?
-
-            ## Check
-            - Principle of least surprise; good, safe defaults; minimal required
-              boilerplate to do the common thing.
-            - Errors aimed at the caller: actionable messages, the right error
-              types/codes, no leaking internals.
-            - Discoverability: clear names, examples in docs, sensible zero-config path.
-            - Hard to use incorrectly (types/builders guide correct usage).
-        content_hash: sha256:5b1a8094c472b3120fdaf9ea245239aacde6c5d4a56898940ad017006571e3d6
+        content_hash: sha256:2f3e5a3e3f2e30a3cce24e2c0d937c32d2fcdc13a721e6e93a0ad207bbd06c96
         distilled: |-
             # Lens: Developer Experience (libraries / SDKs / tooling)
-
-            Does this feel good to use?
-
-            ## Check
-            - Least surprise principle; safe defaults; minimal boilerplate for common tasks
-            - Errors: actionable messages, correct types/codes, no internal leakage
-            - Discoverability: clear names, doc examples, sensible zero-config
-            - Hard to use incorrectly (types/builders guide usage)
-        distilled_by: claude-haiku-4-5-20251001
+            How does it feel to *use* this as a calling developer?
+        distilled_by: claude-code

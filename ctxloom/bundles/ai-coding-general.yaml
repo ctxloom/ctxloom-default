@@ -5,14 +5,12 @@ author: ctxloom
 description: AI coding best practices - context engineering, workflows, version specs, review checklists
 fragments:
     concurrency-warnings:
-        content: |
+        content: |-
             # Concurrency Warnings
 
             AI-authored code is approximately 2x more likely to make concurrency and dependency-correctness mistakes than human-only code (CodeRabbit, *State of AI vs Human Code Generation*, 2025; 470 PRs analyzed, ~1.7x more issues overall, concurrency a leading subcategory).
 
-            ## Race Condition Reintroduction
-
-            AI may "optimize" sequential→parallel, reintroducing bugs.
+            Do not "optimize" sequential awaits into parallel ones; ordering may be load-bearing. Mark intentional ordering with `// SYNC-REQUIRED: [reason]`:
 
             ```javascript
             // SYNC-REQUIRED: email needs user.id from save
@@ -21,76 +19,9 @@ fragments:
 
             // AI BUG: await Promise.all([saveUser, sendEmail])
             ```
-
-            **Protection:** Comment `// SYNC-REQUIRED: [reason]`
-
-            ## Common Mistakes
-
-            ### Go
-            - No shutdown: `go doWork()` → errgroup + context
-            - Channel overuse for state → mutex
-            - Missing ctx → always pass context.Context
-
-            ### JavaScript/TypeScript
-            - Lost errors: unhandled rejection → handle/propagate
-            - Memory leaks: listeners without cleanup → remove in cleanup
-
-            ### Rust
-            - Blocking in async: `std::thread::sleep` → `tokio::time::sleep`
-            - Unnecessary Arc<Mutex> → message passing
-
-            ## Review Checklist
-            (See human-review-checklist for full list)
-            - Every goroutine/thread has shutdown path
-            - Context cancellation propagated
-            - Async errors handled
-            - No blocking in async
-            - Sequential code not parallelized
-        content_hash: sha256:58c453b99f162ec1e3e76ac97769ed0deef2289cfd92d370607a2cae4c2589f6
-        distilled: |-
-            # concurrency-warnings
-
-            # Concurrency Warnings
-
-            AI code ~2x more likely to have concurrency/dependency bugs (CodeRabbit, *State of AI vs Human Code Generation*, 2025; 470 PRs, ~1.7x issues overall).
-
-            ## Race Condition Reintroduction
-
-            AI may "optimize" sequential→parallel, reintroducing bugs.
-
-            ```javascript
-            // SYNC-REQUIRED: email needs user.id from save
-            await saveUser(user);
-            await sendEmail(user);
-
-            // AI BUG: await Promise.all([saveUser, sendEmail])
-            ```
-
-            **Protection:** Comment `// SYNC-REQUIRED: [reason]`
-
-            ## Common Mistakes
-
-            ### Go
-            - No shutdown: `go doWork()` → errgroup + context
-            - Channel overuse for state → mutex
-            - Missing ctx → always pass `context.Context`
-
-            ### JavaScript/TypeScript
-            - Unhandled rejection → handle/propagate
-            - Listeners without cleanup → remove in cleanup
-
-            ### Rust
-            - `std::thread::sleep` in async → `tokio::time::sleep`
-            - Unnecessary `Arc<Mutex>` → message passing
-
-            ## Review Checklist
-            (See [[human-review-checklist]])
-            - Every goroutine/thread has shutdown path
-            - Context cancellation propagated
-            - Async errors handled
-            - No blocking in async
-            - Sequential code not parallelized
-        distilled_by: claude-3-opus
+        content_hash: sha256:fce2fef1c1846f8f2d337cb7c209620d510a465777e5c5b8038077e1097e5058
+        distilled: 'AI code makes ~2x more concurrency mistakes than human code (CodeRabbit 2025, 470 PRs). Never parallelize sequential awaits; mark load-bearing ordering with `// SYNC-REQUIRED: [reason]`.'
+        distilled_by: claude-code
         tags:
         - ai
         - coding
@@ -100,13 +31,11 @@ fragments:
         - safety
     context-engineering:
         content: |-
-            # Context Engineering
-
-            ## CLAUDE.md Rules
+            # CLAUDE.md Rules
 
             **Size: 100-200 lines max.** Move overflow to per-folder CLAUDE.md files.
 
-            ### Must Include
+            ## Must Include
             ```markdown
             # Tech Stack
             Language, framework, database, testing tools with versions
@@ -121,109 +50,26 @@ fragments:
             Project-specific conventions AI would violate otherwise
             ```
 
-            ### Do NOT Include
+            ## Do NOT Include
             - General language syntax
             - Patterns already enforced by linters
             - Things Claude does correctly without instruction
 
             **Test:** Would Claude make a mistake without this line? If no, delete it.
 
-            ## Context Hierarchy
-
-            1. `~/.claude/CLAUDE.md` - User preferences
-            2. `CLAUDE.md` - Project root
-            3. `folder/CLAUDE.md` - Module-specific
-
-            ## Prompt Patterns
-
-            ### Provide Full Context
-            ```
-            BAD: "Fix the bug on line 42"
-            GOOD: "Here's UserService.ts. The fetchUser method doesn't handle network timeouts."
-            ```
-
-            ### Include Constraints
-            ```
-            BAD: "Optimize this query"
-            GOOD: "Optimize this query. Must complete <100ms. Cannot add indexes."
-            ```
-
-            ### Reference Existing Patterns
-            ```
-            BAD: "Add a new endpoint"
-            GOOD: "Add GET /api/users/:id following the pattern in /api/products/:id"
-            ```
-
-            ## Managing Context Rot
-
-            - Use `/clear` between unrelated tasks
-            - Use `/compact` with focus: `/compact focus on API changes and modified files`
-            - Add standing instructions for what to preserve during compaction
-
-            ## Living Documentation
-
-            When Claude makes a mistake, add the correction to CLAUDE.md immediately.
-        content_hash: sha256:94106de56bd916f683a8b8722b91b1ff9d63ed2c1ae5b54c2a637c3d4a2fd82f
-        distilled: |-
-            # Context Engineering
-
-            ## CLAUDE.md Rules
-
-            **100-200 lines max.** Overflow → per-folder files.
-
-            ### Must Include
-            - Tech stack w/ versions
-            - Architecture (dirs + purpose)
-            - Build/test/lint/deploy commands
-            - Project conventions AI would violate
-
-            ### Exclude
-            - General syntax
-            - Linter-enforced patterns
-            - Things Claude does correctly
-
-            **Test:** Would Claude err without this? No → delete.
-
-            ## Hierarchy
-            1. `~/.claude/CLAUDE.md` - User prefs
-            2. `CLAUDE.md` - Project root
-            3. `folder/CLAUDE.md` - Module-specific
-
-            ## Prompt Patterns
-
-            - **Full context:** Include file + specific issue, not just "line 42"
-            - **Constraints:** "Optimize query, <100ms, no indexes"
-            - **Reference patterns:** "Add endpoint like /api/products/:id"
-
-            ## Context Management
-
-            - `/clear` between unrelated tasks
-            - `/compact focus on [topic]` for targeted compaction
-            - Add standing instructions for compaction preservation
-
-            ## Maintenance
-
-            Mistake → immediately add correction to CLAUDE.md.
-        distilled_by: claude-3-opus
+            **Maintenance:** When Claude makes a mistake, add the correction to CLAUDE.md immediately.
+        content_hash: sha256:47c4d74f5fc089f33bade4a78bfd7ae3eebdefddde34dd10c4139e9ade31d513
+        distilled: 'CLAUDE.md: 100-200 lines max, overflow to per-folder files. Include: tech stack with versions, architecture (folder purposes), build/test/lint/deploy commands, project-specific rules AI would otherwise violate. Exclude: language syntax, linter-enforced patterns, anything Claude gets right unprompted. Test each line: would Claude err without it? No → delete. When Claude errs, add the correction immediately.'
+        distilled_by: claude-code
         tags:
         - context
         - claude-code
         - workflow
     human-review-checklist:
-        content: |
+        content: |-
             # Human Review Checklist
 
             AI code: correct happy path, dangerous elsewhere.
-
-            ## Security (Never Skip)
-            - Auth/authz correct
-            - Inputs sanitized
-            - Parameterized queries
-            - Output encoding
-            - No hardcoded secrets
-            - Deps exist & secure
-
-            **Always review:** auth, payments, user data, admin
 
             ## Hallucination Check
 
@@ -232,9 +78,6 @@ fragments:
             - Verify imports: `npm info`, `pip show`, `cargo search`
             - Check API signatures
             - Confirm endpoints exist
-
-            ## Error Handling (AI frequently omits)
-            - Null checks, early returns, exceptions, edge cases
 
             ## Test Integrity (AI "fixes" by)
             - Deleting tests
@@ -255,53 +98,9 @@ fragments:
             - Hallucinated deps
             - Race conditions
             - Missing error handling in critical paths
-        content_hash: sha256:1dbe79e4f15b32fe325d1fba2eeb96948738fd3121d588ba5880c6627919d682
-        distilled: |-
-            # human-review-checklist
-
-            AI code: happy path correct, dangerous elsewhere.
-
-            ## Security (Never Skip)
-            - Auth/authz correct
-            - Inputs sanitized
-            - Parameterized queries
-            - Output encoding
-            - No hardcoded secrets
-            - Deps exist & secure
-
-            **Always review:** auth, payments, user data, admin
-
-            ## Hallucination Check
-
-            LLMs reference nonexistent packages: 5.2% (commercial) to 21.7% (open-source) (Spracklen et al., arXiv:2406.10279, 2024; 16 LLMs, 576k samples).
-
-            - Verify imports: `npm info`, `pip show`, `cargo search`
-            - Check API signatures
-            - Confirm endpoints exist
-
-            ## Error Handling (AI omits)
-            - Null checks, early returns, exceptions, edge cases
-
-            ## Test Integrity (AI "fixes" by)
-            - Deleting tests
-            - Removing assertions
-            - Mocking away behavior
-            - See `mutation-as-test-validator`
-
-            ## Red Flags
-            - Unexplained deleted code
-            - Catch-all replacing specific handlers
-            - Removed validation
-            - async/sync changes w/o reason
-            - Unjustified new deps
-
-            ## Reject Immediately
-            - Security vulns in sensitive code
-            - Deleted tests w/o justification
-            - Hallucinated deps
-            - Race conditions
-            - Missing error handling in critical paths
-        distilled_by: claude-3-opus
+        content_hash: sha256:b09ab85a2fbe7a45f34f7e626d812d508c02d8af9cdc4a1b1150e6ff2a14046a
+        distilled: 'AI code: correct happy path, dangerous elsewhere. LLMs hallucinate packages at 5.2-21.7% rates (arXiv:2406.10279) — verify imports (`npm info`/`pip show`/`cargo search`), API signatures, endpoints. Test integrity: AI "fixes" by deleting tests, removing assertions, mocking away behavior (mutation testing catches this). Red flags: unexplained deletions, catch-alls replacing specific handlers, removed validation, async/sync flips, unjustified deps. Reject immediately: security vulns in sensitive code, deleted tests, hallucinated deps, race conditions, missing error handling in critical paths.'
+        distilled_by: claude-code
         tags:
         - ai
         - coding
@@ -412,26 +211,12 @@ fragments:
         - review
         - architecture
     mutation-as-test-validator:
-        content: |
+        content: |-
             # Mutation Testing as a Test Validator
 
             Passing tests are not proof that tests are good. Mutation testing is the deterministic check.
 
-            ## What It Does
-
-            1. Mutates source code (flip `>` to `>=`, return early, change return value)
-            2. Runs the test suite against each mutant
-            3. Reports survivors: mutants the tests did not kill
-
-            A surviving mutant means the test suite accepts demonstrably wrong code. The test covers the line but does not verify the behavior.
-
-            ## Why It Matters for LLM-Written Tests
-
-            LLMs produce plausible-looking tests at scale. "Plausible" is not "meaningful." Failure modes mutation testing catches:
-
-            - **Tautological assertions**: `assert_eq!(result, calculate(5, 3))` always passes; mutants survive
-            - **Missing edge cases**: tests happy path, leaves mutation gaps at boundaries
-            - **Implementation-coupled tests**: kills the wrong mutants; brittle to refactor, blind to real bugs
+            LLMs produce plausible-looking tests at scale; "plausible" is not "meaningful." Mutation testing catches the failure modes: tautological assertions (`assert_eq!(result, calculate(5, 3))` always passes), missing edge cases at boundaries, and implementation-coupled tests that are brittle to refactor but blind to real bugs.
 
             ## Workflow Integration
 
@@ -467,65 +252,9 @@ fragments:
 
             - Treating high code coverage as test quality.
             - Killing a surviving mutant by adding `assert!(true)` adjacent to the line. Score goes up; signal goes to zero.
-        content_hash: sha256:4a7b47499be666c7fb4655a80633e55953a1977f4aede9b2fec57228d7f04879
-        distilled: |-
-            # mutation-as-test-validator
-
-            # Mutation Testing as Test Validator
-
-            Passing tests ≠ good tests. Mutation testing is the deterministic check.
-
-            ## What It Does
-
-            1. Mutates source (flip `>` to `>=`, early return, change return value)
-            2. Runs test suite against each mutant
-            3. Reports survivors: mutants tests didn't kill
-
-            Surviving mutant = test suite accepts wrong code. Line covered, behavior unverified.
-
-            ## Why It Matters for LLM-Written Tests
-
-            LLMs produce plausible tests at scale. Failure modes caught:
-
-            - **Tautological assertions**: `assert_eq!(result, calculate(5, 3))` always passes
-            - **Missing edge cases**: happy path only, boundary gaps
-            - **Implementation-coupled**: brittle to refactor, blind to real bugs
-
-            ## Workflow Integration
-
-            After TDD round-trip (see [[tdd-for-llm]]):
-
-            1. LLM writes tests
-            2. You review tests
-            3. LLM implements
-            4. **Run mutation testing**
-            5. Analyze survivors
-            6. Add tests killing survivors, or accept gap explicitly
-
-            ## Tools
-
-            - Rust: `cargo-mutants`
-            - Java: `pitest`
-            - Python: `mutmut`, `cosmic-ray`
-            - JS/TS: `stryker`
-            - Go: `gomutation`, `go-mutesting`
-
-            ## Target Kill Rates
-
-            | Code shape | Target |
-            |---|---|
-            | Pure utility | 80-90%+ |
-            | Business logic | 80-90% |
-            | Framework glue → tested core | 60-70% |
-            | Logging-only paths | survivors OK |
-
-            Teams w/ 80-90% coverage often hit only 30% mutation kill on first adoption. Coverage = execution; mutation = verification.
-
-            ## Anti-Patterns
-
-            - Treating coverage as test quality
-            - Killing mutants via `assert!(true)` adjacent to line — score up, signal zero
-        distilled_by: claude-3-opus
+        content_hash: sha256:b7d3dba5beb3c0e90d17b38f9fb424577a829a0a2e7a6dfffb373f26ac020d75
+        distilled: 'Mutation testing is the deterministic check on test quality; LLM tests look plausible while hiding tautological assertions, boundary gaps, and implementation coupling. After the TDD round-trip: run mutation testing, analyze survivors, add tests that kill them or accept the gap explicitly. Tools: cargo-mutants (Rust), pitest (Java), mutmut/cosmic-ray (Python), stryker (JS/TS), gomutation/go-mutesting (Go). Kill-rate targets: 80-90% pure functions and business logic, 60-70% framework glue, logging-only paths exempt. Coverage measures execution, mutation measures verification (80-90% coverage teams routinely see 30% kill rates). Never game the score with adjacent `assert!(true)`.'
+        distilled_by: claude-code
         tags:
         - ai
         - coding
@@ -728,20 +457,10 @@ fragments:
         - testing
         - tdd
     version-source-of-truth:
-        content: |
+        content: |-
             # Versions: Source of Truth
 
             Do not bake version specifications into AI context files. Project configuration and lockfiles are the source of truth.
-
-            ## Where Versions Live
-
-            - **Node**: `package.json` + `package-lock.json` / `yarn.lock` / `pnpm-lock.yaml`
-            - **Python**: `pyproject.toml` + `uv.lock` / `poetry.lock` / `requirements.txt`
-            - **Go**: `go.mod` + `go.sum`
-            - **Rust**: `Cargo.toml` + `Cargo.lock`
-            - **Java**: `pom.xml` (Maven) or `build.gradle` + `gradle.lockfile`
-            - **Swift**: `Package.swift` + `Package.resolved`
-            - **Language runtime pin**: `.nvmrc`, `.tool-versions`, `mise.toml`, `rust-toolchain.toml`
 
             ## Why Not a Static Table
 
@@ -756,38 +475,9 @@ fragments:
             ```
             Your suggestion uses [pattern]. Project lockfile pins [package] at [version]. Confirm the pattern is supported at that version, or propose updating the lockfile.
             ```
-        content_hash: sha256:61f30a30ef2bb065f81ea4dad1f407c3e6e2b19daca89c3c961558698f48fa3a
-        distilled: |-
-            # version-source-of-truth
-
-            # Versions: Source of Truth
-
-            Do NOT bake version specs into AI context files. Project config + lockfiles are source of truth.
-
-            ## Where Versions Live
-
-            - **Node**: `package.json` + `package-lock.json`/`yarn.lock`/`pnpm-lock.yaml`
-            - **Python**: `pyproject.toml` + `uv.lock`/`poetry.lock`/`requirements.txt`
-            - **Go**: `go.mod` + `go.sum`
-            - **Rust**: `Cargo.toml` + `Cargo.lock`
-            - **Java**: `pom.xml` or `build.gradle` + `gradle.lockfile`
-            - **Swift**: `Package.swift` + `Package.resolved`
-            - **Runtime pin**: `.nvmrc`, `.tool-versions`, `mise.toml`, `rust-toolchain.toml`
-
-            ## Why Not a Static Table
-
-            Baked table ages out; lockfile is always current. Lockfile = contract; table = tombstone.
-
-            ## AI Behavior
-
-            On session start, read lockfile + language-pin files. Use versions declared there. If feature needs newer version, propose bump via lockfile, not one-off in code.
-
-            ## Verification
-
-            ```
-            Your suggestion uses [pattern]. Project lockfile pins [package] at [version]. Confirm the pattern is supported at that version, or propose updating the lockfile.
-            ```
-        distilled_by: claude-3-opus
+        content_hash: sha256:b1b62092989317ac96114335f7a601ac6c1c923a73fe56421782bb5ff62ba643
+        distilled: 'Never bake versions into AI context files; lockfiles are the source of truth (a static table ages out the moment the project moves). On session start read the lockfile and language-pin files; propose upgrades through the lockfile, never as one-offs in code. Verification prompt: "Your suggestion uses [pattern]. Project lockfile pins [package] at [version]. Confirm the pattern is supported at that version, or propose updating the lockfile."'
+        distilled_by: claude-code
         tags:
         - ai
         - coding
@@ -807,6 +497,12 @@ fragments:
         - coding
         - best-practices
         - configuration
+        content_hash: sha256:f1a9e9a382bd92330f654cbf53c3262496ddeac56084e77e5e83a419fcba10fb
+        distilled: |-
+            # Warning Suppression
+            Do not suppress lint or compiler warnings without explicit user approval.  Warnings are signals of potential issues. Suppressing them without review risks hiding real problems.
+            Ensure that, when the user does approve a warning suppression, the comment includes the justification and details of the warning being suppressed. This creates a record for future reviewers to understand the context and reasoning behind the suppression.
+        distilled_by: claude-code
 tags:
 - ai
 - coding

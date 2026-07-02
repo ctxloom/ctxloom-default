@@ -16,31 +16,10 @@ fragments:
 
             Can the next engineer understand and safely change this quickly?
 
-            ## Check
-            - **Simplicity**: is there a simpler solution to the actual problem? Deep
-              nesting, long functions/params, high branching → flag.
-            - **Duplication**: copy-paste or near-duplicate logic that should be shared
-              (vs. coincidental similarity that should stay separate).
-            - **Naming**: intention-revealing, consistent vocabulary, no stale or
-              misleading names.
-            - **Comments**: explain *why* (rationale, trade-offs), not *what* the code
-              already says; no dead/commented-out code.
-            - Consistent with surrounding code's prevailing patterns.
-
             (Formatting/style is a linter's job — don't spend review on it.)
-            Pair with the project's language fragment for idiomatic readability.
-        content_hash: sha256:5117aacebe7d20e5c5cfbd52303347f807840da863de11c466d7ee24a3b43668
+        content_hash: sha256:d643a5d04ff8415e34f098de4df26a8421fb939b611e1491a5882c12c913aaab
         distilled: |-
             # Lens: Maintainability & Readability
-
             Can the next engineer understand and safely change this quickly?
-
-            ## Check
-            - **Simplicity**: Flag deep nesting, long functions/params, high branching.
-            - **Duplication**: Extract shared logic; distinguish coincidental similarity.
-            - **Naming**: Intention-revealing, consistent, no stale/misleading names.
-            - **Comments**: *Why* (rationale, trade-offs), not *what*. Remove dead code.
-            - **Consistency**: Match surrounding patterns.
-
-            Formatting → linter. Pair with language fragment for idiomatic guidance.
-        distilled_by: claude-haiku-4-5-20251001
+            (Formatting/style is a linter's job — don't spend review on it.)
+        distilled_by: claude-code

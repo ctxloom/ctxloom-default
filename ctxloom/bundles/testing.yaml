@@ -1,60 +1,25 @@
 version: 1.0.0
 tags:
-    - testing
-    - bdd
-    - gherkin
-    - organization
-    - tdd
+- testing
+- bdd
+- gherkin
+- organization
+- tdd
 author: ctxloom
 description: Testing practices including TDD, Gherkin authoring, and test organization
 fragments:
     gherkin:
         tags:
-            - testing
-            - bdd
-            - gherkin
-            - acceptance
+        - testing
+        - bdd
+        - gherkin
+        - acceptance
         content: |-
             # Gherkin Authoring
 
-            Gherkin is business-readable specification, not test code. Describe **what** the system does and **why** it matters—never **how**.
+            Gherkin is business-readable specification, not test code. Describe **what** the system does and **why** it matters — never **how**.
 
             **The litmus test:** "Will this wording change if the implementation changes?" If yes, abstract to behavior.
-
-            ## Declarative Over Imperative
-
-            ```gherkin
-            # Wrong: UI choreography
-            When I click "Add to Cart"
-            And I click "Checkout"
-            And I fill in "Card Number" with "4111..."
-
-            # Right: Business intent
-            When I purchase the items in my cart
-            ```
-
-            ## Given-When-Then Semantics
-
-            | Keyword | Purpose | Example |
-            |---------|---------|---------|
-            | Given | Establish context (past state) | `Given a player with $500 in their bankroll` |
-            | When | Single triggering action | `When the player reserves $200 for the table` |
-            | Then | Verify business outcomes | `Then the player's available balance is $300` |
-
-            ## Business Language
-
-            | Technical (Avoid) | Business (Prefer) |
-            |-------------------|-------------------|
-            | API returns 201 | Order is confirmed |
-            | Database has record | Customer exists |
-            | Event is published | Notification is sent |
-            | State machine transitions | Order progresses to shipped |
-
-            Exception: Framework tests (event stores, buses) use technical vocabulary—it's their domain.
-
-            ## One Scenario, One Behavior
-
-            Each scenario tests exactly one thing. Multiple When-Then pairs = multiple scenarios.
 
             ## Feature Preambles
 
@@ -73,106 +38,19 @@ fragments:
               Without fund reservation, players could join multiple tables with
               the same bankroll, creating settlement disputes.
             ```
-
-            ## Error Cases Are First-Class
-
-            Don't just test happy paths. Business rules live in constraints:
-
-            ```gherkin
-            Scenario: Cannot reserve more than available balance
-              Given Alice has $500 available
-              When Alice tries to reserve $600
-              Then the request fails with "insufficient funds"
-              And Alice's available balance remains $500
-            ```
-
-            ## Anti-Patterns
-
-            - **UI steps**: "click", "fill in", "navigate to"
-            - **Technical assertions**: "database has row", "event published"
-            - **Conditional logic**: "if valid then X else Y" (use separate scenarios)
-            - **Vague outcomes**: "works correctly" (be specific)
-            - **Hardcoded test data**: Use meaningful descriptions
-
-            ## Cross-Domain Scenarios
-
-            Show interactions explicitly without exposing implementation:
-
-            ```gherkin
-            Scenario: Order completion triggers fulfillment
-              Given an order with items:
-                | sku    | quantity |
-                | WIDGET | 3        |
-              When the order is completed
-              Then a fulfillment request is created with:
-                | sku    | quantity |
-                | WIDGET | 3        |
-            ```
-        content_hash: sha256:4a7ea864a90fd0bdf07c5b11e58e32f2d1a77c1f64447531175826da8b9246a5
+        content_hash: sha256:1104515e9ee211e437914bfdb45ac18796d1cd8f8bcdd99ee32f03f1501f3aeb
         distilled: |-
-            # Gherkin Authoring
+            # Gherkin
 
-            Business-readable spec, not test code. Describe **what/why**, never **how**.
+            Business-readable spec, not test code: what and why, never how. Litmus test: "Will this wording change if the implementation changes?" — if yes, abstract to behavior.
 
-            **Litmus test:** "Will wording change if implementation changes?" If yes → abstract to behavior.
-
-            ## Declarative > Imperative
-
-            ```gherkin
-            # Wrong: UI choreography
-            When I click "Add to Cart"...
-
-            # Right: Business intent
-            When I purchase the items in my cart
-            ```
-
-            ## Given-When-Then
-
-            | Keyword | Purpose | Example |
-            |---------|---------|---------|
-            | Given | Past state/context | `Given a player with $500` |
-            | When | Single trigger | `When player reserves $200` |
-            | Then | Business outcomes | `Then available balance is $300` |
-
-            ## Business Language
-
-            | Avoid | Prefer |
-            |-------|--------|
-            | API returns 201 | Order confirmed |
-            | DB has record | Customer exists |
-            | Event published | Notification sent |
-
-            Exception: Framework tests use technical vocab—it's their domain.
-
-            ## Rules
-
-            - One scenario = one behavior
-            - Feature preambles: what/why/what breaks
-            - Error cases are first-class citizens
-
-            ## Anti-Patterns
-
-            - UI steps: "click", "fill in", "navigate"
-            - Technical assertions: "database has row"
-            - Conditional logic (use separate scenarios)
-            - Vague outcomes: "works correctly"
-            - Hardcoded test data
-
-            ## Cross-Domain
-
-            Show interactions explicitly, hide implementation:
-
-            ```gherkin
-            When the order is completed
-            Then a fulfillment request is created with:
-              | sku | quantity |
-            ```
+            Every feature opens with a preamble stating what the capability enables, why it matters to the business, and what breaks without it.
         distilled_by: claude-code
     mutation-testing:
         tags:
-            - testing
-            - mutation
-            - quality
+        - testing
+        - mutation
+        - quality
         content: |-
             # Mutation Testing
 
@@ -197,41 +75,16 @@ fragments:
             | Orchestration, coordinators | 70%+ |
             | Framework glue, adapters | 50%+ |
 
-            ## Mutation Outcomes
-
-            | Outcome | Meaning | Action |
-            |---------|---------|--------|
-            | Caught | Test failed when mutation applied | Good — test is meaningful |
-            | Missed | Tests passed despite mutation | Bad — add/improve test |
-            | Timeout | Test took too long | Usually caught |
-            | Unviable | Mutation doesn't compile | Good — type system wins |
-
-            ## Interpreting Survivors
-
-            1. **Missing test** — No test exercises this path. Write one.
-            2. **Weak assertion** — Test runs code but doesn't verify result. Add assertions.
-            3. **Equivalent mutation** — Same behavior (rare). Accept or refactor.
-            4. **Test isolation gap** — Unit misses, integration catches. Verify integration exists.
-
             ## Skip
 
             - Generated code (`*.pb.rs`, `src/proto/`)
             - Trivial delegation
             - Framework boilerplate
-
-            ## Anti-patterns
-
-            - Mutation testing without coverage first
-            - Chasing 100% kill rate (diminishing returns)
-            - Testing mutations in mocks
-            - Ignoring unviable mutations (these are wins)
-        content_hash: sha256:d1877db71679b34f941d60742fc7e7ab9545c5ed3b83b39c0f57fe3059939b23
+        content_hash: sha256:1e78ecee84c8184dba995339adf41a4ba34d524ff5068e497605574550d1d8a5
         distilled: |-
             # Mutation Testing
 
-            Validate test quality by verifying tests catch code mutations. High coverage + low mutation kill rate = false confidence.
-
-            ## Workflow
+            High coverage + low mutation kill rate = false confidence.
 
             ```bash
             git worktree add --detach ../.mutants-worktree HEAD
@@ -239,68 +92,19 @@ fragments:
             git worktree remove ../.mutants-worktree --force
             ```
 
-            **Why worktree?** Shares .git (~300MB), copies only source (~10MB). `--in-place` safe since disposable.
+            Worktree shares .git and copies only source; `--in-place` is safe because the worktree is disposable.
 
-            ## Target Kill Rates
-
-            | Code Type | Target |
-            |-----------|--------|
-            | Pure utils, validators | 90%+ |
-            | Business logic, state machines | 85%+ |
-            | Orchestration | 70%+ |
-            | Framework glue | 50%+ |
-
-            ## Outcomes
-
-            | Outcome | Action |
-            |---------|--------|
-            | Caught | Good — test meaningful |
-            | Missed | Add/improve test |
-            | Timeout | Usually caught |
-            | Unviable | Type system wins |
-
-            ## Survivors
-
-            1. **Missing test** — Write one
-            2. **Weak assertion** — Add assertions
-            3. **Equivalent mutation** — Accept or refactor
-            4. **Test isolation gap** — Verify integration exists
-
-            ## Skip
-            - Generated code (`*.pb.rs`, `src/proto/`)
-            - Trivial delegation
-            - Framework boilerplate
-
-            ## Anti-patterns
-            - Mutation testing without coverage first
-            - Chasing 100% kill rate
-            - Testing mutations in mocks
-            - Ignoring unviable mutations (these are wins)
-        distilled_by: claude-3-opus
+            Kill-rate targets: pure utilities/validators 90%+; business logic/state machines 85%+; orchestration/coordinators 70%+; framework glue/adapters 50%+. Skip generated code (`*.pb.rs`, `src/proto/`), trivial delegation, framework boilerplate.
+        distilled_by: claude-code
     tdd:
         tags:
-            - testing
-            - tdd
-            - workflow
+        - testing
+        - tdd
+        - workflow
         content: |-
-            # Test-Driven Development (TDD) Workflow
+            # Test-Driven Development (TDD)
 
-            ## Mandatory TDD Cycle
-
-            1. **Red**: Write a failing test first
-               - Test should fail for the right reason
-               - Ensure good isolation - unit tests shouldn't modify environment
-               - Verify the test actually runs and fails
-
-            2. **Green**: Write minimal code to make the test pass
-               - No premature optimization
-               - No extra features
-
-            3. **Refactor**: Clean up code while keeping tests green
-               - Apply SOLID principles
-               - Remove duplication - scan codebase for pattern/algorithmic duplication
-               - Use existing libraries for common tasks (sorting, data structures)
-               - Improve naming
+            Red-green-refactor is mandatory. Verify the red test actually runs and fails for the right reason before implementing.
 
             ## Integration/Acceptance Tests
 
@@ -312,7 +116,6 @@ fragments:
 
             Format: `test_<action>_<condition>_<expected_result>`
 
-            Language conventions:
             - Python: `test_divide_by_zero_raises_value_error` (snake_case)
             - C#/Java: `testDivideByZeroRaisesValueError` (camelCase)
             - JavaScript: `testDivideByZeroThrowsError` (camelCase)
@@ -321,70 +124,26 @@ fragments:
 
             ## Test Organization
 
-            - Emphasize human readability
-            - Order by complexity:
-              - Top: Simple usage-demonstrating tests (examples for developers)
-              - Bottom: Comprehensive tests, edge cases, exhaustive coverage
-            - Tests serve as documentation
-        content_hash: sha256:1a4514779dbf0d21fc5b81ead5478d2bf6aeed406a24ad5cce5631c59210b2fa
+            Order by complexity: simple usage-demonstrating tests at the top (examples for developers), comprehensive tests and edge cases at the bottom. Tests serve as documentation.
+        content_hash: sha256:7a9cfe52e20269405608c1b455c436144764461d07cf45b59ca73de96201a1b7
         distilled: |-
-            # TDD Workflow
+            # TDD
 
-            ## Cycle (Mandatory)
-            1. **Red**: Write failing test first; verify fails correctly; ensure isolation
-            2. **Green**: Minimal code to pass; no extras
-            3. **Refactor**: Keep green; apply SOLID; remove duplication; use existing libs; improve names
+            Red-green-refactor is mandatory; verify the red test runs and fails for the right reason before implementing.
 
-            ## Integration Tests
-            - Run actual binaries (no hooks)
-            - Tag slow tests appropriately
-            - Clean up after tests
+            Integration/acceptance: build and run actual binaries, don't define hooks; tag slow tests; isolate and clean up after yourself.
 
-            ## Naming
-            `test_<action>_<condition>_<expected_result>`
-            - Python: snake_case
-            - C#/Java/JS: camelCase
-            - Readability > format
-
-            ## Organization
-            - Prioritize readability
-            - Order by complexity: simple examples top, edge cases bottom
-            - Tests = documentation
+            Naming: `test_<action>_<condition>_<expected_result>` in the language's casing; readability over strict format. Order test files by complexity — usage-demonstrating examples at top, edge cases at bottom; tests are documentation.
         distilled_by: claude-code
     test-coverage:
         tags:
-            - testing
-            - coverage
-            - quality
+        - testing
+        - coverage
+        - quality
         content: |-
-            # Comprehensive Test Coverage
+            # Test Coverage
 
-            Target 90%+ coverage. Unit + integration tests exercising full application.
-
-            ## Approach
-
-            1. **Analyze** architecture, dependencies, existing patterns
-            2. **Identify gaps** using coverage tooling
-            3. **Refactor** for testability (DI, interface extraction)
-            4. **Write tests** prioritizing business logic, error paths, integrations
-            5. **Verify** coverage meets target
-
-            ## Acceptable Refactoring
-
-            - Extract interfaces from concrete dependencies
-            - Introduce constructor injection
-            - Split functions that do too much
-            - Create seams for external system calls
-
-            Keep minimal and focused on testability.
-
-            ## In Scope
-
-            - Unit tests for all public functions/methods
-            - Integration tests for component interactions
-            - Testcontainers for external dependencies
-            - Interface mocks/fakes for isolation
-            - Edge cases, error paths, happy paths
+            Target 90%+ coverage. Unit + integration tests exercising the full application.
 
             ## Acceptable Gaps
 
@@ -392,125 +151,22 @@ fragments:
             - Generated code
             - Panic/fatal paths that can't occur
             - Default factory functions (exclude via tooling)
-
-            ## Documentation
-
-            Each test documents:
-            - **Why** — what risk/behavior validated
-            - **What** — scenario (preconditions, inputs, expected outcome)
-
-            Code shows **how**. Don't repeat implementation in comments.
-
-            ## Design Principles
-
-            - Tests are primary documentation
-            - Clarity over cleverness
-            - One behavior per test
-            - Naming: `test<Action>_<Condition>_<ExpectedResult>`
-
-            ## Test File Organization
-
-            Order by importance:
-            1. Core functionality (happy path)
-            2. Key variations (alternate flows)
-            3. Error handling (failure modes)
-            4. Edge cases (boundaries, limits)
-            5. Minutiae (obscure scenarios)
-
-            ## When to Mock
-
-            **Mock:** External systems, network, filesystem, slow dependencies
-            **Don't mock:** Your own code, stdlib, fast deterministic operations
-
-            Prefer real implementations where practical.
-
-            ## Avoid
-
-            - Testing implementation instead of behavior
-            - Copy-pasted test code
-            - Overmocking (5+ mocks = redesign)
-            - Magic values (use named constants)
-            - Test interdependence
-            - Commented-out tests
-        content_hash: sha256:86310937bd5f943aba9bfbaa0a72da3e110269341aebf07792912c95ef923f0f
+        content_hash: sha256:90e6507bae0e3815717306e88a6b30d319fc28ab3ffa844d779b515bac00f822
         distilled: |-
             # Test Coverage
 
-            Target: 90%+. Unit + integration covering full app.
-
-            ## Approach
-
-            1. Analyze architecture, deps, patterns
-            2. Identify gaps via coverage tools
-            3. Refactor for testability (DI, interface extraction)
-            4. Write tests: business logic > error paths > integrations
-            5. Verify target met
-
-            ## Acceptable Refactoring
-
-            - Extract interfaces from concrete deps
-            - Constructor injection
-            - Split large functions
-            - Create seams for external calls
-
-            ## Scope
-
-            - Unit: all public functions/methods
-            - Integration: component interactions
-            - Testcontainers for external deps
-            - Mocks/fakes for isolation
-            - Edge cases, errors, happy paths
-
-            ## Acceptable Gaps
-
-            - Main entrypoints (E2E covers)
-            - Generated code
-            - Unreachable panic/fatal
-            - Default factories (exclude via tooling)
-
-            ## Documentation
-
-            Each test: **Why** (risk/behavior) + **What** (scenario). Code shows how.
-
-            ## Design
-
-            - Tests = primary docs
-            - Clarity > cleverness
-            - One behavior/test
-            - See `tdd` for naming convention
-
-            ## File Organization
-
-            Order: core happy path → variations → errors → edge cases → minutiae
-
-            ## Mocking
-
-            **Mock:** external systems, network, FS, slow deps
-            **Real:** own code, stdlib, fast deterministic
-
-            See `test-organization` for detailed patterns.
-
-            ## Avoid
-
-            - Testing implementation vs behavior
-            - Copy-pasted tests
-            - Overmocking (5+ = redesign)
-            - Magic values
-            - Test interdependence
-            - Commented-out tests
-        distilled_by: claude-3-opus
+            Target 90%+ (unit + integration, full application). Acceptable gaps: main entrypoints (E2E-covered), generated code, impossible panic/fatal paths, default factory functions (exclude via tooling).
+        distilled_by: claude-code
     test-organization:
         tags:
-            - testing
-            - organization
-            - colocation
-            - patterns
+        - testing
+        - organization
+        - colocation
+        - patterns
         content: |-
             # Test Organization
 
-            Tests belong next to the code they test — same directory, separate file. Not inline. Not in a parallel tree.
-
-            ## The Principle
+            Tests belong next to the code they test — same directory, separate file, clearly named (`.test.rs`, `_test.go`). Not inline (contra the Rust default), not in a parallel tree.
 
             ```
             src/
@@ -519,45 +175,7 @@ fragments:
             └── mod.rs
             ```
 
-            **The principle:** Tests belong near code.
-            **The implementation:** Same directory, separate file, clearly named (`.test.rs`, `_test.go`).
-
-            ## Why Separate Files (Not Inline)?
-
-            AI context windows changed the calculus. Every token has cost.
-
-            **Inline tests create noise:**
-            - Search for business logic, get hits in test assertions
-            - Ask AI to understand authentication, it loads 47 test cases it doesn't need
-            - 500-line file where 300 lines are tests = 60% wasted context
-
-            **Separate files enable:**
-            - Selective loading — AI tools skip `.test` files
-            - Clean production files — implementation without test noise
-            - Faster codebase search — grep for logic, not assertions
-            - Choice — humans wanting docs head *for* tests
-
-            The problem isn't that tests exist. It's that inline tests are in the way.
-
-            ## Why Not Parallel Trees?
-
-            Java's `src/main`/`src/test` split was a workaround for JVM limitations:
-
-            1. **No conditional compilation** — Java can't exclude code from JAR
-            2. **Heavy test dependencies** — JUnit/Mockito add megabytes
-            3. **Classpath-based loading** — only way to exclude was separate directories
-
-            ```
-            # Java's archaeological expedition to find tests
-            src/main/java/com/example/UserService.java
-            src/test/java/com/example/UserServiceTest.java
-            ```
-
-            That's not "next to the code." Modern languages solved this.
-
-            ## Modern Solutions
-
-            ### Rust: Conditional Compilation
+            ## Rust Mechanics
 
             ```rust
             // correlation.rs — production code only
@@ -571,60 +189,7 @@ fragments:
             mod correlation_tests;
             ```
 
-            In release builds, test module doesn't exist — not compiled, not linked, not present.
-
-            ### Go: Naming Convention
-
-            ```
-            mypackage/
-            ├── user_service.go           # Production code
-            └── user_service_test.go      # Test code
-            ```
-
-            `go build` skips `_test.go` files entirely. No annotations needed.
-
-            ## What We Recommend
-
-            ```
-            src/
-            ├── correlation.rs           # Production code
-            ├── correlation.test.rs      # Tests
-            └── mod.rs
-            ```
-
-            Benefits:
-            - Tests adjacent to code (same directory)
-            - Production files focused on implementation
-            - Test files skippable when reading for understanding
-            - Conditional compilation via `#[cfg(test)]`
-            - Clean mutation testing workflow
-
-            **Mutation testing benefit:** If a mutation survives, it's in `correlation.rs`; test file untouched. Revert production file, keep test improvements. With inline tests, reverting loses both.
-
-            ## When Separation Makes Sense
-
-            Some tests benefit from true separation:
-
-            - **Integration tests** exercising multiple modules → `tests/` directory
-            - **E2E tests** spinning up the whole system → separate test project
-            - **Shared fixtures** → `src/test_utils/`, not a parallel tree
-
-            The principle: don't separate without reason. Colocation is the default.
-
-            ## The Tradeoffs
-
-            **Lost with separate files:**
-            - Visibility — inline tests impossible to miss
-            - Encouragement — scroll down, see tests
-            - Atomic versioning — change function and test in one commit
-
-            **Gained:**
-            - Cleaner production files
-            - Efficient AI assistance
-            - Faster codebase search
-            - Flexible reading
-
-            For AI-assisted development in 2026, the tradeoff favors separate files.
+            In release builds the test module doesn't exist — not compiled, not linked, not present.
 
             ## Test Type by Location
 
@@ -637,69 +202,26 @@ fragments:
 
             **BIT** = Behavioral Interface Test. Tests that an implementation fulfills its interface's behavioral contract.
 
-            ## This Won't Be Forever
+            ## When Separation Makes Sense
 
-            Every position emerged from tooling constraints. Java's parallel directories made sense when JVM couldn't exclude code. Inline tests made sense when file size didn't compete with AI context.
+            - **Integration tests** exercising multiple modules → `tests/` directory
+            - **E2E tests** spinning up the whole system → separate test project
+            - **Shared fixtures** → `src/test_utils/`, not a parallel tree
 
-            When constraints change, optimal organization changes. What won't change: **tests belong near the code they test**. The definition of "near" adapts.
-        content_hash: sha256:d4dbb0441710f98c7e1d072e43207c49b2dd6a92285c1c274b231abdd09f1550
+            Don't separate without reason. Colocation is the default.
+        content_hash: sha256:da002e5995f86a8e9eea936d2a4f56e94806e1c464e6c29f8153c28e2e2c6f75
         distilled: |-
             # Test Organization
 
-            Tests go next to code: same dir, separate file (`.test.rs`, `_test.go`).
+            Tests live next to the code — same directory, separate clearly-named file (`.test.rs`, `_test.go`); not inline (contra the Rust default), not a parallel tree.
 
-            ## Why Separate Files
+            Rust wiring (test module vanishes from release builds):
 
-            AI context cost changed calculus:
-            - Inline tests = noise in search/AI context (60% wasted tokens)
-            - Separate files = selective loading, clean prod files, faster grep
-
-            ## Why Not Parallel Trees
-
-            Java's `src/main`/`src/test` was JVM workaround (no conditional compilation, classpath loading). Modern langs solved this.
-
-            ### Rust
             ```rust
-            // mod.rs
             #[cfg(test)]
             #[path = "correlation.test.rs"]
             mod correlation_tests;
             ```
-            Release builds exclude test module entirely.
 
-            ### Go
-            `_test.go` files skipped by `go build`.
-
-            ## Recommended Structure
-            ```
-            src/
-            ├── correlation.rs        # Prod
-            ├── correlation.test.rs   # Tests
-            └── mod.rs
-            ```
-
-            **Mutation testing benefit:** Survived mutation in prod file only; revert doesn't lose test improvements.
-
-            ## Separation Exceptions
-            - Integration tests → `tests/`
-            - E2E → separate project
-            - Shared fixtures → `src/test_utils/`
-
-            Colocation is default.
-
-            ## Test Location by Type
-
-            | Type | Tests | Location |
-            |------|-------|----------|
-            | Unit | Pure logic | Adjacent `.test` |
-            | BIT | Impl vs interface contract | Adjacent `.test` |
-            | Integration | Multi-component | `tests/` |
-            | E2E | Full system | Separate project |
-
-            ## Tradeoffs
-
-            **Lost:** visibility, atomic commits, encouragement
-            **Gained:** clean prod files, efficient AI, faster search
-
-            Optimal org adapts to tooling. Constant: tests near code.
+            Location by type: unit and BIT (Behavioral Interface Test — implementation against its interface's behavioral contract) in the adjacent `.test` file; integration (multiple components) in `tests/`; E2E in a separate test project; shared fixtures in `src/test_utils/`, not a parallel tree. Colocation is the default — don't separate without reason.
         distilled_by: claude-code

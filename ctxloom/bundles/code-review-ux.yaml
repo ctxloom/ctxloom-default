@@ -1,37 +1,24 @@
 version: 1.0.0
 tags:
-    - review
-    - ux
-    - frontend
-    - user-facing
+- review
+- ux
+- frontend
+- user-facing
 author: ctxloom
 description: User-experience review (user-facing apps). Language-agnostic — a single `general` fragment. Compose `code-review-ux#fragments/general` as a `ctxloom weave` member.
 fragments:
     general:
         tags:
-            - review
-            - ux
-            - frontend
-            - user-facing
+        - review
+        - ux
+        - frontend
+        - user-facing
         content: |-
             # Lens: User Experience (user-facing apps)
 
             How does it feel for the end user?
-
-            ## Check
-            - User-facing copy: clear, consistent, non-jargon, correct tone.
-            - States handled: loading, empty, error, success, partial — no dead ends;
-              actionable error messages with recovery.
-            - Consistency with existing UI patterns; no surprising behavior.
-            - Friction: fewest steps for the common task; sensible defaults; destructive
-              actions confirmed/undoable.
-        content_hash: sha256:464687c86d919754fdb24ac2d6c3f175139767230519c60fc566a3fa42249e9a
+        content_hash: sha256:ca232884bb88f3bf1320c0bee14ede63861a551a8ab7cfdd03a1bfaf1884c909
         distilled: |-
             # Lens: User Experience (user-facing apps)
-
-            ## Check
-            - Copy: clear, consistent, non-jargon, correct tone
-            - States (load, empty, error, success, partial): no dead ends; actionable errors w/ recovery
-            - UI: consistent patterns, no surprises
-            - Friction: min steps, sensible defaults, destructive → confirm/undo
-        distilled_by: claude-haiku-4-5-20251001
+            How does it feel for the end user?
+        distilled_by: claude-code

@@ -1,43 +1,27 @@
 version: 1.0.0
 tags:
-    - review
-    - cost
-    - infra
-    - finops
+- review
+- cost
+- infra
+- finops
 author: ctxloom
 description: Cost & infrastructure review (IaC/FinOps). Language-agnostic — a single `general` fragment. Compose `code-review-cost-infra#fragments/general` as a `ctxloom weave` member.
 fragments:
     general:
         tags:
-            - review
-            - cost
-            - infra
-            - finops
+        - review
+        - cost
+        - infra
+        - finops
         content: |-
             # Lens: Cost & Infrastructure (IaC / FinOps)
 
             Does this change spend money wisely?
 
-            ## Check
-            - IaC diffs that change spend: instance sizes/types, replica counts, storage
-              class, provisioned throughput, cross-AZ/region egress, always-on vs
-              autoscaled, missing TTL/lifecycle.
-            - Right-sizing and autoscaling over fixed over-provisioning.
-            - Required cost-allocation tags/labels (owner, env, cost-center); budget/
-              quota guardrails.
-            - Code-side cost: unbounded scans, oversized payloads, chatty cross-region
-              calls, missing caching/pagination.
-
-            Flag cost-relevant changes; exact dollar impact needs a cost tool (note it).
-        content_hash: sha256:b6bd724f9e70af64e2cc81cf14acc41874a2dae5a56364f36b330ab3dc526cd6
+            - Required cost-allocation tags/labels (owner, env, cost-center); budget/quota guardrails.
+        content_hash: sha256:f0ed36eb6aaa260105eddcbac75b0e7fca0e9906c4ae8302e8daadf89683aade
         distilled: |-
             # Lens: Cost & Infrastructure (IaC / FinOps)
-
-            ## Check
-            - IaC: sizes/types, replicas, storage, throughput, cross-AZ, autoscale vs always-on, missing TTL/lifecycle
-            - Prefer autoscale + right-sizing over over-provisioning
-            - Tags required: owner, env, cost-center; budget/quota guardrails
-            - Code: unbounded scans, oversized payloads, cross-region calls, missing caching/pagination
-
-            Flag cost-relevant changes; exact impact requires cost tool.
-        distilled_by: claude-haiku-4-5-20251001
+            Does this change spend money wisely?
+            - Required cost-allocation tags/labels (owner, env, cost-center); budget/quota guardrails.
+        distilled_by: claude-code

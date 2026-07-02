@@ -14,22 +14,12 @@ fragments:
         content: |-
             # Lens: Language Idioms & Best Practices
 
-            Is the code idiomatic for its language and ecosystem? This lens carries the
-            language specifics — pair the project's language fragment.
-
-            ## Concept
-            - Use the language's idiomatic constructs and standard library rather than
-              transliterating from another language.
-            - Follow the ecosystem's accepted conventions, error model, and tooling.
-            - Avoid the language's known anti-patterns and footguns.
-        content_hash: sha256:78ebe84d7ca7a5f2330c85773bda3b03baa52cb38cb843890d06b46b1de7a6cc
+            Review through the idioms lens of the diff's language(s): flag non-idiomatic
+            constructs and footguns a fluent reviewer of that language would reject.
+            Language specifics live in the project's language fragment — pair it.
+        content_hash: sha256:dca1c294074c87bd77c75edab8b9927193f4ea3dad81a54a9528e59e257e53fd
         distilled: |-
             # Lens: Language Idioms & Best Practices
-
-            Code idiomatic to language/ecosystem? Pair language fragment.
-
-            ## Concept
-            - Use idiomatic constructs & stdlib, not transliteration
-            - Follow ecosystem conventions, error model, tooling
-            - Avoid language anti-patterns & footguns
-        distilled_by: claude-haiku-4-5-20251001
+            Review through the idioms lens of the diff's language(s): flag non-idiomatic constructs and footguns a fluent reviewer of that language would reject.
+            Language specifics live in the project's language fragment — pair it.
+        distilled_by: claude-code
