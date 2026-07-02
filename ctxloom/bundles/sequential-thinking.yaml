@@ -1,8 +1,8 @@
 version: 1.0.0
 tags:
-    - mcp
-    - reasoning
-    - problem-solving
+- mcp
+- reasoning
+- problem-solving
 author: ctxloom
 description: Sequential thinking MCP server for structured problem-solving
 notes: |
@@ -24,45 +24,15 @@ mcp:
     sequential-thinking:
         command: npx
         args:
-            - -y
-            - '@modelcontextprotocol/server-sequential-thinking'
+        - -y
+        - '@modelcontextprotocol/server-sequential-thinking'
         note: Provides structured sequential thinking for complex problem-solving
-fragments:
-    usage:
-        tags:
-            - mcp
-            - reasoning
-        content: |
-            # Sequential Thinking MCP Server
-
-            Use the sequential thinking MCP server when facing complex problems that benefit
-            from structured, step-by-step reasoning.
-
-            ## When to Use
-            - Multi-step problem solving
-            - Complex debugging scenarios
-            - Architectural decisions
-            - Trade-off analysis
-
-            ## How It Works
-            The server provides tools to:
-            1. Break down problems into discrete steps
-            2. Track reasoning chains
-            3. Revisit and refine earlier conclusions
-            4. Build comprehensive solutions iteratively
-
-            ## Best Practices
-            - Start with a clear problem statement
-            - Use for problems with 3+ logical steps
-            - Review and adjust intermediate conclusions
-            - Summarize the final reasoning chain
-        no_distill: true
 skills:
     complex-problem:
         description: Analyze a complex problem using sequential thinking
         tags:
-            - reasoning
-            - analysis
+        - reasoning
+        - analysis
         content: |
             Analyze the following problem using sequential thinking:
 

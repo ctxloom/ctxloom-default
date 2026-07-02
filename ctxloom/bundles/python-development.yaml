@@ -1,97 +1,15 @@
 version: 1.0.0
 tags:
-    - python
-    - language
-    - development
+- python
+- language
+- development
 author: ctxloom
 description: Python development practices, tooling, and UV package manager
 fragments:
-    pipx:
-        tags:
-            - python
-            - tooling
-            - cli
-        installation: |-
-            macOS: brew install pipx && pipx ensurepath
-            Linux (Debian/Ubuntu): sudo apt install pipx && pipx ensurepath
-            Via pip: python -m pip install --user pipx && pipx ensurepath
-        content: |-
-            # pipx - Python CLI Tool Installer
-
-            Installs Python CLI apps in isolated envs, separate from project deps.
-
-            ## pipx vs uv
-
-            - **pipx**: System-wide CLI tools (ruff, black, uv, pre-commit)
-            - **uv**: Project deps and dev tools
-
-            ## Commands
-
-            ```bash
-            pipx install ruff          # Install tool
-            pipx run cowsay "hello"    # Run without installing
-            pipx upgrade ruff          # Upgrade tool
-            pipx upgrade-all           # Upgrade all
-            pipx list                  # List installed
-            pipx uninstall ruff        # Remove
-            pipx reinstall-all         # After Python upgrade
-            ```
-
-            ## Extras & Injection
-
-            ```bash
-            pipx install 'black[jupyter]'   # With optional deps
-            pipx inject black click          # Add pkgs to existing tool env
-            ```
-
-            ## Recommended Tools
-
-            ```bash
-            # Pkg mgmt: uv, pip-tools
-            # Code quality: ruff, black, mypy, pre-commit
-            # Dev utils: cookiecutter, bump2version, twine
-            ```
-
-            ## Best Practices
-
-            - Use pipx (not pip) for global CLI tools
-            - `pipx upgrade-all` regularly
-            - `pipx run` for one-off usage
-            - Reinstall after major Python upgrades
-        content_hash: sha256:c6ef8a632752f3d442ed302c2b6add51b43c8392959d0b0654624e08a3d7a57c
-        distilled: |-
-            # pipx
-
-            Install Python CLI apps in isolated envs.
-
-            ## pipx vs uv
-            - **pipx**: System-wide CLI tools (ruff, black, pre-commit)
-            - **uv**: Project deps (see uv fragment)
-
-            ## Commands
-            ```bash
-            pipx install ruff          # Install
-            pipx run cowsay "hello"    # Run w/o install
-            pipx upgrade-all           # Upgrade all
-            pipx list                  # List installed
-            pipx reinstall-all         # After Python upgrade
-            ```
-
-            ## Extras
-            ```bash
-            pipx install 'black[jupyter]'  # Optional deps
-            pipx inject black click        # Add to existing env
-            ```
-
-            ## Rules
-            - Use pipx (not pip) for global CLI tools
-            - `pipx run` for one-off usage
-            - Reinstall after major Python upgrades
-        distilled_by: claude-3-opus
     python:
         tags:
-            - python
-            - language
+        - python
+        - language
         content: |-
             # Python Dev
 
@@ -376,9 +294,9 @@ fragments:
         distilled_by: claude-3-opus
     uv:
         tags:
-            - python
-            - tooling
-            - package-manager
+        - python
+        - tooling
+        - package-manager
         installation: |-
             pipx install uv (recommended)
             Or: curl -LsSf https://astral.sh/uv/install.sh | sh
