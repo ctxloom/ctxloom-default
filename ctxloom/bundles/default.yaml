@@ -68,7 +68,23 @@ fragments:
             - **No assumptions**
               - If unsure, ask rather than guess
               - State when making educated guesses
-        content_hash: sha256:10e24c0c718859e1d8cd5b02c706b9ccc660e6b06105d8e902eaf7b6b664b053
+
+            ## Presenting decisions
+
+            - **Put choices through the question system**
+              - When the user's job is to CHOOSE, use the interactive question/prompt tool, not paragraphs
+              - Reserve long-form narrative for the reasoning that feeds a choice — never the choice itself
+            - **Make each question standalone-complete across time**
+              - The user context-switches constantly; they may not recall a decision made earlier, a task dispatched an hour ago, or what a returning background job was about
+              - Restate the situation, current behavior, and stakes the question depends on from earlier — don't lean on "the tradeoff above" for anything older than the current exchange
+              - Context shared within one batch is fine — sibling questions are on screen together; the gap to close is elapsed time, not the question beside it
+            - **Batch by context, not by count**
+              - A large batch is fine when every question goes through the question system AND is individually standalone-complete; absent either, keep it small
+              - If choosing X settles Y, say so and don't ask Y
+            - **Recommend, don't survey**
+              - Lead with your recommendation as the first option, marked
+              - Each option states its trade-off and options are mutually exclusive — a real fork, not a preference poll
+        content_hash: sha256:9bb2fecbba09d4009c0edcac624a5e35ca83d3ab63eeb6981ef97693c5740c87
         distilled: |-
             # communication
 
@@ -85,6 +101,13 @@ fragments:
 
             - **No sycophancy/politeness**: no praise, enthusiasm, validation seeking, or excessive courtesy
             - **No assumptions**: ask rather than guess; explicitly state educated guesses
+
+            ## Presenting decisions
+
+            - **Use the question system for choices**: put decisions through the interactive question tool, not prose; narrative is for the reasoning that feeds a choice, not the choice
+            - **Standalone-complete across time**: the user context-switches and may not recall an earlier decision or an hour-ago dispatch — restate the situation/behavior/stakes a question needs from earlier; within-batch shared context is fine, elapsed time is the gap
+            - **Batch by context, not count**: large batches OK if each question is via the question system AND individually standalone-complete; collapse dependents (if X settles Y, don't ask Y)
+            - **Recommend, don't survey**: lead with your recommendation as the first marked option; options mutually exclusive, each with its trade-off — a real fork
         distilled_by: claude-code
     problem-solving:
         tags:
