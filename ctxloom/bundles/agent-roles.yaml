@@ -23,8 +23,8 @@ fragments:
               analysis.
             - Several matches: list them tersely. No match: say so plainly.
             - Do not fix, refactor, or opine on the code — that is another agent's job.
-              Stay in the lookup lane so the orchestrator can fan many of you cheaply
-              in parallel.
+              Stay in the lookup lane so the orchestrator can dispatch many of you at
+              once — execution still queues serially, but dispatch doesn't wait on it.
     developer-escalation:
         tags:
             - agent-roles
