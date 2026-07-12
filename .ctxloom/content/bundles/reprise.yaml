@@ -23,16 +23,22 @@ fragments:
             REPORT-ONLY: it never edits code — responding to findings is your
             job.
 
-            ## The three commands
+            ## The two commands
 
             - `reprise scan` — full-repo ranked report of duplicate groups.
             - `reprise check` — PR/commit mode: findings involving units
-              changed since a git ref fail unless baselined and unworsened.
-              Its flagship finding is `inconsistent-update`: a change edited
-              ONE copy of a known duplicate group but not the others.
-            - `reprise baseline` — record all current findings to a
-              checked-in baseline (`reprise-baseline.json`); the adoption
-              path for legacy duplication.
+              changed since a git ref fail when they are new or worsened.
+              The base ref defaults to the merge-base with the default
+              branch; override with `--base <ref>` or `[baseline].ref` in
+              `reprise.toml`. Its flagship finding is `inconsistent-update`:
+              a change edited ONE copy of a known duplicate group but not the
+              others. Exit codes: 0 clean, 1 findings at/above `--fail-on`,
+              2 usage/runtime error.
+
+            There is no `baseline` subcommand: the baseline is a pinned git
+            ref, not a stored file. Adopt reprise on a legacy codebase by
+            pinning `[baseline].ref` to the current commit, so only NEW drift
+            fails while existing duplication is grandfathered.
 
             ## How to respond to findings
 
@@ -44,9 +50,10 @@ fragments:
               copies.
             - **A new duplicate group**: replace your new implementation with
               a call to the existing unit (or extract one shared helper).
-            - **Legacy noise**: `reprise baseline` once, checked in — never
-              delete or regenerate the baseline just to make a failing check
-              pass, and never suppress a finding without the user's say-so.
+            - **Intentional parallelism**: mark deliberate duplication at the
+              source — `reprise:accept-drift` waives the drift gate while
+              keeping the unit tracked; `reprise:ignore` drops the unit
+              entirely. Never suppress a finding without the user's say-so.
 
             ## Pre-commit gate
 
