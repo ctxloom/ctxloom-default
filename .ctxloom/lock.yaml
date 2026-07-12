@@ -1,0 +1,7 @@
+version: 1
+locked_at: 2026-06-09T11:56:20.567784176Z
+profiles:
+    https://github.com/ctxloom/ctxloom-default@profiles/cr-synthesis:
+        sha: ea379568826765fd6d325ddd95d6107b576b3d40
+        url: https://github.com/ctxloom/ctxloom-default
+        fetched_at: 2026-06-09T11:56:20.567783784Z
