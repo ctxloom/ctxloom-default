@@ -11,7 +11,7 @@ notes: |
     usage fragment. It ships the deferral-tracking policy fragment (a
     behavioral default layered on the builtin) plus the tooling declaration
     that gets the binary into agent environments in the first place.
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:

@@ -51,7 +51,7 @@ fragments:
         content_hash: sha256:097c1e35d3792346b91684ca81f613179c39abe07f361367a982a33317a212bb
         distilled: "# ltk\n\n**llm-tool-killer (ltk)** — pre-tool hook that inspects and redirects shell commands per `.ltk/config.yaml` rules.\n\n## How it works\n\nParses real command (resolving variables, unwrapping wrappers) → matches against project rules → first matching `deny` returns `message`/`suggest`:\n\n    go test ./...   →   blocked: \"Run tests through the task runner.\"\n                    →   retry: `just test`\n\n## How to use\n\n- Treat redirects as guidance; read suggestion and retry as specified\n- Prefer project task runner (`just <target>`) over invoking tools directly  \n- **Agents do not cut releases** — ltk blocks `git tag`/release commands; prepare version bump/PR for human or CI\n\n## What it is not\n\nCooperative redirect, not a sandbox. Explicit workarounds are possible; for strict boundaries use a container."
         distilled_by: claude-haiku-4-5-20251001
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:

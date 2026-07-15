@@ -75,7 +75,7 @@ fragments:
 
             No scope/type analysis, control/data flow, undefined/unused-variable detection, taint analysis, or constant propagation — AST matching only.
         distilled_by: claude-code
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:

@@ -60,7 +60,7 @@ fragments:
             reprise runs as a **lefthook pre-commit hook** (`reprise check`
             in lefthook.yml). A failing hook means respond as above and
             retry the commit — do not bypass with `--no-verify`.
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:
