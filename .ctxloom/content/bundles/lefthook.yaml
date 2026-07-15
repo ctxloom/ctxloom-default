@@ -30,7 +30,7 @@ fragments:
             - Add or change hooks by editing `lefthook.yml` (each entry is a
               named command with optional glob/exclude), then re-run
               `lefthook install`.
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:

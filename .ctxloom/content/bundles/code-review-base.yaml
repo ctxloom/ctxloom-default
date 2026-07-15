@@ -157,7 +157,7 @@ profiles:
             - synthesis
         bundles:
             - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/synthesis
-skills:
+commands:
     weave-review:
         description: "Run a parallel, synthesized code review: fan per-lens reviewers with `ctxloom weave` and reduce with cr-synthesis (agent-driven, language-aware)."
         tags:

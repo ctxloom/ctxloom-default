@@ -5,7 +5,7 @@ tags:
 - version-manager
 author: ctxloom
 description: asdf version manager for multiple runtime versions
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:
