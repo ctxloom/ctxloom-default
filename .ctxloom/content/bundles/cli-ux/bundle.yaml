@@ -1,0 +1,15 @@
+version: 1.0.0
+tags:
+    - cli
+    - ux
+    - dx
+    - design
+    - review
+author: ctxloom
+description: Design and audit command-line interfaces against ten CLI-UX principles (help that teaches, progressive disclosure, honest defaults, consistent grammar, discoverability, teaching errors, stream/exit-code contracts, machine escape hatches, closed tag loops, compatibility discipline).
+skills:
+    apply-cli-ux-principles:
+        files:
+            SKILL.md:
+                sha256: sha256:872e943e35c496dc99116ee9e5c93975cf7e6ef295f29f7505e2ee372854194f
+                mode: "0644"
