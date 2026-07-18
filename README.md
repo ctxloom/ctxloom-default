@@ -33,9 +33,11 @@ bundles.
 | Bundle | Description |
 |--------|-------------|
 | 12-factor | Cloud-native application methodology |
+| acp-setup | Skill package for configuring ctxloom's optional ACP (Agent Client Protocol) integration |
 | agent-roles | finder + developer-escalation role fragments for orchestrated subagents |
 | asdf | Version manager for multiple runtimes |
 | ast-grep | Structural code search and replace |
+| cli-ux | Skill package for designing/auditing command-line interfaces against ten CLI-UX principles |
 | code-review-base | Review scaffolding (conduct + synthesis) and the cr-all/cr-synthesis exemplar profiles |
 | code-review-\<lens\> | Per-lens review fragments (general + per-language) to compose `ctxloom weave` members |
 | code-review-checklists | Review perspectives (architecture, performance, etc.) |
@@ -58,6 +60,8 @@ bundles.
 | Skill | Description |
 |-------|-------------|
 | weave-review | Parallel synthesized code review — fans per-lens reviewers via `ctxloom weave` + `cr-synthesis` (bundle skill in `code-review-base`) |
+| apply-cli-ux-principles | Design/audit a CLI against ten CLI-UX principles (bundle skill in `cli-ux`) |
+| acp-setup | Configure ctxloom's optional ACP integration — serving an editor, or connecting out to an ACP-speaking agent (bundle skill in `acp-setup`) |
 | review-perspectives | Comprehensive single-agent code review (multi-perspective) |
 | review-recent | Review recent changes |
 | review-illuminated | Interactive step-by-step code-review walkthrough |
