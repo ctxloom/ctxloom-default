@@ -1,0 +1,25 @@
+name: verify-signatures
+
+# This is the official curated repo: consumers seed it as a trusted remote, so
+# its bundles reach agents WITHOUT review. Everything here must be signed by the
+# ctxloom release key — a bundle that is unsigned, stale-signed, or signed with
+# a personal key is withheld on the consumer's next `remote upgrade`, silently
+# degrading whatever profile inherits from it. Catch it on the commit that
+# causes it.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-signatures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ssh-keygen -Y verify is preinstalled on GitHub runners; no setup step
+      # and no third-party action is needed to check an SSHSIG.
+      - name: Verify every bundle is signed by the ctxloom release key
+        env:
+          SIGN_IDENTITY: ben+ctxloom@abbitt.me
+        run: ./.github/verify-signatures.sh
