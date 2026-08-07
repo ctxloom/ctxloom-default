@@ -1,5 +1,6 @@
 version: 1.0.0
 tags:
+    - default
     - taskloom
     - tasks
     - tooling
@@ -11,26 +12,25 @@ notes: |
     usage fragment. It ships the deferral-tracking policy fragment (a
     behavioral default layered on the builtin) plus the tooling declaration
     that gets the binary into agent environments in the first place.
-commands:
-    tooling:
-        description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
-        tags:
-            - tooling
-        content: |
-            - taskloom: Homebrew or a release binary from GitHub
-              (https://github.com/ctxloom/taskloom). The task store and MCP
-              server (`taskloom mcp`) come with the one binary; ctxloom's
-              builtin taskloom fragment activates automatically once it is
-              on PATH.
 fragments:
     deferral-tracking:
         tags:
             - tasks
             - workflow
-        content: |-
+        content: |
             # Deferral Tracking
 
             Deferred work lives in taskloom, not in conversation memory or plan prose.
+
+            ## Search before you create
+
+            Before `task_add`, search the existing log. Use `task_list` with a `term` filter, or a `tag_query`, and search on the distinctive noun — the file, symbol, command or subsystem — not on your own phrasing of the problem. Whoever filed it first almost certainly worded it differently.
+
+            If something already covers the work, UPDATE it (`task_edit`, or append a dated note to its text) rather than filing a second entry. Create only when nothing matches.
+
+            Why this matters more than it sounds: backlogs accumulate duplicates fast, because the same defect gets rediscovered from a different angle in a different session. The failure mode is not just clutter — a second filing often *contradicts* the first, prescribing an opposite fix, and whoever picks them up later has no way to tell which is current. Two tasks disagreeing about the same bug is worse than one stale task.
+
+            Check for an existing entry even when you are confident the finding is new.
 
             ## Agent deferrals
 
@@ -48,14 +48,47 @@ fragments:
             ## Why
 
             A deferral that exists only in chat or a plan file is lost when the session ends. The task log is the durable record; plans and summaries reference entries by harp ID.
-        content_hash: sha256:baa1dc81369a575b4bcfcb513fb1af375a7d7de5c68f0bbd1eebe65b7bfa0ce6
+        content_hash: sha256:ee2b4d1af5c617d7afeb315c7cda6b550df29e017f97b430f21a5d5e12e95805
         distilled: |-
             # Deferral Tracking
 
-            Deferred work → taskloom, not conversation memory or plan prose.
+            Deferred work lives in taskloom, not in conversation memory or plan prose.
 
-            - Agent deferrals (descoped work, discovered follow-ups, postponed fixes): task_add before moving on. Concrete revive condition → "Deferred" + trigger; else "To Do".
-            - Don't close work with unrecorded deferred items.
-            - User deferrals ("later", "not now", "punt", "park it"): offer once to record as a taskloom entry; create on confirmation; don't push if declined.
-            - Chat/plan-only deferrals are lost at session end; the task log is the record (reference by harp ID).
-        distilled_by: claude-code
+            ## Search before you create
+
+            Before `task_add`, search existing log using `task_list` (term filter) or `tag_query` on distinctive noun: file, symbol, command, subsystem.
+
+            If entry covers the work, UPDATE it (`task_edit`, append dated note). Create only when nothing matches.
+
+            **Critical:** Duplicates generate contradictory fixes; whoever picks up later cannot tell which is current.
+
+            Check for existing entry even when confident finding is new.
+
+            ## Agent deferrals
+
+            Record deferred work with `task_add` before moving on (descoped, mid-implementation, postponed):
+
+            - Concrete revive condition ("after X merges", "when CI green") → "Deferred" status with condition as trigger
+            - No condition → "To Do"
+
+            Don't close work spawning deferrals until each is recorded.
+
+            ## User deferrals
+
+            Offer brief taskloom entry when user defers. Create on confirmation. Don't push if declined.
+
+            ## Durability
+
+            Chat/plan deferrals disappear when session ends. Taskloom is durable record; summaries reference by harp ID.
+        distilled_by: claude-haiku-4-5-20251001
+commands:
+    tooling:
+        description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
+        tags:
+            - tooling
+        content: |
+            - taskloom: Homebrew or a release binary from GitHub
+              (https://github.com/ctxloom/taskloom). The task store and MCP
+              server (`taskloom mcp`) come with the one binary; ctxloom's
+              builtin taskloom fragment activates automatically once it is
+              on PATH.
