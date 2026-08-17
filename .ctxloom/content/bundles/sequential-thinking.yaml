@@ -27,7 +27,7 @@ mcp:
         args:
         - -y
         - '@modelcontextprotocol/server-sequential-thinking'
-        note: Provides structured sequential thinking for complex problem-solving
+        notes: Provides structured sequential thinking for complex problem-solving
 commands:
     complex-problem:
         description: Analyze a complex problem using sequential thinking
