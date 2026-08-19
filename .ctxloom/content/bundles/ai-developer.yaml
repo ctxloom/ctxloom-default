@@ -14,7 +14,7 @@ profiles:
         - development
         - base
         bundles:
-        - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general
-        - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer
-        - https://github.com/ctxloom/ctxloom-default@bundles/testing
-        - https://github.com/ctxloom/ctxloom-default@bundles/git
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-developer
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/testing
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/git

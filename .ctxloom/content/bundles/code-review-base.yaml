@@ -133,31 +133,31 @@ profiles:
             - review
             - comprehensive
         bundles:
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/conduct
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-correctness#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-maintainability#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-language-idioms#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-security#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-api-compat#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-dx#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-ux#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-accessibility-i18n#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-cost-infra#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-data#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-observability#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-dependencies#fragments/general
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-documentation#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/conduct
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-structural#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-correctness#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-maintainability#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-reliability#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-performance#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-language-idioms#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-testing#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-security#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-api-compat#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-dx#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-ux#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-accessibility-i18n#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-cost-infra#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-data#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-observability#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-dependencies#fragments/general
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-documentation#fragments/general
     cr-synthesis:
         description: "Synthesis (reduce) profile for a code-review weave ensemble: agglomerates the per-lens members' findings into one de-duplicated, severity-ranked report. Bind a high-power engine for the reduce step."
         tags:
             - review
             - synthesis
         bundles:
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/synthesis
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/synthesis
 commands:
     weave-review:
         description: "Run a parallel, synthesized code review: fan per-lens reviewers with `ctxloom weave` and reduce with cr-synthesis (agent-driven, language-aware)."
