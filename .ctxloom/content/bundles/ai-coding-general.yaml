@@ -208,6 +208,19 @@ fragments:
         - standards
         - review
         - architecture
+        premise: You are about to build infrastructure — a protocol, a validator, a health check, an auth flow, a parser, a retry policy. For anyone about to write something a well-known standard, or a library this project already wires in, may already cover.
+        notes: |-
+            Defends against reinvented infrastructure: a model can produce a
+            plausible descriptor service, JWT check, or health endpoint
+            end-to-end, so by default it writes one instead of looking up the
+            standard — and the hand-rolled copy shadows a mechanism the project
+            may already wire in. The guidance is shaped as a question protocol
+            rather than a rule list because the trigger is a category ("this
+            sounds like server discovery"), not a named API; the
+            registration-site comment puts the answer next to the call where
+            the temptation recurs. Origin: the recurring reinvention pattern
+            itself, observed across model output generally — no single
+            incident behind it.
     mutation-as-test-validator:
         content: |-
             # Mutation Testing as a Test Validator
