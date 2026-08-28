@@ -111,6 +111,16 @@ fragments:
             - **Batch by context, not count**: large batches OK if each question is via the question system AND individually standalone-complete; collapse dependents (if X settles Y, don't ask Y)
             - **Recommend, don't survey**: lead with your recommendation as the first marked option; options mutually exclusive, each with its trade-off — a real fork
         distilled_by: claude-code
+        notes: |-
+            Deliberately unpremised: this is the voice every reply is written
+            in, and there is no observable moment at which it starts applying
+            — a premise would withhold it from exactly the turns it governs.
+            The anti-sycophancy and lead-with-key-info rules counter the
+            model's trained-in habits (praise first, conclusion buried); the
+            standalone-complete rule for questions exists because the human
+            runs several threads at once, and a question leaning on an
+            hour-old exchange arrives without the context it needs. Origin:
+            derived from the body; no incident behind it.
     problem-solving:
         tags:
             - workflow
@@ -201,6 +211,18 @@ fragments:
 
             CI ≠ local hides bugs (clean checkouts, no TTY, etc). Chase environmental differences; don't paper over them.
         distilled_by: claude-haiku-4-5-20251001
+        premise: Something is failing and you are considering a workaround, a retry, a sleep, a threshold change, a disabled check, or a fallback; or you are deciding whether to chase the root cause or patch the symptom. For anyone about to route around a defect rather than fix it.
+        notes: |-
+            Exists because a workaround is always locally cheaper than the
+            fix, so without a rule the workarounds win by default and the
+            defects they route around survive. The core observation: a
+            comment explaining WHY a workaround is needed is already a
+            completed defect diagnosis — leaving it in code instead of filing
+            it turns the diagnosis into a tombstone the next reader takes as
+            settled. The gate rule defends against manufactured confidence: a
+            threshold tuned until the gate stops complaining reads as green
+            while measuring nothing. Origin: derived from the failure shapes
+            the body lists; no specific incident is recorded in it.
     pushback:
         tags:
             - workflow
@@ -276,3 +298,15 @@ fragments:
             - Logging context?
             - Error conditions & messages?
         distilled_by: claude-haiku-4-5-20251001
+        premise: You are being asked to skip tests, ship without them, ignore types, or work around a linter, or you hold a substantive objection to what was requested. For anyone deciding whether to comply quietly.
+        notes: |-
+            Defends against silent compliance: asked to skip tests or route
+            around a linter, an agent's default is to comply and mention the
+            cost in passing, which reads as endorsement. The response pattern
+            makes the objection explicit while leaving the user in charge —
+            defer if they insist, but the debt gets named, so the decision is
+            theirs and informed. The two question checklists at the end key
+            on a different moment (starting a feature, designing a component)
+            than the objection moment the rest of the fragment — and its
+            premise — fire on. Origin: derived from the body; no incident
+            behind it.
