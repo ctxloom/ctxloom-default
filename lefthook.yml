@@ -1,0 +1,80 @@
+# Git hooks, managed by lefthook (`lefthook install` wires .git/hooks).
+# A failing hook is a finding: read its output and fix the cause, then retry
+# the commit — never bypass with --no-verify / LEFTHOOK=0 unless the human
+# driving explicitly says so.
+pre-commit:
+  commands:
+    bundle-signatures:
+      # Bundles are signed content: each .ctxloom/content/bundles/<name>.yaml
+      # has a detached <name>.yaml.sig covering its EXACT bytes. A bundle whose
+      # signature does not cover it is refused by a consumer as TAMPERED, and
+      # the consumer silently keeps whatever pin it already had — so a .yaml
+      # edited without regenerating its .sig does not ship degraded, it does
+      # not ship, and nothing says so out loud.
+      #
+      # THE INVARIANT: a bundle's .sig is regenerated and committed in the SAME
+      # change as the .yaml it covers.
+      #
+      # This is easy to violate and was: on 2026-08-27 a batch of four bundles
+      # (conduct, ai-coding-general, code-review-structural, ltk) was edited
+      # and committed with signatures dating from ten days earlier. All four
+      # were unverifiable in HEAD for four days, and each was found by
+      # accident, one at a time, during unrelated work. The two files are
+      # separate, the signature comes from a separate command, and editing the
+      # .yaml alone looks complete and commits clean. Signing needs the
+      # publisher key, so failing at COMMIT time is the only moment the person
+      # holding that key is reliably present.
+      #
+      # ssh-keygen, never a build. Verification is a plain SSH signature check,
+      # so the gate needs no compilation and costs ~1s across every bundle —
+      # a slow hook is one people learn to bypass, which this file forbids.
+      #
+      # Verifies the STAGED bytes (`git show :file`), not the working tree:
+      # what is being committed is what must verify.
+      #
+      # NOT scoped to the bundles this commit touches, deliberately. Drift is
+      # invisible precisely when nobody is looking at the file — the 2026-08-27
+      # batch sat unverifiable through several unrelated commits. Checking
+      # every bundle in the index is what turns that into an immediate refusal.
+      #
+      # The trust root is .githooks/publish-key.pub, this repository's publish
+      # key, and the principal is bound to it here rather than read from
+      # .ctxloom/allowed_signers — that path is ctxloom's own committable
+      # project trust store, and a hook must not widen what the product trusts
+      # as a side effect of checking a signature.
+      run: |
+        set -euo pipefail
+        key=.githooks/publish-key.pub
+        namespace=publish.v1.ctxloom.dev
+        if [ ! -s "$key" ]; then
+          echo "$key is missing — the signature gate has no trust root." >&2
+          echo "Restore it from git; the gate cannot pass by not running." >&2
+          exit 1
+        fi
+        signers=$(mktemp)
+        tmpsig=$(mktemp)
+        trap 'rm -f "$signers" "$tmpsig"' EXIT
+        printf 'publisher namespaces="%s" %s\n' "$namespace" "$(cat "$key")" > "$signers"
+        failed=0
+        for yaml in $(git ls-files '.ctxloom/content/bundles/*.yaml'); do
+          sig="$yaml.sig"
+          if ! git cat-file -e ":$sig" 2>/dev/null; then
+            echo "MISSING: $sig is not in the index." >&2
+            echo "  Remedy: ctxloom bundle sign <bundle> --key $key, then stage the .yaml and .sig together." >&2
+            failed=1
+            continue
+          fi
+          git show ":$sig" > "$tmpsig"
+          if ! git show ":$yaml" | ssh-keygen -Y verify -f "$signers" -I publisher \
+               -n "$namespace" -s "$tmpsig" >/dev/null 2>&1; then
+            echo "TAMPERED: $sig does not cover the staged bytes of $yaml." >&2
+            echo "  Remedy: ctxloom bundle sign <bundle> --key $key, then stage the .yaml and .sig together." >&2
+            failed=1
+          fi
+        done
+        if [ "$failed" -ne 0 ]; then
+          echo "" >&2
+          echo "A bundle whose signature does not cover it is refused by consumers as" >&2
+          echo "tampered, and they silently keep their existing pin. Re-sign and stage." >&2
+          exit 1
+        fi
