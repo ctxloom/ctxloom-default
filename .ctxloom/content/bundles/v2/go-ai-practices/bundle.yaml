@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - golang
+    - go
+    - ai
+    - best-practices
+author: ctxloom
+description: Go AI coding practices - error handling, concurrency, interfaces
+name: go-ai-practices

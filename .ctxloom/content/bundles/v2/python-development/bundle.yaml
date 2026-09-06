@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - python
+    - language
+    - development
+author: ctxloom
+description: Python development practices, tooling, and UV package manager
+name: python-development

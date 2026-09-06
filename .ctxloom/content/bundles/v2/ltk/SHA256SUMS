@@ -1,0 +1,6 @@
+# ctxloom-content-digest/1
+2d7b8b8ffa31ef9b0f8203e11bca2f34a72a5b155253c460402fd3771dd6265e  bundle.yaml
+9525d5e4cd9528f0b8f3490f7e06f1c4f579c05530edcc5bb133a370e487e4bf  bundle.yaml.sig
+77c8f8a8276b5aceb40d11ed77f77affaa991f02dafb6547dda6e53bd929f661  fragments/ltk.distilled.md
+da86b8675278e946f7a25c66801a7973147c79ce80887f733a9628ede3a59001  fragments/ltk.md
+8fc2054a92df7620f9ddead5ec0a8125e5db75958b13a8bdcc04cecce2e6916e  prompts/tooling.md

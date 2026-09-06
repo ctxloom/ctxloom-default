@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - typescript
+    - language
+    - development
+author: ctxloom
+description: TypeScript development practices, strict mode configuration, and best practices
+name: typescript-development

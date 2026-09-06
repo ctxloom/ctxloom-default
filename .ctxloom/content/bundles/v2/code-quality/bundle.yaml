@@ -1,0 +1,14 @@
+version: 1.0.0
+tags:
+    - default
+    - code
+    - quality
+    - principles
+author: ctxloom
+description: Baseline code-quality standards — size, naming, SOLID/KISS/YAGNI, and the search-before-you-write, extend-don't-duplicate rule.
+notes: |
+    Language- and stack-agnostic engineering standards applied to every
+    project. Kept separate from the conduct/interaction `default` bundle so a
+    project can adopt the behavioral baseline and the code-quality bar
+    independently. Language-specific style guidance composes on top of this.
+name: code-quality

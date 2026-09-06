@@ -1,0 +1,9 @@
+description: 'Developer composition root: AI coding practices, testing, and tooling. Compose it with a language''s ai-practices bundle (e.g. go-ai-practices) plus 12-factor to build a language developer; `ctxloom init` composes this per project rather than shipping a fixed per-language matrix.'
+tags:
+  - development
+  - base
+bundles:
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-developer
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/testing
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/git

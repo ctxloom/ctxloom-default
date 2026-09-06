@@ -5,29 +5,48 @@
 pre-commit:
   commands:
     bundle-signatures:
-      # Bundles are signed content: each .ctxloom/content/bundles/<name>.yaml
-      # has a detached <name>.yaml.sig covering its EXACT bytes. A bundle whose
-      # signature does not cover it is refused by a consumer as TAMPERED, and
-      # the consumer silently keeps whatever pin it already had — so a .yaml
-      # edited without regenerating its .sig does not ship degraded, it does
-      # not ship, and nothing says so out loud.
+      # Bundles are signed content, and a bundle whose signature does not cover
+      # it is refused by a consumer as TAMPERED — the consumer then silently
+      # keeps whatever pin it already had. So content committed without a
+      # matching signature does not ship degraded, it does not ship, and
+      # nothing says so out loud.
       #
-      # THE INVARIANT: a bundle's .sig is regenerated and committed in the SAME
-      # change as the .yaml it covers.
+      # THE INVARIANT: a bundle's signature is regenerated and committed in the
+      # SAME change as the content it covers.
       #
       # This is easy to violate and was: on 2026-08-27 a batch of four bundles
       # (conduct, ai-coding-general, code-review-structural, ltk) was edited
       # and committed with signatures dating from ten days earlier. All four
       # were unverifiable in HEAD for four days, and each was found by
-      # accident, one at a time, during unrelated work. The two files are
-      # separate, the signature comes from a separate command, and editing the
-      # .yaml alone looks complete and commits clean. Signing needs the
-      # publisher key, so failing at COMMIT time is the only moment the person
-      # holding that key is reliably present.
+      # accident, one at a time, during unrelated work. The signature comes
+      # from a separate command, and editing content alone looks complete and
+      # commits clean. Signing needs the publisher key, so failing at COMMIT
+      # time is the only moment the person holding that key is reliably present.
       #
-      # ssh-keygen, never a build. Verification is a plain SSH signature check,
-      # so the gate needs no compilation and costs ~1s across every bundle —
-      # a slow hook is one people learn to bypass, which this file forbids.
+      # THE TWO FORMATS ARE SIGNED DIFFERENTLY, and the gate checks each on its
+      # own terms:
+      #
+      #   v1/  a single-file bundle: <name>.yaml beside a detached
+      #        <name>.yaml.sig covering its exact bytes.
+      #   v2/  a tree: SHA256SUMS lists a digest for every file in the bundle,
+      #        and .sigs/ holds the detached signature over that manifest.
+      #        Verifying a tree is therefore two steps — the manifest's
+      #        signature must verify, AND every file's staged bytes must match
+      #        the digest the manifest claims.
+      #
+      # A v2 tree is checked for COMPLETENESS as well as integrity: any staged
+      # file in the tree that the manifest does not list is refused. Without
+      # that, a file could be added to a signed bundle and be covered by
+      # nothing, which is the same hole as a stale .sig wearing a different hat.
+      #
+      # This replaces a per-file .yaml/.yaml.sig rule that predated tree form.
+      # That rule matched only *.yaml, so a bundle's .md fragments were never
+      # guarded at all; SHA256SUMS covers every file whatever its extension, so
+      # the tree path below is strictly stronger than what it replaces.
+      #
+      # ssh-keygen and sha256sum, never a build. Verification needs no
+      # compilation and costs ~1s across every bundle — a slow hook is one
+      # people learn to bypass, which this file forbids.
       #
       # Verifies the STAGED bytes (`git show :file`), not the working tree:
       # what is being committed is what must verify.
@@ -46,32 +65,79 @@ pre-commit:
         set -euo pipefail
         key=.githooks/publish-key.pub
         namespace=publish.v1.ctxloom.dev
+        root=.ctxloom/content/bundles
         if [ ! -s "$key" ]; then
           echo "$key is missing — the signature gate has no trust root." >&2
           echo "Restore it from git; the gate cannot pass by not running." >&2
           exit 1
         fi
-        signers=$(mktemp)
-        tmpsig=$(mktemp)
-        trap 'rm -f "$signers" "$tmpsig"' EXIT
+        signers=$(mktemp); tmpsig=$(mktemp); tmpman=$(mktemp)
+        listed=$(mktemp); present=$(mktemp); extras=$(mktemp)
+        trap 'rm -f "$signers" "$tmpsig" "$tmpman" "$listed" "$present" "$extras"' EXIT
         printf 'publisher namespaces="%s" %s\n' "$namespace" "$(cat "$key")" > "$signers"
+        verify() { ssh-keygen -Y verify -f "$signers" -I publisher -n "$namespace" -s "$1" >/dev/null 2>&1; }
         failed=0
-        for yaml in $(git ls-files '.ctxloom/content/bundles/*.yaml'); do
+
+        # ---- format v1: a single file beside its detached signature ----
+        for yaml in $(git ls-files "$root/*.yaml" | grep -v "^$root/v2/" || true); do
           sig="$yaml.sig"
           if ! git cat-file -e ":$sig" 2>/dev/null; then
             echo "MISSING: $sig is not in the index." >&2
             echo "  Remedy: ctxloom bundle sign <bundle> --key $key, then stage the .yaml and .sig together." >&2
-            failed=1
-            continue
+            failed=1; continue
           fi
           git show ":$sig" > "$tmpsig"
-          if ! git show ":$yaml" | ssh-keygen -Y verify -f "$signers" -I publisher \
-               -n "$namespace" -s "$tmpsig" >/dev/null 2>&1; then
+          if ! git show ":$yaml" | verify "$tmpsig"; then
             echo "TAMPERED: $sig does not cover the staged bytes of $yaml." >&2
             echo "  Remedy: ctxloom bundle sign <bundle> --key $key, then stage the .yaml and .sig together." >&2
             failed=1
           fi
         done
+
+        # ---- format v2: a signed manifest covering every file in the tree ----
+        for manifest in $(git ls-files "$root/v2/*/SHA256SUMS" || true); do
+          tree=${manifest%/SHA256SUMS}
+          msig=$(git ls-files "$tree/.sigs/SHA256SUMS.$namespace.*.sig" | head -1)
+          if [ -z "$msig" ]; then
+            echo "UNSIGNED TREE: $tree has a manifest but no signature over it in .sigs/." >&2
+            echo "  Remedy: ctxloom bundle sign ${tree##*/} --key $key, then stage the whole tree." >&2
+            failed=1; continue
+          fi
+          git show ":$msig" > "$tmpsig"
+          git show ":$manifest" > "$tmpman"
+          if ! verify "$tmpsig" < "$tmpman"; then
+            echo "TAMPERED: $msig does not cover the staged bytes of $manifest." >&2
+            echo "  Remedy: ctxloom bundle sign ${tree##*/} --key $key, then stage the whole tree." >&2
+            failed=1; continue
+          fi
+          # every digest the manifest claims must match the staged bytes
+          while IFS= read -r line; do
+            case "$line" in ''|'#'*) continue ;; esac
+            want=${line%% *}; path=${line#*  }
+            if ! git cat-file -e ":$tree/$path" 2>/dev/null; then
+              echo "MISSING: $tree/$path is listed in SHA256SUMS but is not in the index." >&2
+              failed=1; continue
+            fi
+            got=$(git show ":$tree/$path" | sha256sum | cut -d' ' -f1)
+            if [ "$want" != "$got" ]; then
+              echo "TAMPERED: $tree/$path does not match the digest SHA256SUMS claims for it." >&2
+              echo "  Remedy: ctxloom bundle sign ${tree##*/} --key $key, then stage the whole tree." >&2
+              failed=1
+            fi
+          done < "$tmpman"
+          # and nothing may ride along uncovered
+          sed -e '/^#/d' -e '/^$/d' -e 's/^[0-9a-f]\{64\}  //' "$tmpman" | sort > "$listed"
+          git ls-files "$tree" | sed "s#^$tree/##" \
+            | grep -v '^SHA256SUMS$' | grep -v '^\.sigs/' | sort > "$present"
+          comm -13 "$listed" "$present" > "$extras"
+          while IFS= read -r extra; do
+            [ -n "$extra" ] || continue
+            echo "UNCOVERED: $tree/$extra is staged in a signed bundle but SHA256SUMS does not list it." >&2
+            echo "  Remedy: ctxloom bundle sign ${tree##*/} --key $key, then stage the whole tree." >&2
+            failed=1
+          done < "$extras"
+        done
+
         if [ "$failed" -ne 0 ]; then
           echo "" >&2
           echo "A bundle whose signature does not cover it is refused by consumers as" >&2

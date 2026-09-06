@@ -1,0 +1,15 @@
+version: 1.0.0
+tags:
+    - default
+    - ltk
+    - tooling
+    - hooks
+author: ctxloom
+description: llm-tool-killer (ltk) — how the command-redirect hook steers the agent, and the rails it enforces.
+notes: |
+    Context for working in a project that uses ltk (llm-tool-killer), the
+    ctxloom sibling that guides the commands an agent runs. This bundle ships
+    guidance only; install the hook itself with `ltk manage install` (it writes
+    the agent hook + .ltk/config.yaml). Pairs with the conduct/code-quality
+    baseline in the default profile.
+name: ltk

@@ -1,0 +1,7 @@
+version: 1.0.0
+tags:
+    - agent-roles
+    - orchestration
+author: ctxloom
+description: 'Role-instruction fragments for orchestrated subagents that `ctxloom map`/`ctxloom weave` fan across: a finder role (cheap look-up-by-name that reports results directly) and a developer escalation discipline (escalate significant/structural changes up to the orchestrator). Compose a fragment into a subagent profile via `agent-roles#fragments/<role>`.'
+name: agent-roles

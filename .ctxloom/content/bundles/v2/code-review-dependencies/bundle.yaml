@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - review
+    - dependencies
+    - supply-chain
+    - licensing
+author: ctxloom
+description: Dependencies, supply-chain & licensing review. Language-agnostic — a single `general` fragment. Compose `code-review-dependencies#fragments/general` as a `ctxloom weave` member.
+name: code-review-dependencies

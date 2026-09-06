@@ -1,0 +1,11 @@
+version: 1.0.0
+tags:
+    - typescript
+    - web
+    - frontend
+    - react
+    - vite
+    - eslint
+author: ctxloom
+description: Web frontend development with React, Vite, and ESLint
+name: web-frontend

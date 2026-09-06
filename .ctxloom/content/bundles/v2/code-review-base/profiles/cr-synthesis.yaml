@@ -1,0 +1,6 @@
+description: 'Synthesis (reduce) profile for a code-review weave ensemble: agglomerates the per-lens members'' findings into one de-duplicated, severity-ranked report. Bind a high-power engine for the reduce step.'
+tags:
+  - review
+  - synthesis
+bundles:
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/synthesis

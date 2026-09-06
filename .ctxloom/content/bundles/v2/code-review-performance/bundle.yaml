@@ -1,0 +1,7 @@
+version: 1.0.0
+tags:
+    - review
+    - performance
+author: ctxloom
+description: Performance & efficiency review lens. Language-agnostic `general` fragment plus per-language performance footguns. Compose `code-review-performance#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+name: code-review-performance

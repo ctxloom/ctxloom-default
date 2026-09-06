@@ -1,0 +1,53 @@
+---
+tags:
+  - reprise
+  - duplication
+---
+# reprise
+
+This project runs **reprise**, duplicate detection built for
+LLM-generated code (a *reprise* is a theme that returns in altered
+form — a near-duplicate). LLM assistants systematically
+reimplement existing helpers instead of calling them, and the
+copies then drift apart; reprise catches clone Types 1-3 plus the
+reimplemented-helper slice of Type-4, within this codebase. It is
+REPORT-ONLY: it never edits code — responding to findings is your
+job.
+
+## The two commands
+
+- `reprise scan` — full-repo ranked report of duplicate groups.
+- `reprise check` — PR/commit mode: findings involving units
+  changed since a git ref fail when they are new or worsened.
+  The base ref defaults to the merge-base with the default
+  branch; override with `--base <ref>` or `[baseline].ref` in
+  `reprise.toml`. Its flagship finding is `inconsistent-update`:
+  a change edited ONE copy of a known duplicate group but not the
+  others. Exit codes: 0 clean, 1 findings at/above `--fail-on`,
+  2 usage/runtime error.
+
+There is no `baseline` subcommand: the baseline is a pinned git
+ref, not a stored file. Adopt reprise on a legacy codebase by
+pinning `[baseline].ref` to the current commit, so only NEW drift
+fails while existing duplication is grandfathered.
+
+## How to respond to findings
+
+- **Before writing a helper**, search for an existing one and
+  call it — that is the failure mode reprise exists to catch.
+- **`inconsistent-update`**: the fix you just made belongs to
+  every copy in the group. Prefer extracting the shared helper
+  and calling it everywhere; at minimum, apply the change to all
+  copies.
+- **A new duplicate group**: replace your new implementation with
+  a call to the existing unit (or extract one shared helper).
+- **Intentional parallelism**: mark deliberate duplication at the
+  source — `reprise:accept-drift` waives the drift gate while
+  keeping the unit tracked; `reprise:ignore` drops the unit
+  entirely. Never suppress a finding without the user's say-so.
+
+## Pre-commit gate
+
+reprise runs as a **lefthook pre-commit hook** (`reprise check`
+in lefthook.yml). A failing hook means respond as above and
+retry the commit — do not bypass with `--no-verify`.

@@ -1,0 +1,5 @@
+# ctxloom-content-digest/1
+bb65497df4d0ae1f98797d046dc176e2fbd4135b3716f88ef8b25aa4b26c32fb  bundle.yaml
+0e7bc8efac3916b10d01ab918352c94c76cac6c2961c2fd73e04cdf697a581c9  bundle.yaml.sig
+8be6873e5ee7ff6e1459f755354f6cde5dedc21f2e25ca5799656a601bea3047  fragments/reprise.md
+d7ac2555f832562c44efb2025b3a0f041ee628e067d63b99ec02376091015024  prompts/tooling.md

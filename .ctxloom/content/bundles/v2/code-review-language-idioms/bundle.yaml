@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - review
+    - idioms
+    - best-practices
+author: ctxloom
+description: Language idioms & best-practices review lens. A thin `general` framing plus a rich per-language fragment (ecosystem conventions, error model, tooling, idiomatic constructs). Compose `code-review-language-idioms#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+name: code-review-language-idioms

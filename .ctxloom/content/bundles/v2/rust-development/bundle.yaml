@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - rust
+    - language
+    - development
+author: ctxloom
+description: Rust development practices, tooling, and best practices
+name: rust-development

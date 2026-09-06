@@ -1,0 +1,7 @@
+# ctxloom-content-digest/1
+4b10d669593f20c486363dc49cc45cf79085e13f1090348ed3ec6b558c3806b4  bundle.yaml
+510868c36419441f41b6c4efcaef64f38f52095e9a0451c8d24e473ab180fa95  bundle.yaml.sig
+741844a5875f0a44ca4587a02b3a2a01f4d411ce6be84ff4f51edfbf4cdd6a44  mcp/.sequential-thinking.meta.yaml
+50898ac54c97fcd720b1ad5311d1b72e27ffccde8fdd0e227e7677007f5b71e8  mcp/sequential-thinking.yaml
+355e490d26de5f39f99781554713d8a19a70d3c71a272ea418e2c8a43b911e00  prompts/complex-problem.distilled.md
+4b50bb7bdfb916795d4a8c9974baa1890f1b958e67e4154a7cceed231f1c7f90  prompts/complex-problem.md

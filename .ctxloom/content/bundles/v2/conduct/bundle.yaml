@@ -1,0 +1,17 @@
+version: 1.0.0
+tags:
+    - default
+    - conduct
+    - practices
+author: ctxloom
+description: Baseline interaction conduct — how to communicate, when to push back, and how to approach problems.
+notes: |
+    Conduct that applies regardless of language or stack. Split out of the
+    former `default` bundle, which was named for how it was DELIVERED (seeded
+    by `ctxloom init`) rather than for what it contains — and which collided
+    confusingly with the `default` TAG that now marks probable inclusions.
+    This bundle is named for its contents; the tag says it is probably wanted.
+
+    Code-quality standards live in the companion `code-quality` bundle, and
+    language- or tool-specific guidance in dedicated bundles.
+name: conduct

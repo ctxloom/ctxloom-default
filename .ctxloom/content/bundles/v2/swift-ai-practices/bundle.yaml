@@ -1,0 +1,10 @@
+version: 1.0.0
+tags:
+    - swift
+    - ios
+    - macos
+    - ai
+    - best-practices
+author: ctxloom
+description: Swift/iOS AI coding practices - project files, concurrency, SwiftUI
+name: swift-ai-practices

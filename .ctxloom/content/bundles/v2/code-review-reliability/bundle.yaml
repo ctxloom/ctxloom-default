@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - review
+    - reliability
+    - concurrency
+    - error-handling
+author: ctxloom
+description: Reliability, error-handling & concurrency review lens. Language-agnostic `general` fragment plus each language's cleanup and concurrency model. Compose `code-review-reliability#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+name: code-review-reliability

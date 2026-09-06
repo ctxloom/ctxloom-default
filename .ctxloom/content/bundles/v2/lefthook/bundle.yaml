@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - lefthook
+    - hooks
+    - git
+    - tooling
+author: ctxloom
+description: lefthook — the polyglot git-hooks manager; how agents work with hook runs, and the tooling to install it.
+name: lefthook

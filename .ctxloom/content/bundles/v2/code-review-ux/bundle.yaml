@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - review
+    - ux
+    - frontend
+    - user-facing
+author: ctxloom
+description: User-experience review (user-facing apps). Language-agnostic — a single `general` fragment. Compose `code-review-ux#fragments/general` as a `ctxloom weave` member.
+name: code-review-ux

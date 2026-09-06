@@ -1,0 +1,6 @@
+# ctxloom-content-digest/1
+ce3bbc8253ed6ff93093a8b1b21ebb0b7ad5ff0cbabca89d25023f78283a5d87  bundle.yaml
+3bbe2c62da9d700dd00de3f566f3d18d2e9b5f1d570d84a6831cf6b65106acf4  bundle.yaml.sig
+78f1aef60a082a41c099c4e5d3e3180ae8ed84140c3a2c03735cb88196594fb3  fragments/ast-grep.distilled.md
+ca15570dde4fe6caba9e6fe29a227afbb22b6fc6dda4e79be95494822650ecdd  fragments/ast-grep.md
+bc643154631493694f4c806944117281faab7c5aaba1d8070f34ab59e1093077  prompts/tooling.md

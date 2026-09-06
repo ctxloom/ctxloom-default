@@ -1,0 +1,12 @@
+version: 1.0.0
+tags:
+    - mcp
+    - browser
+    - automation
+    - testing
+author: ctxloom
+description: MCP browser automation with Playwright for web testing and interaction
+notes: |
+    Playwright MCP enables AI-driven browser automation using the accessibility tree
+    rather than pixel-based approaches. Supports Chromium, Firefox, and WebKit.
+name: mcp-browser-playwright

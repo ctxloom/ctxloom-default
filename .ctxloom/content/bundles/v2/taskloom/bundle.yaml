@@ -1,0 +1,15 @@
+version: 1.0.0
+tags:
+    - default
+    - taskloom
+    - tasks
+    - tooling
+author: ctxloom
+description: taskloom — persistent per-project task tracking; tooling declaration for the companion binary.
+notes: |
+    ctxloom EMBEDS the taskloom usage fragment as a builtin (it auto-injects
+    whenever the companion binary is present), so this bundle ships no
+    usage fragment. It ships the deferral-tracking policy fragment (a
+    behavioral default layered on the builtin) plus the tooling declaration
+    that gets the binary into agent environments in the first place.
+name: taskloom

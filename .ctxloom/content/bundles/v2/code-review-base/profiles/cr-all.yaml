@@ -1,0 +1,23 @@
+description: Comprehensive single-agent code review across every lens, language-agnostic. A ready-to-run exemplar bundle profile; for a parallel synthesized review, compose tight per-lens members for the project's language(s) and reduce with cr-synthesis (see the code-review composition guidance).
+tags:
+  - review
+  - comprehensive
+bundles:
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/conduct
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-structural#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-correctness#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-maintainability#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-reliability#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-performance#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-language-idioms#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-testing#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-security#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-api-compat#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-dx#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-ux#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-accessibility-i18n#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-cost-infra#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-data#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-observability#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-dependencies#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-documentation#fragments/general

@@ -1,0 +1,40 @@
+---
+tags:
+  - code
+  - quality
+  - principles
+content_hash: sha256:6ad355db55054317591efbe18aa9da9c4d903254f8f2f18991e33ca85d33c0e5
+---
+# Code Quality Standards
+
+## Before Writing Code
+
+- **Research first**: Search the codebase for existing implementations before writing new code
+- **Read existing code**: Understand patterns, conventions, and utilities already in use
+- **No duplication**: Reuse existing functions, types, and modules rather than creating duplicates
+- **Extend, don't recreate**: If similar functionality exists, extend or refactor it instead of writing parallel implementations
+
+## Code Size
+
+- Less than 500 lines of code per file; exceed only when necessary, with very high coupling and cohesion
+- Keep functions small — each does one thing and does it well
+- Optimize for reading and understanding, not performance
+- Prefer separating interfaces and implementations into different files
+
+## Naming
+
+- Interfaces/protocols (py) are the thing — UserService is a Protocol. Do not use IWhatever
+- Implementations are named after *how* the interface is implemented. Single implementation: DefaultUserService. Multiple: HttpUserService, CachedUserService.
+
+## Clean Up
+
+- Kill background processes when no longer needed
+- Remove unused code, files, imports, and variables
+- Don't leave dead code behind
+
+## Comments
+
+- **Never add change-tracking comments** — git tracks history; no "changed X to Y", "removed Z", "updated for feature W"
+- **No revision history in code** — don't document what was modified, when, or by whom
+- **No commented-out code** — delete it; git has it if needed
+- Comments explain *why*, not *what* or *what changed*

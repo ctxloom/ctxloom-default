@@ -1,0 +1,4 @@
+---
+distilled_by: claude-code
+---
+Python: uv, pytest (+pytest-bdd/behave Gherkin), ruff, structlog. Tests: unit co-located `test_*.py`, integration `tests/integration/`, acceptance `tests/acceptance/features/*.feature`; exclude co-located tests from packaging (`exclude = ["**/test_*"]`). Log/error strings live in frozen-dataclass constants (`log_messages.py`/`error_messages.py`): `logger.info(LOG_MSG.USER_CREATED, ...)`, `raise ValueError(ERROR_MSG.X)`. IoC: constructor injection + `create()` classmethod factory (`# pragma: no cover`). Fully type-annotated; enforce `mypy --strict`/pyright. No hardcoded-string attr access (getattr/globals()/attrgetter literals); no defensive getattr/hasattr without a recovery path — let AttributeError fail loud. Known keys → dataclass/NamedTuple, not dict. Internal flow: Enum + match/case, never string dispatch or hasattr branching; string dispatch OK only for external messages at boundaries, converted to typed values immediately.

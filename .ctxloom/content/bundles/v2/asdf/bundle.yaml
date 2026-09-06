@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - asdf
+    - tooling
+    - version-manager
+author: ctxloom
+description: asdf version manager for multiple runtime versions
+name: asdf

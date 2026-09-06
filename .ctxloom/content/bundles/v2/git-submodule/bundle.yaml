@@ -1,0 +1,10 @@
+version: 1.0.0
+tags:
+    - git
+    - submodule
+    - workflow
+    - version-control
+    - permissions
+author: ctxloom
+description: 'Git submodule policy: block direct file edits inside submodules, allow commit-hash pointer updates, route content changes through the canonical upstream repo'
+name: git-submodule

@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - review
+    - api
+    - compatibility
+    - library
+author: ctxloom
+description: API design & backward-compatibility review. Language-agnostic — a single `general` fragment. Compose `code-review-api-compat#fragments/general` as a `ctxloom weave` member.
+name: code-review-api-compat

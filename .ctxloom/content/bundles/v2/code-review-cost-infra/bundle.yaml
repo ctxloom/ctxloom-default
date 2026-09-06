@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - review
+    - cost
+    - infra
+    - finops
+author: ctxloom
+description: Cost & infrastructure review (IaC/FinOps). Language-agnostic — a single `general` fragment. Compose `code-review-cost-infra#fragments/general` as a `ctxloom weave` member.
+name: code-review-cost-infra

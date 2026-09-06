@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - review
+    - observability
+    - backend
+author: ctxloom
+description: Observability review. Language-agnostic — a single `general` fragment. Compose `code-review-observability#fragments/general` as a `ctxloom weave` member.
+name: code-review-observability

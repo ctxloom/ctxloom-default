@@ -1,0 +1,10 @@
+version: 1.0.0
+tags:
+    - default
+    - reprise
+    - duplication
+    - code-quality
+    - tooling
+author: ctxloom
+description: reprise — duplicate detection for LLM-generated code; how the agent runs it, responds to findings, and wires it as a lefthook pre-commit gate.
+name: reprise

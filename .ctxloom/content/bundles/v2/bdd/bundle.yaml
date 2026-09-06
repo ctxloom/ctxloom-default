@@ -1,0 +1,11 @@
+version: 1.0.0
+tags:
+    - bdd
+    - gherkin
+    - testing
+    - cross-backend
+    - substitutability
+    - tdd
+author: ctxloom
+description: Behavior-driven specs that are implementation-agnostic and run unchanged across interchangeable backends to prove substitutability
+name: bdd

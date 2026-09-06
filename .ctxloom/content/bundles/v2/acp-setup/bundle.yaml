@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - acp
+    - agent-client-protocol
+    - editor
+    - setup
+author: ctxloom
+description: Configure ctxloom's optional ACP (Agent Client Protocol) integration — either serving ctxloom to an editor, or connecting ctxloom out to an ACP-speaking agent.
+name: acp-setup

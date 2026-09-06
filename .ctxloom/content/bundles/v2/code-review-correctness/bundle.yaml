@@ -1,0 +1,7 @@
+version: 1.0.0
+tags:
+    - review
+    - correctness
+author: ctxloom
+description: Correctness & functionality review lens. Language-agnostic `general` fragment plus per-language correctness footguns. Compose `code-review-correctness#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+name: code-review-correctness

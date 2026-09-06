@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - review
+    - structural
+    - architecture
+    - design
+author: ctxloom
+description: Design & architecture review lens (was 'architecture'). One language-agnostic `general` fragment plus per-language structural idioms. Compose `code-review-structural#fragments/general` with the project's language fragment (e.g. `#fragments/golang`) as a `ctxloom weave` member.
+name: code-review-structural

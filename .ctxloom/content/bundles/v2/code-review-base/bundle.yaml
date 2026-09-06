@@ -1,0 +1,7 @@
+version: 1.0.0
+tags:
+    - review
+    - base
+author: ctxloom
+description: 'Shared code-review scaffolding: the `conduct` fragment (reviewer role + per-finding output contract) every member profile includes, and the `synthesis` fragment for the reduce step of a `ctxloom weave` ensemble.'
+name: code-review-base

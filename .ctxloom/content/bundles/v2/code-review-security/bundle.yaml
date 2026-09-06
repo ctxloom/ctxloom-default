@@ -1,0 +1,7 @@
+version: 1.0.0
+tags:
+    - review
+    - security
+author: ctxloom
+description: Security review lens (OWASP / ASVS). Language-agnostic — a single `general` fragment. Compose `code-review-security#fragments/general` as a `ctxloom weave` member; pair with the project's language fragment from another lens for memory/injection specifics.
+name: code-review-security
