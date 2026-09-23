@@ -1,9 +1,10 @@
-version: 1.0.0
+version: 1.0.1
 tags:
     - default
     - mcp
     - reasoning
     - problem-solving
+    - ctxloom:link_id=sequential-thinking
 author: ctxloom
 description: Sequential thinking MCP server for structured problem-solving
 notes: |
