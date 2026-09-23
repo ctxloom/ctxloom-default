@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: ai-coding-general
+# version: 1.0.0
 c5214affb2f186a7c63272cf8e97901d51ae6426bc455cf96d53d3ace169f0b0  bundle.yaml
 afdc7781d5897795f0a97232cc4a1f97dc1c984c1153681b7d1a4ce45c84f298  fragments/concurrency-warnings.distilled.md
 58e028d35410c6a99e5c7df6978022c33073acb8e000d9cecf0df00103a3e774  fragments/concurrency-warnings.md

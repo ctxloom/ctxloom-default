@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: web-frontend
+# version: 1.0.0
 0bfda71aa7c59cade12197b62c6ee0ae37ce6b6c8642c67b6716a85ec54678e1  bundle.yaml
 a71b023717e724dcef1ba3e7d7cbc8f8419b8c936bcac3cbf2719fc6a660b5e4  fragments/react.distilled.md
 9eb96f3e25375e29411398ea8a02e1f5a1168a98a4cc8e8ced957d50fa9c3369  fragments/react.md

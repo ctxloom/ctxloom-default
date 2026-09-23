@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: testing
+# version: 1.0.0
 00befe2b5ba388c5e3ac47b5b3c1f20bcb878724a7104bdfbafe52c413128a06  bundle.yaml
 301bc3e2d152cf6601250a0e95aab8e53cbb031387a83461eb65d6fe23d35e96  fragments/mutation-testing.distilled.md
 7f3a59008ff673447c2646583a350a19eaeeae68fdbadf9e5489566e2e74a74b  fragments/mutation-testing.md

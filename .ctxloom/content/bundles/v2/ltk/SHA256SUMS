@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: ltk
+# version: 1.0.0
 2d7b8b8ffa31ef9b0f8203e11bca2f34a72a5b155253c460402fd3771dd6265e  bundle.yaml
 77c8f8a8276b5aceb40d11ed77f77affaa991f02dafb6547dda6e53bd929f661  fragments/ltk.distilled.md
 da86b8675278e946f7a25c66801a7973147c79ce80887f733a9628ede3a59001  fragments/ltk.md

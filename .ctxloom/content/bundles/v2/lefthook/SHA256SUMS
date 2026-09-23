@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: lefthook
+# version: 1.0.0
 8a419fc6bcc1a62b5d788082d100d5b7b71d2c34ec277adf8201b6ea57a85d21  bundle.yaml
 f3c88b3f07f2681f9c433359f24d531694a51745fecff79c969d805e31b5d353  fragments/lefthook.md
 72113def136b02715e21af0654758c5539407233d094cc43f08ebfb0ff5817f1  prompts/tooling.md

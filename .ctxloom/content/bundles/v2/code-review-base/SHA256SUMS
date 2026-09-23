@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: code-review-base
+# version: 1.0.0
 a81cf6b1d78ca1c7dff4ffe54f11d9659bf56c013805b1e7d1d3f4e0ec06627c  bundle.yaml
 84c36c1798535fd088128f14e797efe777b9f2f644f437d79cc42d85451457de  fragments/conduct.distilled.md
 52f8c346b872ee09962dbdedff99ebae6371e8f4714b047e9755d53a676a8b67  fragments/conduct.md

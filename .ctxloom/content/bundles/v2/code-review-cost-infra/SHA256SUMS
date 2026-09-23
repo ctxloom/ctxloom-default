@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: code-review-cost-infra
+# version: 1.0.0
 126e5f0a4b9db77107dde64b9da4adae96b2c1b5e9dcd415c9055f5b54907038  bundle.yaml
 441039eb9315401a71d1fb3320b6318887f86e54bcb632f8d3d76c180410fd1c  fragments/general.distilled.md
 cad3006992548ba21150e4b6c7659cab29040d64df7981aa1ccd3bbcc4fc19fd  fragments/general.md

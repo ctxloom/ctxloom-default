@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: ast-grep
+# version: 1.0.0
 ce3bbc8253ed6ff93093a8b1b21ebb0b7ad5ff0cbabca89d25023f78283a5d87  bundle.yaml
 78f1aef60a082a41c099c4e5d3e3180ae8ed84140c3a2c03735cb88196594fb3  fragments/ast-grep.distilled.md
 ca15570dde4fe6caba9e6fe29a227afbb22b6fc6dda4e79be95494822650ecdd  fragments/ast-grep.md

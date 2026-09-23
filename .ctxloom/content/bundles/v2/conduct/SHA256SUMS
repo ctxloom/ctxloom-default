@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: conduct
+# version: 1.0.0
 461205eb59a3b89a6b29a1cb98de4c3d74b6b2b08e734836bcc78b4a3be7bba2  bundle.yaml
 97e37d2377a41e1d825be24ff2e4b6588dcebec27b24135bc62c11a1fd42fb78  fragments/communication.distilled.md
 e4e0272abfb252b29cf39818a1ea527160d6848813ac66ebeb1d87a3bdac0442  fragments/communication.md

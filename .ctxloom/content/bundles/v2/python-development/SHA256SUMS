@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: python-development
+# version: 1.0.0
 1719f57a18c4e21ae3aeaeb21fcf2fb5bbb051265c87cb5c8ddd1569c578cfbf  bundle.yaml
 a6db5f67aa6a3fad9bfd718adf93b64567814a5a471dfbca3c4964ded5d775ae  fragments/python.distilled.md
 c09e29d6798d2dfe27bd9ec31982c72fdc7f99ebc939790a32bb096eb5ce4673  fragments/python.md

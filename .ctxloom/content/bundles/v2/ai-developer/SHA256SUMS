@@ -1,3 +1,5 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: ai-developer
+# version: 1.0.0
 bdef1af1b8a52c40e09942107229fc366d0c7128f6d04ab7f8c4d9ccfa5466e8  bundle.yaml
 36f0d007a366f1b80f4affaa27ff02f636a24f1d6ba8d35b9706e4082489e219  profiles/developer.yaml

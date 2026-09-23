@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: code-review-dx
+# version: 1.0.0
 9723ff8782680839c4f740df73bc8d5161c83908bca370fe69d0dd195cdd5b26  bundle.yaml
 06acf4315f7c5ed46dbfa12a87a97c105743191986df246167f7e70e208e2900  fragments/general.distilled.md
 ea6c7cacb26c0bb4547a93cd8914cfed3c7ef492d9816925b5daaf351981e904  fragments/general.md

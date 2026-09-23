@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: rust-development
+# version: 1.0.0
 cd6938c49420ea94b87b8a7f3ace8691bc1dabaa8799e47e7cba24e2ee8fb735  bundle.yaml
 42d13ee4699edc02f28b17e80888fe61e62ec6ad94e2c619c28a9a3505f1af6e  fragments/bacon.distilled.md
 6b32c476918af0e6e965730f9fae6cc9aa3975844e19eda5510e53fdc0d6dd29  fragments/bacon.md

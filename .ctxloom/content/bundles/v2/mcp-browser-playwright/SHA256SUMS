@@ -1,3 +1,5 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: mcp-browser-playwright
+# version: 1.0.0
 f570b61a9c568b994dd57703aac3a4d9c60ca174c65100f55f4cfb0ddac68dba  bundle.yaml
 cfb9a90595e213f30f1d31413f56a9438ed73ba614998f83b0d348c3e8e4cd82  mcp/playwright.yaml

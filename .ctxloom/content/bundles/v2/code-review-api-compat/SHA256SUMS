@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: code-review-api-compat
+# version: 1.0.0
 8bfbc97075f49f0566d6ab3f6d2656012c7bcb109e6bb378f76df12e7785941c  bundle.yaml
 629e2a8ca0a5e83ec6a4800715d7fce571c6bbbc05cb82389c5941d0c3b81742  fragments/general.distilled.md
 765a65d4ce511861c7f1ec9703b31db43e5fde4bf0a7f2b2d68533ab3b06dac4  fragments/general.md

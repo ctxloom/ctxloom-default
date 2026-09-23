@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: bdd
+# version: 1.0.0
 f3de2f30de25a171d41f38cfbb4b6dacac33df1d1ad6d5b25c5f30f7b1c117fd  bundle.yaml
 60a5029a26e6c6cb52a426dc9e24a400051223a123d06756fd9d05fc4d390751  fragments/behavioral-cross-backend.distilled.md
 c10a336533c1970ff7860cbca2ea9fca35c87da0cea21a6d599dfb1ac30010de  fragments/behavioral-cross-backend.md

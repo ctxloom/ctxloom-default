@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: sequential-thinking
+# version: 1.0.0
 4b10d669593f20c486363dc49cc45cf79085e13f1090348ed3ec6b558c3806b4  bundle.yaml
 741844a5875f0a44ca4587a02b3a2a01f4d411ce6be84ff4f51edfbf4cdd6a44  mcp/.sequential-thinking.meta.yaml
 50898ac54c97fcd720b1ad5311d1b72e27ffccde8fdd0e227e7677007f5b71e8  mcp/sequential-thinking.yaml
