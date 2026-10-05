@@ -1,0 +1,9 @@
+schema_version: 3
+version: 1.0.0
+tags:
+  - ctxloom
+  - diagnostics
+  - setup
+author: ctxloom
+description: Diagnose a ctxloom setup by running `ctxloom doctor`, then fix or explain each finding, asking the human before anything that extends trust, touches keys, removes, changes the host, or installs.
+name: ctxloom-doctor
