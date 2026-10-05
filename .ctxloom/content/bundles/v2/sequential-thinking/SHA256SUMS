@@ -1,7 +1,8 @@
 # ctxloom-bundle-manifest/1
 # name: sequential-thinking
-# version: 1.0.1
-60ee0d6af6b6d41de6bacbf178754bfa69ef279cdbc0a1821445493d44a32d76  bundle.yaml
+# version: 1.1.0
+c09e3767ae3651d1d3edc34ae48d59e7dea4ddd5f884a3f050b031da424d4f3b  bundle.yaml
+b8164d6b36ac3dd2a1a6db93a552bd309db16ce66a330dcf001f65dea6b53219  fragments/sequential-thinking-usage.md
 741844a5875f0a44ca4587a02b3a2a01f4d411ce6be84ff4f51edfbf4cdd6a44  mcp/.sequential-thinking.meta.yaml
 50898ac54c97fcd720b1ad5311d1b72e27ffccde8fdd0e227e7677007f5b71e8  mcp/sequential-thinking.yaml
 355e490d26de5f39f99781554713d8a19a70d3c71a272ea418e2c8a43b911e00  prompts/complex-problem.distilled.md
