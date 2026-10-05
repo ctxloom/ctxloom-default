@@ -1,6 +1,7 @@
 # ctxloom-default — content bundle publishing helpers.
 #
-# Signing writes a detached <bundle>.sig using YOUR publisher key from ssh-agent;
+# Signing writes a bundle's SHA256SUMS and its detached signature in .sigs/
+# using YOUR publisher key from ssh-agent;
 # ctxloom never reads or stores private key material. Your key must be loaded in
 # ssh-agent and trusted under publish.v1.ctxloom.dev. KEY remains a PARAMETER
 # because this project trusts more than one identity and ctxloom deliberately

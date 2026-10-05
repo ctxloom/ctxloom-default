@@ -23,26 +23,19 @@ pre-commit:
       # commits clean. Signing needs the publisher key, so failing at COMMIT
       # time is the only moment the person holding that key is reliably present.
       #
-      # THE TWO FORMATS ARE SIGNED DIFFERENTLY, and the gate checks each on its
-      # own terms:
-      #
-      #   v1/  a single-file bundle: <name>.yaml beside a detached
-      #        <name>.yaml.sig covering its exact bytes.
-      #   v2/  a tree: SHA256SUMS lists a digest for every file in the bundle,
-      #        and .sigs/ holds the detached signature over that manifest.
-      #        Verifying a tree is therefore two steps — the manifest's
-      #        signature must verify, AND every file's staged bytes must match
-      #        the digest the manifest claims.
+      # A bundle is a tree under v2/: SHA256SUMS lists a digest for every file
+      # in the bundle, and .sigs/ holds the detached signature over that
+      # manifest. Verifying a tree is therefore two steps — the manifest's
+      # signature must verify, AND every file's staged bytes must match the
+      # digest the manifest claims.
       #
       # A v2 tree is checked for COMPLETENESS as well as integrity: any staged
       # file in the tree that the manifest does not list is refused. Without
       # that, a file could be added to a signed bundle and be covered by
       # nothing, which is the same hole as a stale .sig wearing a different hat.
       #
-      # This replaces a per-file .yaml/.yaml.sig rule that predated tree form.
-      # That rule matched only *.yaml, so a bundle's .md fragments were never
-      # guarded at all; SHA256SUMS covers every file whatever its extension, so
-      # the tree path below is strictly stronger than what it replaces.
+      # SHA256SUMS covers every file whatever its extension, so a bundle's .md
+      # fragments are guarded exactly as its .yaml is.
       #
       # ssh-keygen and sha256sum, never a build. Verification needs no
       # compilation and costs ~1s across every bundle — a slow hook is one
@@ -78,23 +71,7 @@ pre-commit:
         verify() { ssh-keygen -Y verify -f "$signers" -I publisher -n "$namespace" -s "$1" >/dev/null 2>&1; }
         failed=0
 
-        # ---- format v1: a single file beside its detached signature ----
-        for yaml in $(git ls-files "$root/*.yaml" | grep -v "^$root/v2/" || true); do
-          sig="$yaml.sig"
-          if ! git cat-file -e ":$sig" 2>/dev/null; then
-            echo "MISSING: $sig is not in the index." >&2
-            echo "  Remedy: ctxloom bundle sign <bundle> --key $key, then stage the .yaml and .sig together." >&2
-            failed=1; continue
-          fi
-          git show ":$sig" > "$tmpsig"
-          if ! git show ":$yaml" | verify "$tmpsig"; then
-            echo "TAMPERED: $sig does not cover the staged bytes of $yaml." >&2
-            echo "  Remedy: ctxloom bundle sign <bundle> --key $key, then stage the .yaml and .sig together." >&2
-            failed=1
-          fi
-        done
-
-        # ---- format v2: a signed manifest covering every file in the tree ----
+        # ---- a signed manifest covering every file in the tree ----
         for manifest in $(git ls-files "$root/v2/*/SHA256SUMS" || true); do
           tree=${manifest%/SHA256SUMS}
           msig=$(git ls-files "$tree/.sigs/SHA256SUMS.$namespace.*.sig" | head -1)
