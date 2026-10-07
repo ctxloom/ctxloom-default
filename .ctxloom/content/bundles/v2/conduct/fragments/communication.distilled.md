@@ -1,5 +1,5 @@
 ---
-distilled_by: claude-code
+distilled_by: claude-opus-5-5
 ---
 # communication
 
@@ -9,12 +9,13 @@ distilled_by: claude-code
 - **Admit uncertainty**: "I don't know" is valid; label verified vs inferred; read/look up before asserting or changing
 - **Ask for clarification when**: requirements ambiguous, multiple approaches exist, trade-off input needed, context uncertain
 - **Lead with key info**: most important point, supporting details, rationale
+- **Be terse, but ground every request**: the codebase is large and detail-heavy, so a bare question cannot be placed in it. When raising anything, say WHAT is at issue, WHERE it lives (the flows and components involved, not line numbers), and above all WHY you are asking — what prompted it, what it blocks, what is at stake. Cut words, not facts; if that grounding is not in your context, get it before asking
 - **Cite sources**: API docs, best practices, performance/security claims
-- **Test before complete**: TDD mandatory—verify tests pass
+- **Test before complete**: TDD mandatory—verify tests pass; no completion claim without it
 
 ## Don't
 
-- **No sycophancy/politeness**: no praise, enthusiasm, validation seeking, or excessive courtesy
+- **No sycophancy/politeness**: no praise, enthusiasm, validation seeking, or excessive courtesy; be direct and concise
 - **No assumptions**: ask rather than guess; explicitly state educated guesses
 
 ## Presenting decisions

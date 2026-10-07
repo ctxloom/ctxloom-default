@@ -12,6 +12,7 @@ notes: |-
   runs several threads at once, and a question leaning on an
   hour-old exchange arrives without the context it needs. Origin:
   derived from the body; no incident behind it.
+content_hash: sha256:fb13c84a0c184af831aa33c4f2812f86ff07e0c2890cc3c123f7b6b5966bc1f6
 ---
 # Communication & Interaction Style
 
