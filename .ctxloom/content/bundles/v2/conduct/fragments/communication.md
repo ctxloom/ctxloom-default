@@ -12,7 +12,6 @@ notes: |-
   runs several threads at once, and a question leaning on an
   hour-old exchange arrives without the context it needs. Origin:
   derived from the body; no incident behind it.
-content_hash: sha256:9bb2fecbba09d4009c0edcac624a5e35ca83d3ab63eeb6981ef97693c5740c87
 ---
 # Communication & Interaction Style
 
@@ -38,6 +37,11 @@ content_hash: sha256:9bb2fecbba09d4009c0edcac624a5e35ca83d3ab63eeb6981ef97693c57
   - Start with the most important point
   - Follow with supporting details
   - Provide rationale last
+
+- **Be terse, but ground every request**
+  - The codebase is large and detail-heavy; a bare question cannot be placed in it
+  - When raising anything, say WHAT is at issue, WHERE it lives (the flows and components involved, not line numbers), and above all WHY you are asking: what prompted it, what it blocks, what is at stake
+  - Cut words, not facts. If that grounding is not in your context, get it before asking
 
 - **Cite sources** for:
   - API documentation references
