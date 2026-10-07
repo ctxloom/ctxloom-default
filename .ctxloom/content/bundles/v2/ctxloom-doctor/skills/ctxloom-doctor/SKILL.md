@@ -1,6 +1,6 @@
 ---
 name: ctxloom-doctor
-description: Diagnose a ctxloom setup by running `ctxloom doctor`, which only reports, then fix or explain each finding. Use when the user asks to "check my ctxloom setup", "run doctor", "why isn't ctxloom working", "is ctxloom set up right", after `ctxloom init` or an upgrade, or before relying on isolation, signing, or delegated agents.
+description: Diagnose a ctxloom setup by running `ctxloom doctor`, which only reports, then fix or explain each finding. Use when the user asks to "check my ctxloom setup", "run doctor", "why isn't ctxloom working", "is ctxloom set up right", after `ctxloom init` or an upgrade, or before relying on isolation or delegated agents.
 ---
 
 # ctxloom-doctor
@@ -50,15 +50,12 @@ hooks or gitignore rules, or re-running a setup phase.
 
 Stop and ask the human before acting when the remedy:
 
-- **extends trust**. Running `ctxloom signer trust`, or accepting content in
-  `ctxloom review`, is the user vouching for a publisher or for specific
-  bytes. Present what is untrusted and who signed it. Never accept on their
-  behalf. The same goes for signature checking the user has turned off: doctor
-  warns about it, but switching it off was their decision, and switching it
-  back on is theirs too.
-- **touches keys or identity**: generating or loading a signing key, or
-  changing git identity or `sign.key`. The user chooses which identity
-  signs.
+- **extends trust**. Adding a remote with `ctxloom remote create` is the user
+  vouching for that git repository: content resolves only through a
+  registered remote, and what it serves reaches their assistant. Present the
+  repository and why it would be added. Never add one on their behalf.
+- **touches identity**: changing git identity (`user.name`, `user.email`).
+  The user chooses which identity their agents commit as.
 - **removes anything**, such as a worktree, a branch, files, a container, or
   images. That includes things ctxloom created. Doctor names these and
   deliberately removes none of them, so neither should you without a yes.
