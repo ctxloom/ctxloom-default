@@ -29,7 +29,7 @@ bundles.
 | `code-review-base#profiles/cr-synthesis` | Synthesis/reduce step for a `ctxloom weave` review ensemble |
 | `code-review-base#profiles/cr-thorough` | cr-all + thorough + conduct + code-quality: the ctxloom-default half of a language reviewer |
 | `agent-roles#profiles/coordinator` | ctxloom-default half of a coordinator agent (conduct, sequential-thinking, structural review, ltk) |
-| `agent-roles#profiles/finder` | ctxloom-default half of a finder agent (finder role, ast-grep, rtk) |
+| `agent-roles#profiles/finder` | ctxloom-default half of a finder agent (the finder role) |
 | `go-ai-practices#profiles/go-developer` | Go developer: `developer` + conduct + code-quality + go-ai-practices |
 | `python-development#profiles/python-developer` | Python developer: `developer` + conduct + code-quality + python-development |
 | `rust-development#profiles/rust-developer` | Rust developer: `developer` + conduct + code-quality + rust-development |
@@ -43,14 +43,12 @@ bundles.
 | acp-setup | Skill package for configuring ctxloom's optional ACP (Agent Client Protocol) integration |
 | agent-roles | finder + developer-escalation role fragments for orchestrated subagents |
 | asdf | Version manager for multiple runtimes |
-| ast-grep | Structural code search and replace |
 | cli-ux | Skill package for designing/auditing command-line interfaces against ten CLI-UX principles |
 | code-review-base | Review scaffolding (conduct + synthesis) and the cr-all/cr-synthesis exemplar profiles |
 | code-review-\<lens\> | Per-lens review fragments (general + per-language) to compose `ctxloom weave` members |
 | git | Git practices and workflows |
 | mcp-browser-playwright | Browser automation MCP server |
 | python-development | Python style, testing, tooling |
-| rtk | Rust Token Killer output optimization |
 | rust-development | Rust idioms and tooling |
 | sequential-thinking | Structured reasoning MCP server |
 | testing | TDD, Gherkin, test organization |

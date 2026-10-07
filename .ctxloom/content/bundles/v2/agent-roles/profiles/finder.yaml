@@ -1,5 +1,3 @@
-description: 'Finder agent, ctxloom-default half: the finder role plus structural search (ast-grep) and token-lean output (rtk).'
+description: 'Finder agent, ctxloom-default half: the finder role only. Compose it beside a profile that supplies the finder''s tools.'
 bundles:
   - agent-roles#fragments/finder
-  - ast-grep
-  - rtk
