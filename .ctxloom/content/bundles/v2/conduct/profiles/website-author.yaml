@@ -1,0 +1,7 @@
+description: 'Website author, ctxloom-default half: communication conduct and the version source-of-truth rule.'
+tags:
+  - writing
+  - docs
+bundles:
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct#fragments/communication
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/version-source-of-truth

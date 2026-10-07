@@ -27,6 +27,11 @@ bundles.
 | `ai-developer#profiles/developer` | Developer composition root — compose with a `<lang>-ai-practices` bundle |
 | `code-review-base#profiles/cr-all` | Comprehensive single-agent code review (all lenses) |
 | `code-review-base#profiles/cr-synthesis` | Synthesis/reduce step for a `ctxloom weave` review ensemble |
+| `code-review-base#profiles/cr-thorough` | cr-all + thorough + conduct + code-quality: the ctxloom-default half of a language reviewer |
+| `agent-roles#profiles/coordinator` | ctxloom-default half of a coordinator agent (conduct, sequential-thinking, structural review, ltk) |
+| `agent-roles#profiles/finder` | ctxloom-default half of a finder agent (finder role, ast-grep, rtk) |
+| `<lang bundle>#profiles/<lang>-developer` | ctxloom-default half of a language developer: `developer` + conduct + code-quality + the language bundle |
+| `conduct#profiles/website-author` | ctxloom-default half of a docs/website author |
 
 ## Available Bundles
 
