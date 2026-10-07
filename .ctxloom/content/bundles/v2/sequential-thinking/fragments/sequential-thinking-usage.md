@@ -13,6 +13,7 @@ notes: |
   tools get abandoned. The body names no specific incident; the
   rationale here is derived from the practice the body prescribes,
   not from a recorded failure.
+content_hash: sha256:e9bee3d85a8dfb56c89751dd8bd072000f9074c228b5a950af58634f80609ba4
 ---
 # Use sequential thinking for non-trivial planning
 
