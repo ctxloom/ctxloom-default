@@ -28,7 +28,7 @@ bundles.
 | `code-review-base#profiles/cr-all` | Comprehensive single-agent code review (all lenses) |
 | `code-review-base#profiles/cr-synthesis` | Synthesis/reduce step for a `ctxloom weave` review ensemble |
 | `code-review-base#profiles/cr-thorough` | cr-all + thorough + conduct + code-quality: the ctxloom-default half of a language reviewer |
-| `agent-roles#profiles/coordinator` | ctxloom-default half of a coordinator agent (conduct, sequential-thinking, structural review, ltk) |
+| `agent-roles#profiles/coordinator` | ctxloom-default half of a coordinator agent (conduct, sequential-thinking, structural review) |
 | `agent-roles#profiles/finder` | ctxloom-default half of a finder agent (the finder role) |
 | `go-ai-practices#profiles/go-developer` | Go developer: `developer` + conduct + code-quality + go-ai-practices |
 | `python-development#profiles/python-developer` | Python developer: `developer` + conduct + code-quality + python-development |

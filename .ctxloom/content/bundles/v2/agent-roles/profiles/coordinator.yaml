@@ -5,4 +5,3 @@ bundles:
   - code-review-structural#fragments/general
   - ai-coding-general#fragments/is-this-a-standard
   - ai-coding-general#fragments/context-engineering
-  - ltk
