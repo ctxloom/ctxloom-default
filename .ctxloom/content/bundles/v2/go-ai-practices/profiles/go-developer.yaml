@@ -1,10 +1,10 @@
 description: 'go-developer, ctxloom-default half: the developer composition root plus conduct and code-quality, and go-ai-practices.'
 parents:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-developer#profiles/developer
+  - ai-developer#profiles/developer
 tags:
   - golang
   - development
 bundles:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/go-ai-practices
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-quality
+  - go-ai-practices
+  - conduct
+  - code-quality

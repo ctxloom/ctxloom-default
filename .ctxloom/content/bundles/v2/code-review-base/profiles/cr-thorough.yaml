@@ -1,10 +1,10 @@
 description: 'Thorough single-agent code review: cr-all plus the thorough fragment, conduct, and code-quality. The ctxloom-default half of a language reviewer; compose language specifics beside it.'
 parents:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#profiles/cr-all
+  - code-review-base#profiles/cr-all
 tags:
   - review
   - comprehensive
 bundles:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/thorough
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-quality
+  - code-review-base#fragments/thorough
+  - conduct
+  - code-quality

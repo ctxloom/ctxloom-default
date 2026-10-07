@@ -1,8 +1,8 @@
 description: 'Coordinator agent, ctxloom-default half: conduct, sequential thinking, structural review, and AI-coding knowledge. Compose it beside a coordinator profile carrying the role itself.'
 bundles:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/sequential-thinking
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-structural#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/is-this-a-standard
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/context-engineering
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ltk
+  - conduct
+  - sequential-thinking
+  - code-review-structural#fragments/general
+  - ai-coding-general#fragments/is-this-a-standard
+  - ai-coding-general#fragments/context-engineering
+  - ltk

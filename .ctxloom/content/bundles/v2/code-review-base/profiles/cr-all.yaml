@@ -3,21 +3,21 @@ tags:
   - review
   - comprehensive
 bundles:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/conduct
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-structural#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-correctness#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-maintainability#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-reliability#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-performance#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-language-idioms#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-testing#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-security#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-api-compat#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-dx#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-ux#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-accessibility-i18n#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-cost-infra#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-data#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-observability#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-dependencies#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-documentation#fragments/general
+  - code-review-base#fragments/conduct
+  - code-review-structural#fragments/general
+  - code-review-correctness#fragments/general
+  - code-review-maintainability#fragments/general
+  - code-review-reliability#fragments/general
+  - code-review-performance#fragments/general
+  - code-review-language-idioms#fragments/general
+  - code-review-testing#fragments/general
+  - code-review-security#fragments/general
+  - code-review-api-compat#fragments/general
+  - code-review-dx#fragments/general
+  - code-review-ux#fragments/general
+  - code-review-accessibility-i18n#fragments/general
+  - code-review-cost-infra#fragments/general
+  - code-review-data#fragments/general
+  - code-review-observability#fragments/general
+  - code-review-dependencies#fragments/general
+  - code-review-documentation#fragments/general

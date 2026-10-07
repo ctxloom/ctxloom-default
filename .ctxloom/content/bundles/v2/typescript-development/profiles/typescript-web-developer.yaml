@@ -1,11 +1,11 @@
 description: 'typescript-web-developer, ctxloom-default half: the developer composition root plus conduct and code-quality, and typescript-development.'
 parents:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-developer#profiles/developer
+  - ai-developer#profiles/developer
 tags:
   - typescript
   - web
   - development
 bundles:
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/typescript-development
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-quality
+  - typescript-development
+  - conduct
+  - code-quality
