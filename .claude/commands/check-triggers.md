@@ -10,9 +10,9 @@ list until that condition is met.
 
 ## How to run it
 
-1. **List the Deferred tasks.** Call the `task_list` MCP tool with
-   `statuses: ["Deferred"]` (Deferred tasks are hidden from the default view, so
-   you must name the status). Each task carries a `trigger` field — the
+1. **List the Deferred tasks.** Run `taskloom list --status Deferred --json`
+   (Deferred tasks are hidden from the default view, so you must name the
+   status). Each task carries a `trigger` field — the
    free-text condition that should revive it. If there are none, say so and stop.
 
 2. **Evaluate each trigger against the current state of the world.** You are the
@@ -28,9 +28,9 @@ list until that condition is met.
    fired.
 
 4. **Confirm before moving anything.** Ask the user which of the fired tasks to
-   revive. Only for the ones they confirm, call `task_set_status` with
-   `status: "To Do"` (no trigger needed — moving off Deferred preserves the
-   stored trigger). Leave "not yet" and "unsure" tasks Deferred. Never move a
+   revive. Only for the ones they confirm, run `taskloom status <harp>
+   --clear-trigger`, which returns the task to the status it was deferred
+   from (the trigger is cleared). Leave "not yet" and "unsure" tasks Deferred. Never move a
    task back automatically; the transition is the user's call.
 
 ## Notes
@@ -39,5 +39,5 @@ list until that condition is met.
   judgement is the mechanism. When unsure, say so rather than guessing; an
   unsure verdict keeps the task parked.
 - This is the read/decide half of the Deferred workflow. The defer half is
-  `task_set_status` with `status: "Deferred"` and a `trigger`, or `task_add`
-  with the same.
+  `taskloom status <harp> --trigger "<condition>"`, or `taskloom add --trigger
+  "<condition>" <text>`.

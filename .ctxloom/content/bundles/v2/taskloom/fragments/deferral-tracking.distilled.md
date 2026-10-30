@@ -7,9 +7,9 @@ Deferred work never vanishes silently: it is surfaced to the user, and what they
 
 ## Search before you create
 
-Before `task_add` — and before proposing one — search the log: `task_list` with `term`, or `tag_query`. Search on the distinctive noun (file, symbol, command, subsystem), not your phrasing — whoever filed it first worded it differently.
+Before `taskloom add` — and before proposing one — search the log: `taskloom list --all --term <noun>`, or `--tag-query` (postfix: `area:cli/human:decision/and`). Search on the distinctive noun (file, symbol, command, subsystem), not your phrasing — whoever filed it first worded it differently.
 
-If an entry covers the work, UPDATE it (`task_edit`, or append a dated note). Create only when nothing matches.
+If an entry covers the work, UPDATE it (`taskloom edit <harp> <text>`, or append a dated note). Create only when nothing matches.
 
 **Why:** the same defect gets rediscovered from another angle in another session, and a second filing often CONTRADICTS the first with an opposite fix; nobody can later tell which is current. Two tasks disagreeing about one bug is worse than one stale task.
 
@@ -25,8 +25,8 @@ Deferred work (descoped, a follow-up found mid-implementation, a postponed fix) 
 
 Once accepted, the revive condition sets the status:
 
-- Concrete condition ("after X merges", "when CI is green") → "Deferred" with that condition as trigger
-- No condition, just later → "To Do"
+- Concrete condition ("after X merges", "when CI is green") → Deferred with it as trigger: `taskloom add --trigger "<condition>" <text>` or `taskloom status <harp> --trigger "<condition>"`
+- No condition, just later → "To Do" (`taskloom add`'s default)
 
 Don't close work that spawned deferrals until each has been put in front of the user.
 

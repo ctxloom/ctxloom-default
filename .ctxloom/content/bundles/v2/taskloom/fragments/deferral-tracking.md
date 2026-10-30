@@ -2,7 +2,7 @@
 tags:
   - tasks
   - workflow
-content_hash: sha256:9d12dd69a4eda57a17397fe940bda0a543f7674a60c58afc5f816849ff5a13da
+content_hash: sha256:bab8a1b58cf950ab5bb3d79f7acc448b07b05c426a56c10fbb5ac887917e43cb
 ---
 # Deferral Tracking
 
@@ -10,9 +10,9 @@ Deferred work does not vanish silently: it is surfaced to the user, and what the
 
 ## Search before you create
 
-Before `task_add` — and before you propose one — search the existing log. Use `task_list` with a `term` filter, or a `tag_query`, and search on the distinctive noun — the file, symbol, command or subsystem — not on your own phrasing of the problem. Whoever filed it first almost certainly worded it differently.
+Before `taskloom add` — and before you propose one — search the existing log: `taskloom list --all --term <noun>`, or `--tag-query` (postfix: `area:cli/human:decision/and`). Search on the distinctive noun — the file, symbol, command or subsystem — not on your own phrasing of the problem. Whoever filed it first almost certainly worded it differently.
 
-If something already covers the work, UPDATE it (`task_edit`, or append a dated note to its text) rather than filing a second entry. Create only when nothing matches.
+If something already covers the work, UPDATE it (`taskloom edit <harp> <text>`, or append a dated note to its text) rather than filing a second entry. Create only when nothing matches.
 
 Why this matters more than it sounds: backlogs accumulate duplicates fast, because the same defect gets rediscovered from a different angle in a different session. The failure mode is not just clutter — a second filing often *contradicts* the first, prescribing an opposite fix, and whoever picks them up later has no way to tell which is current. Two tasks disagreeing about the same bug is worse than one stale task.
 
@@ -36,8 +36,8 @@ Propose one only when the work genuinely cannot happen now: it needs a HUMAN DEC
 
 Once the user accepts, the revive condition sets the status:
 
-- A concrete condition exists ("after X merges", "when CI is green") → status "Deferred" with that condition as the trigger.
-- No condition, just later → "To Do".
+- A concrete condition exists ("after X merges", "when CI is green") → Deferred, with that condition as the trigger: `taskloom add --trigger "<condition>" <text>`, or `taskloom status <harp> --trigger "<condition>"`.
+- No condition, just later → "To Do" (the default for `taskloom add`).
 
 Don't close out work that spawned deferred items until each one has been put in front of the user.
 

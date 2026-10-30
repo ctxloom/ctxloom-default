@@ -4,7 +4,7 @@ tags:
   - tooling
 ---
 - taskloom: Homebrew or a release binary from GitHub
-  (https://github.com/ctxloom/taskloom). The task store and MCP
-  server (`taskloom mcp`) come with the one binary; ctxloom's
-  builtin taskloom fragment activates automatically once it is
-  on PATH.
+  (https://github.com/ctxloom/taskloom). The task store and the
+  `taskloom` CLI agents drive come with the one binary (it serves
+  no MCP); ctxloom's builtin taskloom fragment activates
+  automatically once it is on PATH.
