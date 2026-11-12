@@ -11,45 +11,48 @@ content: |-
     ## How It Works
 
     1. **Ask the human** to name the flow, feature, or scope to review. If they've already specified it, proceed.
-    2. **Identify the entry point** and trace execution order, not file order.
-    3. **Present one step at a time.** For each function, handler, or transition in the flow:
+    2. **Ask what the flow SHOULD do, before reading any of its code.** What goes in, what comes out, what must always hold, what must never happen, and how it fails. Write the answer down as the review's statement of intent. Judge the code against that statement, never against what the code appears to intend, and distrust the framing a PR description, a commit message or a comment gives it ("this is a safe refactor", "no behaviour change"): framing measurably hides defects from a reviewer. Where the human doesn't know, say so in the statement; that gap is itself a question for the end.
+    3. **Note the review's start time** (UTC, `YYYYMMDDHHMM`). Every finding filed in this review carries the tag `review:illuminated=<start time>`, so the review's findings can be listed together.
+    4. **Identify the entry point** and trace execution order, not file order.
+    5. **Present one step at a time.** For each function, handler, or transition in the flow:
        - Show the relevant code
        - Explain what data flows in, what transforms, what side effects occur
        - Connect this step to the previous one — how did we get here?
-       - Flag potential issues: assumptions, missing guards, race conditions, unclear contracts
+       - Flag potential issues: assumptions, missing guards, race conditions, unclear contracts, and any departure from the statement of intent
        - Question unusual patterns — don't just describe, interrogate: "This assumes X already happened, but I don't see where that's enforced"
-    4. **Ask: "Changes, or continue?"** Do not proceed until the human responds.
-    5. **Repeat** until the flow completes, covering all paths including error and edge cases.
+    6. **File each finding as a task, then move on.** Do NOT fix anything during the review, and do not start designing the fix: a review that turns into a repair loses the flow and never finishes. For each finding:
+       - search the task log for an existing task on the same symbol or file first (`taskloom tasks list --term <symbol>`); if one covers it, add a note to it instead;
+       - otherwise add one: what the code does, what the statement of intent says it should do, the file and symbol, and why it matters, tagged `review:illuminated=<start time>`;
+       - say the task's id in the walkthrough, and continue.
+    7. **Ask: "Questions, or continue?"** Do not proceed until the human responds. If the human asks for a change, file it as a finding and continue.
+    8. **Repeat** until the flow completes, covering all paths including error and edge cases.
 
     ## Principles
 
+    - **Intent first.** The statement of intent is the standard. Code that does what it appears to mean is not thereby correct.
     - **Trace flows, not files.** Follow the execution path from entry point through all possible endings. Present code in the sequence it actually runs.
     - **One step at a time.** Never dump multiple functions at once. Each step should be digestible before moving to the next.
     - **Interrogate, don't just narrate.** Surface assumptions, missing validations, implicit coupling, and questions the code doesn't answer. Act as a second set of eyes on the flow, not just a narrator.
+    - **Review, don't repair.** Findings become tasks; fixing is later work, chosen from the task log.
     - **Integration tests are ideal starting points.** If a test defines the scenario, walk through every step of execution that makes the test pass — revealing not just *that* it works but *how*.
     - **The illumination is ephemeral.** This commentary aids understanding now. Do not suggest adding it as code comments — as the code changes, explanations become stale lies.
 
-    ## Review Perspectives
-
-    Apply these as relevant at each step:
-    - **Architecture** — Does this step respect boundaries? Is coupling appropriate?
-    - **Correctness** — Does the logic match the apparent intent? Are edge cases handled?
-    - **Data flow** — What enters, what's transformed, what leaves? Are invariants maintained?
-    - **Error handling** — What happens when this step fails? Is the failure mode appropriate?
-    - **Concurrency** — Thread safety, race conditions, synchronization (if applicable)
-
     ## When the Flow Completes
 
-    After walking through the entire flow, provide:
+    ### Refute every finding
+    Before summarising, try to DISPROVE each finding filed in this review (`taskloom tasks list --tag-query 'review:illuminated=<start time>'`). For each one, give a fresh sub-agent only the finding, the statement of intent and the code, not your reasoning, and ask it to show the finding is wrong: the guard exists elsewhere, the case cannot occur, the behaviour matches the intent. Then:
+    - **refuted**: close the task, recording the refutation and its evidence;
+    - **stands**: keep it, adding a note that it survived refutation and why;
+    - **unclear**: keep it, noting what would settle it, and raise it below.
 
     ### Flow Summary
-    One paragraph describing the complete execution path and its purpose.
+    One paragraph describing the complete execution path and its purpose, measured against the statement of intent.
 
     ### Issues Found
-    Categorized by severity (critical / medium / minor), with file:line references.
+    The findings that stood or stayed unclear, by severity (critical / medium / minor): each with its task id, file:line, and its refutation verdict. Name the refuted ones in one line each, so the human sees what was dropped.
 
     ### Questions for the Human
-    Anything that requires domain knowledge or intent clarification to resolve.
+    Anything that requires domain knowledge or intent clarification to resolve, including the gaps in the statement of intent.
 
     ### Positive Observations
     Good patterns worth maintaining.
