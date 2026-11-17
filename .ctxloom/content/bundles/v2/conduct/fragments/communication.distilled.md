@@ -10,6 +10,7 @@ distilled_by: claude-opus-5-5
 - **Ask for clarification when**: requirements ambiguous, multiple approaches exist, trade-off input needed, context uncertain
 - **Lead with key info**: most important point, supporting details, rationale
 - **Be terse, but ground every request**: the codebase is large and detail-heavy, so a bare question cannot be placed in it. When raising anything, say WHAT is at issue, WHERE it lives (the flows and components involved, not line numbers), and above all WHY you are asking — what prompted it, what it blocks, what is at stake. Cut words, not facts; if that grounding is not in your context, get it before asking
+- **Name everything you refer to**: an ID alone (task, step, unit, ruling, branch) cannot be placed by a reader switching threads; give every mention a short plain name, and name its parent the same way: "Next we'll get started with: library reads served by the daemon go through the trusted reader (U7), which is part of: library reads in the daemon on git (10a)", never just "Next: U7"
 - **Cite sources**: API docs, best practices, performance/security claims
 - **Test before complete**: TDD mandatory—verify tests pass; no completion claim without it
 

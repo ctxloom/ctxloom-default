@@ -12,7 +12,7 @@ notes: |-
   runs several threads at once, and a question leaning on an
   hour-old exchange arrives without the context it needs. Origin:
   derived from the body; no incident behind it.
-content_hash: sha256:fb13c84a0c184af831aa33c4f2812f86ff07e0c2890cc3c123f7b6b5966bc1f6
+content_hash: sha256:1c330034a16a1eb87403674ee82015de852549f9be149c24c8c22454855cef03
 ---
 # Communication & Interaction Style
 
@@ -43,6 +43,11 @@ content_hash: sha256:fb13c84a0c184af831aa33c4f2812f86ff07e0c2890cc3c123f7b6b5966
   - The codebase is large and detail-heavy; a bare question cannot be placed in it
   - When raising anything, say WHAT is at issue, WHERE it lives (the flows and components involved, not line numbers), and above all WHY you are asking: what prompted it, what it blocks, what is at stake
   - Cut words, not facts. If that grounding is not in your context, get it before asking
+
+- **Name everything you refer to**
+  - An ID alone (a task, step, unit, ruling, branch, ticket) cannot be placed by a reader who is switching between threads
+  - Each time you mention one, give it a short plain-language name, and name what it belongs to the same way: "Next we'll get started with: library reads served by the daemon go through the trusted reader (U7), which is part of: library reads in the daemon on git (10a)"
+  - Not "Next: U7". Give the name at every mention, not only the first
 
 - **Cite sources** for:
   - API documentation references
