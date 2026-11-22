@@ -1,46 +1,48 @@
 ---
-distilled_by: claude-3-opus
+source_sha256: fe7c82a65b462a9be3cef9d57dc0b005691e6dffe3509dc03775599323fa340c
 ---
-# is-this-a-standard
-
 # Is This a Standard?
 
 Before writing infrastructure, ask:
 
-> Is this a standard? Did we already wire it in?
+> Is this a standard?
+
+If yes, ask:
+
+> Did we already wire it in?
 
 ## Why
 
-LLMs default to local construction. They've seen `grpc.reflection.v1.ServerReflection` a thousand times, but write end-to-end over looking up.
+- LLMs default to local construction. They've seen many "service that lists what a server does" examples and can produce another.
+- They've also seen `grpc.reflection.v1.ServerReflection` many times, but the prompt concerns your problem, not the standard.
+- The model writes what it can produce end-to-end over what it would have to look up.
 
-## Common Categories AIs Reinvent
+## Commonly Reinvented Categories
 
-- gRPC Server Reflection (`grpc.reflection.v1.ServerReflection`)
-- OpenTelemetry instrumentation (OTLP exporters)
-- JWT validation (vetted library)
-- OAuth 2.0 Device Authorization Grant (library)
-- JSON Schema validation (metaschema)
-- Kubernetes AdmissionReview (standard webhook shape)
-- Conventional Commits parsing (existing parser)
-- Healthchecks (`grpc.health.v1.Health`)
+- gRPC server reflection → `grpc.reflection.v1.ServerReflection`
+- OpenTelemetry instrumentation → OTLP exporters, not custom telemetry
+- JWT validation → vetted library, not hand-rolled
+- OAuth 2.0 Device Authorization Grant → library
+- JSON Schema validation → metaschema
+- Kubernetes AdmissionReview → standard webhook shape
+- Conventional Commits parsing → existing parser
+- Healthchecks → `grpc.health.v1.Health`
 
-## What to Do
+## When AI Proposes Writing Infrastructure
 
-When AI proposes infrastructure:
-
-1. Name the category
-2. Ask if a standard exists
-3. If yes, ask if project already wires it in
+1. Name the category ("this sounds like server discovery")
+2. Ask whether a standard exists for it
+3. If yes, ask whether the project already wires it in
 4. Use the standard
 
 ## Load-Bearing Comments
 
-At registration site, name the invariant (see sibling `no-provenance-comments`):
+At the registration site of a standard mechanism, leave a comment naming the invariant:
 
 ```go
-// reflection.Register: canonical "what does this server speak"
+// reflection.Register: the canonical "what does this server speak"
 // mechanism. Do not add a parallel descriptor service; ask reflection.
 reflection.Register(grpcServer)
 ```
 
-Lives next to the call that triggers reinvention. No external doc dependency.
+These comments sit next to the call that triggers the temptation to reinvent. They don't depend on the AI consulting an external document.

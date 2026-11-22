@@ -1,14 +1,29 @@
 ---
-distilled_by: claude-code
+source_sha256: 4d87419ed423c2b08eb2d927c30d502b9de0b1f3ffe934ca865d22cc16cc9607
 ---
-# Code Quality
+# Code Quality Standards
 
-Before writing: search the codebase for existing implementations; reuse or extend rather than duplicate or recreate.
+## Before Writing Code
+- **Research first**: search the codebase for existing implementations before writing new code; read existing patterns, conventions, utilities
+- **No duplication**: reuse existing functions, types, modules
+- **Extend, don't recreate**: extend or refactor similar functionality instead of writing parallel implementations
 
-Size: <500 lines per file (exceed only with very high coupling/cohesion); small single-purpose functions; optimize for reading, not performance; separate interfaces from implementations by file.
+## Code Size
+- Files under 500 lines; exceed only when necessary (very high coupling and cohesion)
+- Small functions, each doing one thing well
+- Optimize for reading and understanding, not performance
+- Separate interfaces and implementations into different files
 
-Naming: the interface is the thing — UserService is the Protocol, never IWhatever; implementations are named for how they implement: DefaultUserService (single), HttpUserService/CachedUserService (multiple).
+## Naming
+- Interfaces/protocols (py) are the thing: `UserService` is a Protocol. No `IWhatever`
+- Implementations named after *how* the interface is implemented. Single: `DefaultUserService`. Multiple: `HttpUserService`, `CachedUserService`
 
-Clean up: kill background processes when done; remove unused code, files, imports, variables; no dead code.
+## Clean Up
+- Kill background processes when no longer needed
+- Remove unused code, files, imports, variables; leave no dead code
 
-Comments explain why only. No change-tracking comments, no revision history in code, no commented-out code — git has it.
+## Comments
+- No change-tracking comments ("changed X to Y", "removed Z", "updated for feature W"); git tracks history
+- No revision history in code: don't record what was modified, when, or by whom
+- No commented-out code; delete it (git has it)
+- Comments explain *why*, not *what* or *what changed*

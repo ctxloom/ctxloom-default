@@ -1,16 +1,9 @@
 ---
-distilled_by: claude-opus-5-5
+source_sha256: 7c02373986e022cede88262f43a66de1ebad1a6e0e6c1de99db6e3e5e60c6b3c
 ---
-# Use sequential thinking for non-trivial planning
+# Use sequential-thinking for non-trivial planning
 
-For any multi-step plan, decomposition, or design decision with more
-than one moving part, use the `sequentialthinking` tool to lay out your
-reasoning in explicit, revisable steps BEFORE you act or delegate.
-
-- Reach for it when sequencing a multi-stage task, weighing competing
-  designs, tracing a dependency chain, or whenever the answer is not
-  obvious and a wrong turn is expensive.
-- Add, revise or branch steps as new evidence (often from the finder)
-  comes back.
-- Skip it for single-step lookups and obvious one-move answers: it is a
-  thinking aid for genuine complexity, not ceremony for every turn.
+- For multi-step plans, decomposition, or design decisions with more than one moving part, lay out reasoning in explicit, revisable steps with `sequentialthinking` BEFORE acting or delegating.
+- Use when: sequencing multi-stage tasks, weighing competing designs, tracing dependency chains, or when the answer isn't obvious and a wrong turn is expensive.
+- Revise as evidence comes back (often from the finder): add, revise, or branch steps.
+- Skip for single-step lookups and obvious one-move answers. It is a thinking aid for real complexity, not ceremony.

@@ -1,55 +1,46 @@
 ---
-distilled_by: claude-3-opus
+source_sha256: 2c7e8e65540efc6b4aeef437ccc47b319c03a783d676e0bb909fbb99ce4f5be6
 ---
-# no-provenance-comments
-
 # No Provenance in Comments
 
-Comments state invariants. Git records timeline.
+Comments state invariants; git records the timeline.
 
-## The Rule
-
-No git-provenance metadata in code comments or codebase prose:
-
+## Rule
+Keep git-provenance metadata out of code comments and prose about the codebase:
 - Commit hashes (`see commit abc123`)
 - Milestone tags (`wired in P0.2`)
 - PR numbers (`added in #1234`)
 - Release versions as historical markers (`introduced in 1.4.0`)
 - Author/date stamps (`added by Alice 2024-01-15`)
-- TODO sprint/iteration references
+- TODOs tied to sprints/iterations (`TODO from sprint 47`)
 
 ## Why
+- Commit hashes break on rebase or squash.
+- Milestone tags turn into noise once the project moves past them.
+- Author/date stamps become tombstones that outlive the author and the line.
+- `git blame` and `git log` already record this; duplicating it guarantees divergence.
 
-- Commit hashes break after rebase/squash
-- Milestone tags become noise post-project
-- Author/date stamps age into tombstones surviving author departure and line rewrites
-- `git blame`/`git log` already record this; duplication guarantees divergence
-
-## What to Write Instead
-
-State the load-bearing invariant. If the comment survives a history rewrite, keep it. Else it's a timeline entry in the wrong file.
+## What to write instead
+State the load-bearing invariant. If the comment would still hold after a history rewrite, keep it. If not, the timeline entry belongs somewhere else.
 
 Before:
 ```go
 // reflection.Register: wired in P0.2 (commit abc123). Canonical.
 ```
-
 After:
 ```go
 // reflection.Register: canonical "what does this server speak"
 // mechanism. Do not add a parallel descriptor service.
 ```
 
-## Where Provenance Lives
-
-- `git blame`/`git log`
-- Commit message body, PR description
-- `CHANGELOG.md`/release notes
+## Where provenance lives
+- `git blame` / `git log` on the line
+- Commit message body and PR description
+- `CHANGELOG.md` or release notes
 - ADRs
-- Issue tracker
+- Issue tracker history
 
-## Exceptions (Not Provenance)
-
-- External stable IDs: RFC numbers, CVE IDs, language-spec versions
-- Public-API `@since` annotations: version is part of API contract
-- "We tried X and it failed": invariant is the rejected approach; dated artifact lives in rationale
+## Exceptions (not provenance)
+- Stable external identifiers: RFC numbers, CVE IDs, language-spec versions.
+- Public-API `@since` annotations: the version is part of the consumer-facing contract.
+- "We tried X and it failed" comments: the rejected approach is invariant content; the dated artifact belongs in the rationale, not the comment.

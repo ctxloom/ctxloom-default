@@ -1,38 +1,44 @@
 ---
-distilled_by: claude-opus-5-5
+source_sha256: 62d744196910845395f443492fd1e5cadf95a1985c0a5d427736f6b6e680f88c
 ---
 # Workarounds and Problem Solving
 
-**Root cause first.** Fix at source, never workaround without asking.
+**Core principle:** Find the root cause before choosing a solution. Fix problems at the source.
 
-## When Encountering Failing Functionality
+## When functionality fails
+1. **Find the root cause first.** No workarounds without asking; investigate and identify the actual source.
+2. **Ask before complex fixes to simple problems.** If a simple problem seems to need a complex solution, stop and ask.
+3. **Prompt for guidance** with options: proper fix (estimate effort), workaround (document trade-offs), temporarily disable test (document why), alternative approaches.
+4. **Cost/benefit analysis:** pros/cons per option, tech debt, maintainability impact, time investment.
+5. **Document the decision** and reasoning for the chosen path.
 
-1. Find root cause — investigate actual source.
-2. If simple problem needs complex fix, ask before proceeding.
-3. Present options: proper fix (effort), workaround (trade-offs), test disable (why), alternatives.
-4. Cost/benefit: tech debt, maintainability, time per option.
-5. Document decision and reasoning.
+## A comment justifying a workaround is an unreported bug report
+If you write a comment explaining WHY a workaround is needed, you've diagnosed a real defect. Writing it down isn't reporting it. Routing around the bug turns the comment into a tombstone: readers take it as settled fact and the cause survives.
 
-## Workaround Comment = Unreported Bug
+Shapes this takes:
+- arbitrary cap/limit with a justifying comment
+- retry, sleep, or poll around something that should be deterministic
+- "without this, X breaks" note
+- threshold tuned down until a gate stops failing
+- fallback that turns a real failure into silence
+- re-implementation of another tool's private behaviour
 
-Comment explaining WHY a workaround exists = defect diagnosis already done. Writing it down ≠ reporting it; route around the bug and the comment becomes a tombstone the next reader takes as settled. Cause survives.
+## A workaround is not DONE until all three
+1. **Escalate before landing it.** Name the real bug and where it lives. The workaround is locally cheaper than escalating, which is why this rule is needed.
+2. **Dispose of the root cause: fix it, or raise it with the human.** Not "file it": don't create a task on your own initiative. Carry the diagnosis from the comment into either the fix or what you present to the human. An unreported root cause is a bug you've agreed to forget.
+3. **The comment states the invariant, not the history.** If you can't state an invariant, you don't have a fix, you have a scar.
 
-**Red flags:** arbitrary limits with justifying comments; retry/sleep/poll around deterministic things; "without this, X breaks"; thresholds tuned down until a gate stopped failing; fallbacks degrading real failures into silence; re-implementing another tool's private behaviour.
+**Prefer the fix.** The bar is a test, not an estimate: the root cause is already diagnosed (the comment proves it), the fix touches code already read, and fast gates (build, lint, single-package test; seconds, not minutes) settle it. If all three hold, do it now.
 
-## Three Steps to Land a Workaround
+**Raise it only when** the work genuinely can't happen now:
+- it needs a human decision (name the fork and options)
+- it lives in another repository or release
+- it is materially larger than the current turn
 
-1. Escalate before landing: name the bug, locate it. The workaround is locally cheaper than escalating — that asymmetry is why this rule exists.
-2. Dispose of the root cause: fix it, or raise it with the human (carrying the diagnosis). Not "file it" — you do not create a task on your own initiative. Unreported = agreed to forget.
-3. Comment states invariant, not history. No invariant = scar, not fix.
+Then state WHY IT MATTERS, WHAT NEEDS TO HAPPEN, and WHAT WOULD SETTLE IT. Cite by **symbol**, never line number, commit SHA, or file inventory, since those go stale and keep their authority while wrong. The human decides whether it becomes a row; it is written once they accept. Surfacing prevents the defect being forgotten; filing was only a means to that. As a reflex, filing is what grew the open pile to the size of everything ever completed.
 
-**Prefer the fix — a test, not an estimate** (nobody calibrates "is it small?" the same way twice): already root-caused (the comment proves it) + code already read + the project's fast gates settle it (build, lint, single-package test; seconds) = do it now, and there is no workaround to land.
+## A gate that cannot fail measures nothing
+Never tune a threshold, timeout, or coverage bar until the gate stops complaining. A silenced gate manufactures confidence. If a gate is wrong, fix the gate deliberately and say so.
 
-**Raise it instead only when the work can't happen now:** needs a HUMAN DECISION (name the fork and options), lives in another repo/release, or is materially larger than the turn. Say WHY IT MATTERS, WHAT NEEDS TO HAPPEN, WHAT WOULD SETTLE IT; cite by SYMBOL, never line numbers, SHAs or file inventories — nothing recomputes those, so they go stale and keep their authority while lying. The human decides whether it becomes a row, written once they accept. Surfacing is what stops a defect being forgotten; filing was only a means to that, and as a reflex it grew the open pile to the size of everything ever completed.
-
-## Tuned-Silent Gates Measure Nothing
-
-Never tune thresholds/timeouts/coverage until a gate stops complaining. A silenced gate is worse than none: it manufactures confidence. If a gate is wrong, fix it deliberately and say so.
-
-## "Works in CI" ≠ "Works"
-
-CI ≠ local is where bugs hide (clean checkouts, no TTY, etc). The difference IS the finding — chase it; don't paper over it.
+## "Works in CI" is not "works"
+CI-vs-local asymmetries hide bugs. CI checkouts are clean; developer trees aren't. CI has no TTY; developer machines do. When something passes in one environment and not the other, the difference is the finding. Chase it, don't paper over it.
