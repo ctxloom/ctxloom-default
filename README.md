@@ -19,14 +19,13 @@ ctxloom remote pull ctxloom-default/testing --type bundle
 Profiles ship **inside bundles**, addressed as `<bundle>#profiles/<name>`.
 ctxloom-default provides composition roots, exemplars, and a `<lang>-developer` profile
 for each language bundle; `ctxloom init` composes
-the project-specific language developers and review members from the fragment
+the project-specific language developers and reviewers from the fragment
 bundles.
 
 | Profile | Description |
 |---------|-------------|
 | `ai-developer#profiles/developer` | Developer composition root — compose with a `<lang>-ai-practices` bundle |
 | `code-review-base#profiles/cr-all` | Comprehensive single-agent code review (all lenses) |
-| `code-review-base#profiles/cr-synthesis` | Synthesis/reduce step for a `ctxloom weave` review ensemble |
 | `code-review-base#profiles/cr-thorough` | cr-all + thorough + conduct + code-quality: the ctxloom-default half of a language reviewer |
 | `agent-roles#profiles/coordinator` | ctxloom-default half of a coordinator agent (conduct, sequential-thinking, structural review) |
 | `agent-roles#profiles/finder` | ctxloom-default half of a finder agent (the finder role) |
@@ -44,8 +43,8 @@ bundles.
 | agent-roles | finder + developer-escalation role fragments for orchestrated subagents |
 | asdf | Version manager for multiple runtimes |
 | cli-ux | Skill package for designing/auditing command-line interfaces against ten CLI-UX principles |
-| code-review-base | Review scaffolding (conduct + synthesis) and the cr-all/cr-synthesis exemplar profiles |
-| code-review-\<lens\> | Per-lens review fragments (general + per-language) to compose `ctxloom weave` members |
+| code-review-base | Review scaffolding (conduct) and the cr-all/cr-thorough single-reviewer profiles |
+| code-review-\<lens\> | Per-lens review fragments (general + per-language), composed into a reviewer profile |
 | git | Git practices and workflows |
 | mcp-browser-playwright | Browser automation MCP server |
 | python-development | Python style, testing, tooling |
@@ -59,7 +58,6 @@ bundles.
 
 | Skill | Description |
 |-------|-------------|
-| weave-review | Parallel synthesized code review — fans per-lens reviewers via `ctxloom weave` + `cr-synthesis` (bundle skill in `code-review-base`) |
 | apply-cli-ux-principles | Design/audit a CLI against ten CLI-UX principles (bundle skill in `cli-ux`) |
 | acp-setup | Configure ctxloom's optional ACP integration — serving an editor, or connecting out to an ACP-speaking agent (bundle skill in `acp-setup`) |
 | review-perspectives | Comprehensive single-agent code review (multi-perspective) |

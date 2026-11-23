@@ -5,5 +5,5 @@ tags:
     - maintainability
     - readability
 author: ctxloom
-description: Maintainability & readability review lens. Language-agnostic `general` fragment plus per-language idiomatic-readability guidance. Compose `code-review-maintainability#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+description: Maintainability & readability review lens. Language-agnostic `general` fragment plus per-language idiomatic-readability guidance. Compose `code-review-maintainability#fragments/general` with the project's language fragment into a reviewer profile (cr-all composes every lens).
 name: code-review-maintainability

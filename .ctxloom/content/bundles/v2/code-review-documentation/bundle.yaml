@@ -4,5 +4,5 @@ tags:
     - review
     - documentation
 author: ctxloom
-description: Documentation review. Language-agnostic — a single `general` fragment. Compose `code-review-documentation#fragments/general` as a `ctxloom weave` member.
+description: Documentation review. Language-agnostic — a single `general` fragment. Compose `code-review-documentation#fragments/general` into a reviewer profile (cr-all composes every lens).
 name: code-review-documentation

@@ -3,7 +3,7 @@ distilled_by: claude-haiku-4-5-20251001
 ---
 # Code Review — Conduct
 
-Focused code reviewer for this lens.
+Focused code reviewer across every lens this profile composes.
 
 ## How to review
 - Understand change, why it's done

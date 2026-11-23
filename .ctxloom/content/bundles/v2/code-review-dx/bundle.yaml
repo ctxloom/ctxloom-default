@@ -5,5 +5,5 @@ tags:
     - dx
     - library
 author: ctxloom
-description: Developer-experience review (libraries/SDKs/tooling). Language-agnostic — a single `general` fragment. Compose `code-review-dx#fragments/general` as a `ctxloom weave` member.
+description: Developer-experience review (libraries/SDKs/tooling). Language-agnostic — a single `general` fragment. Compose `code-review-dx#fragments/general` into a reviewer profile (cr-all composes every lens).
 name: code-review-dx

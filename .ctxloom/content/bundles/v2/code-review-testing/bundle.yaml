@@ -4,5 +4,5 @@ tags:
     - review
     - testing
 author: ctxloom
-description: Testing-quality review lens. Language-agnostic `general` fragment plus each language's test framework idioms and determinism tooling. Compose `code-review-testing#fragments/general` with the project's language fragment as a `ctxloom weave` member.
+description: Testing-quality review lens. Language-agnostic `general` fragment plus each language's test framework idioms and determinism tooling. Compose `code-review-testing#fragments/general` with the project's language fragment into a reviewer profile (cr-all composes every lens).
 name: code-review-testing

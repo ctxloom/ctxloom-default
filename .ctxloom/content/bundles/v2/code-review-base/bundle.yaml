@@ -4,5 +4,5 @@ tags:
     - review
     - base
 author: ctxloom
-description: 'Shared code-review scaffolding: the `conduct` fragment (reviewer role + per-finding output contract) every member profile includes, and the `synthesis` fragment for the reduce step of a `ctxloom weave` ensemble.'
+description: 'Shared code-review scaffolding: the `conduct` fragment (reviewer role + per-finding output contract) and the cr-all / cr-thorough single-reviewer profiles.'
 name: code-review-base

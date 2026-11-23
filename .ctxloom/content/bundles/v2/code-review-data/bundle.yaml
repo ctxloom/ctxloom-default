@@ -6,5 +6,5 @@ tags:
     - migrations
     - privacy
 author: ctxloom
-description: Data, migrations & privacy review. Language-agnostic — a single `general` fragment. Compose `code-review-data#fragments/general` as a `ctxloom weave` member.
+description: Data, migrations & privacy review. Language-agnostic — a single `general` fragment. Compose `code-review-data#fragments/general` into a reviewer profile (cr-all composes every lens).
 name: code-review-data
