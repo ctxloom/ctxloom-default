@@ -211,7 +211,7 @@ llm:
 ```
 
 Only `command` is required. The label (`kiro-acp` above) is yours to choose
-— it's what `--llm <label>` on `run`/`map`/`weave`/`acp client` names.
+— it's what `--llm <label>` on `run`/`acp client` names.
 
 ### 3. Smoke-test before wiring it into an agent binding
 
